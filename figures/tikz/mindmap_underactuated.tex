@@ -1,0 +1,71 @@
+%!TEX root = ../../stateoftheart.tex
+
+%Fig.~\ref{fig:mindmap}
+\begin{tikzpicture}
+    [
+        mindmap,
+        nodes={concept},
+        concept color=black!70!green,
+        root concept/.append style={font=\huge, minimum size=5.5cm},
+        % A4 paper with margin=.5cm
+    ]
+  \node[text=white, scale=0.8]
+      (fm) {Full rigid body mechanical model}
+  child[concept color=black!70!blue, grow=-5]
+  {
+    node[concept, color=black!70!blue,text=white, text width=2.2cm]
+        (ud) {Underactuated Dynamics\\ (on the CoM) }
+    child[concept color=black!20!red, grow=-140]
+    {
+      node[concept,color=black!20!red,text=white, text width=1.8cm]
+        (al) {Approximation of the $\dot{\bf L}$}
+      child[grow=-150] {}   
+      child[grow=-100] {}
+      child[grow=-45] {}
+    }
+    child[concept color=black!50!blue, grow=-5] {
+      node[concept,concept color=black!50!blue,text=white]
+        (rl) {Regulation of the $\dot{\bf L}$ (=0)}
+      child[concept color=black!20!red, grow=-5, text width=1.5cm] {
+        node[concept,color=black!20!red,text=white]
+            (mc) {Multi-Contact, (all possible contact)}
+        child[grow=-150] {}   
+        child[grow=-100] {}
+        child[grow=-45] {}
+      }
+      child[concept color=black!40!blue, grow=-100] {
+        node[concept,color=black!40!blue,text=white]
+            (cc) {Coplanar Contacts and CoM on a Plane}
+        child[concept color=black!20!red, grow=-45] {
+          node[concept,color=black!20!red,text=white, text width=1.5cm]
+              (cp) {Contact planned}
+          child[grow=-150] {}   
+          child[grow=-100] {}
+          child[grow=-45] {}
+        }
+        child[concept color=black!30!blue, grow=-150] {
+          node[concept,color=black!30!blue,text=white, text width=1.5cm]
+            (cac) {Contact automatically computed}
+          child[grow=-150] {}   
+          child[grow=-100] {}
+          child[grow=-45] {}
+        }
+      }
+    }
+  };
+  \node[annotation,below left,text width=4.5cm,text centered, scale=1.5,
+  shade, bottom color=yellow!10, top color=yellow!40,
+  draw=yellow]
+  at (5.0,-4.0) {
+    $ \left\{
+      \begin{aligned}
+        m\,( \mathbf{ \ddot{c} } - \mathbf{g}) =
+        \sum_{i} \mathbf{R} _{i} \mathbf{f} _{i}  \\
+        m \,\mathbf{c} \times ( \mathbf {\ddot{c}} - \mathbf{g} ) +
+        \mathbf{\dot{L}} = \sum_{i} \mathbf{p} _{i} \times
+        \mathbf{R} _{i} \mathbf{f} _{i}\\
+      \end{aligned}
+    \right.
+    $
+  };
+\end{tikzpicture}

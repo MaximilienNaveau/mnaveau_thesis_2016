@@ -1,0 +1,171 @@
+% Copyright 2007 by Till Tantau
+%
+% This file may be distributed and/or modified
+%
+% 1. under the LaTeX Project Public License and/or
+% 2. under the GNU Public License.
+%
+% See the file doc/licenses/LICENSE for more details.
+
+\ProvidesPackageRCS $Header: beamerouterthememysmoothbars.sty,v d02a7cf4d8ae 2010/06/17 09:11:41 rivanvx $
+
+
+\newif\ifbeamer@sb@subsection
+
+\DeclareOptionBeamer{subsection}[true]{\csname beamer@sb@subsection#1\endcsname}
+\ExecuteOptionsBeamer{subsection=true}
+\ProcessOptionsBeamer
+
+\definecolor{bgcolor1}{rgb}{0.9,0.,0.}
+\definecolor{bgcolor2}{rgb}{0.9,0.,0.}
+
+\setbeamercolor{background canvas}{bg=}
+\setbeamercolor{alerted text}{bg=}
+\setbeamercolor{background canvas}{bg=}
+\setbeamercolor{block body alerted}{bg=}
+\setbeamercolor{block body}{bg=}
+\setbeamercolor{block body example}{bg=}
+\setbeamercolor{block title alerted}{bg=}
+\setbeamercolor{block title}{bg=}
+\setbeamercolor{block title example}{bg=}
+\setbeamercolor{fine separation line}{bg=}
+\setbeamercolor{frametitle}{bg=}
+\setbeamercolor{item projected}{bg=}
+\setbeamercolor{normal text}{bg=}
+\setbeamercolor{palette sidebar primary}{bg=}
+\setbeamercolor{palette sidebar quaternary}{bg=}
+\setbeamercolor{palette sidebar secondary}{bg=}
+\setbeamercolor{palette sidebar tertiary}{bg=}
+\setbeamercolor{section in sidebar}{bg=}
+\setbeamercolor{section in sidebar shaded}{bg=}
+\setbeamercolor{separation line}{bg=}
+\setbeamercolor{sidebar}{bg=}
+\setbeamercolor{sidebar}{bg=}
+\setbeamercolor{structure}{bg=}
+\setbeamercolor{subsection in sidebar}{bg=}
+\setbeamercolor{subsection in sidebar shaded}{bg=}
+\setbeamercolor{title}{bg=}
+\setbeamercolor{titlelike}{bg=}
+\setbeamercolor{framesubtitle}{bg=}
+\setbeamercolor{subsection in head/foot}{bg=}
+\setbeamercolor{mysubsection in head/foot}{bg=}
+\setbeamercolor{mysection in head/foot}{bg=}
+\setbeamercolor{global}{bg=}
+
+%\usefonttheme{default}
+\usefonttheme{professionalfonts}
+%\setbeamerfont{frametitle}{series=\bfseries,parent=structure}
+\setbeamerfont{frametitle}{series=\bfseries,size={\fontsize{19}{22}}}
+\setbeamerfont{framesubtitle}{series=\bfseries,size={\fontsize{10}{12}}}
+%\setbeamerfont{author}{size=\scriptsize,series=\bfseries,parent=structure}
+%\setbeamerfont{institute}{size=\scriptsize,series=\bfseries,parent=structure}
+%\setbeamerfont{date}{size=\scriptsize,series=\bfseries,parent=structure}
+
+\mode<presentation>
+
+
+\beamer@compresstrue
+
+\AtBeginDocument{
+  {
+    \usebeamerfont*{headline}
+    %\colorlet{global.bg}{bg}
+    \usebeamercolor{global}
+    \usebeamercolor{subsection in head/foot}
+    \usebeamercolor{section in head/foot}
+    \usebeamercolor{frametitle}
+
+    \ifbeamer@sb@subsection
+      \pgfdeclareverticalshading{beamer@barshade}{\the\paperwidth}{%
+         color(0ex)=(global.bg);%
+         color(1ex)=(subsection in head/foot.bg);%
+         color(3.25ex)=(subsection in head/foot.bg);%
+         color(4.25ex)=(section in head/foot.bg);%
+         color(9.75ex)=(section in head/foot.bg)%
+       }
+       \pgfdeclareverticalshading{beamer@aboveframetitle}{\the\paperwidth}{%
+         color(0ex)=(frametitle.bg);%
+         color(1ex)=(frametitle.bg);%
+         color(2ex)=(subsection in head/foot.bg)
+       }
+    \else
+      \pgfdeclareverticalshading{beamer@barshade}{\the\paperwidth}{%
+         color(0ex)=(global.bg);%
+         color(1ex)=(section in head/foot.bg);%
+         color(7ex)=(section in head/foot.bg)%
+       }
+     \pgfdeclareverticalshading{beamer@aboveframetitle}{\the\paperwidth}{%
+         color(0ex)=(frametitle.bg);%
+         color(1ex)=(frametitle.bg);%
+         color(2ex)=(section in head/foot.bg)
+       }
+    \fi  
+
+    \pgfdeclareverticalshading{beamer@belowframetitle}{\the\paperwidth}{%
+      color(0ex)=(global.bg);%
+      color(1ex)=(frametitle.bg)
+    }
+  }
+}
+
+% Head
+\defbeamertemplate*{headline}{mysmoothbars theme}
+{%
+  \begin{beamercolorbox}[ht=4ex,dp=1ex]{mysection in head/foot}
+     %\insertnavigation{\paperwidth}  
+   {\textbf{\insertsectionnavigationhorizontal{\linewidth}{}{}}\hfill \insertframenumber/\inserttotalframenumber \hfill  }
+  \end{beamercolorbox}%
+  \vskip-0.5ex%
+  \ifbeamer@sb@subsection%
+   %{\color{bgcolor1}\rule{\paperwidth}{0.1pt}}
+    \begin{beamercolorbox}[ht=2ex,dp=1.125ex,%
+      leftskip=.3cm,rightskip=.3cm plus1fil]{mysubsection in head/foot}
+      
+      \usebeamercolor{mysubsection in head/foot}\insertsubsectionhead
+    \end{beamercolorbox}%
+  \fi%
+  \vskip-0.5ex%
+   {\color{bgcolor1}\rule{\paperwidth}{1pt}}
+
+}%
+
+\newcommand{\logowidth}{0.5 cm}
+\def\koroibotLogo{%
+\resizebox{!}{\logowidth}{\includegraphics{./logo/koroibot-logo}}
+}
+\def\GepettoLogo{%
+\resizebox{!}{\logowidth}{\includegraphics{./logo/logo-medium-white}}
+}
+
+% foot line
+\defbeamertemplate*{footline}{mysmoothbars theme}
+{%
+
+  \begin{beamercolorbox}[ht=7ex,dp=2ex]{mysection in head/foot}
+     %\insertnavigation{\paperwidth}  
+    {\color{bgcolor1}\rule{\paperwidth}{1pt}}
+    \vskip1ex%
+    
+    \hfill \hfill \GepettoLogo \hfill \insertauthor \hfill \insertshorttitle \hfill \koroibotLogo \hfill \hfill
+    
+  \end{beamercolorbox}%
+}%
+
+
+\defbeamertemplate*{frametitle}{mysmoothbars theme}
+{%
+\begin{center}
+  \vskip-2.5ex%
+    \usebeamerfont*{frametitle}
+    \textbf{\insertframetitle}%
+      \ifx\insertframesubtitle\@empty%
+        \strut\par%
+      \else
+        \par{\usebeamerfont*{framesubtitle}{\usebeamercolor[fg]{framesubtitle}\insertframesubtitle}\strut\par}%
+      \fi%%
+  \end{center}
+}
+  
+  
+\mode
+<all>

@@ -1,0 +1,117 @@
+%!TEX root = ../../stateoftheart.tex
+
+%Fig.~\ref{fig:mindmap}
+\begin{tikzpicture}[mindmap]
+  \node[concept, color=black, text=white, scale=0.8]
+      (fm) {Full rigid body mechanical model}
+  child[concept color=black!70!blue, grow=-5]
+  {
+    node[concept, color=black!70!blue,text=white, text width=2.2cm]
+        (ud) {Underactuated Dynamics\\ (on the CoM) }
+    child[concept color=black!20!red, grow=-140]
+    {
+      node[concept,color=black!20!red,text=white, text width=1.8cm]
+        (al) {Approximation of the $\dot{\bf L}$}
+      child[grow=-150] {}   
+      child[grow=-100] {}
+      child[grow=-45] {}
+    }
+    child[concept color=black!50!blue, grow=-5] {
+      node[concept,concept color=black!50!blue,text=white]
+        (rl) {Regulation of the $\dot{\bf L}$ (=0)}
+      child[concept color=black!20!red, grow=-5, text width=1.5cm] {
+        node[concept,color=black!20!red,text=white]
+            (mc) {Multi-Contact, (all possible contact)}
+        child[grow=-150] {}   
+        child[grow=-100] {}
+        child[grow=-45] {}
+      }
+      child[concept color=black!40!blue, grow=-100] {
+        node[concept,color=black!40!blue,text=white]
+            (cc) {Coplanar Contacts and CoM on a Plane}
+        child[concept color=black!20!red, grow=-45] {
+          node[concept,color=black!20!red,text=white, text width=1.5cm]
+              (cp) {Contact planned}
+          child[grow=-150] {}   
+          child[grow=-100] {}
+          child[grow=-45] {}
+        }
+        child[concept color=black!30!blue, grow=-150] {
+          node[concept,color=black!30!blue,text=white, text width=1.5cm]
+            (cac) {Contact automatically computed}
+          child[grow=-150] {}   
+          child[grow=-100] {}
+          child[grow=-45] {}
+        }
+      }
+    }
+  };
+\end{tikzpicture}
+
+\begin{tikzpicture}
+  \node[annotation,above right,text width=5.0cm,text centered,fill=yellow] 
+  at (ud.north) {
+    $ \left\{
+      \begin{aligned}
+        m\,( \mathbf{ \ddot{c} } - \mathbf{g}) =
+        \sum_{i} \mathbf{R} _{i} \mathbf{f} _{i}  \\
+        m \,\mathbf{c} \times ( \mathbf {\ddot{c}} - \mathbf{g} ) +
+        \mathbf{\dot{L}} = \sum_{i} \mathbf{p} _{i} \times
+        \mathbf{R} _{i} \mathbf{f} _{i}\\
+      \end{aligned}
+    \right.
+    $
+  };
+  \label{fig:mindmap}
+\end{tikzpicture}
+
+\begin{tikzpicture}
+  \node[annotation,below left,text width=3.0cm,text centered,fill=yellow] 
+  at (al.south) {
+    $ \mbf{M}(\mq) \ddot{\mq}  + {\bf N}(\mq, \mqdot)\mqdot = \mathcal{F} $\\
+    with :
+    $ {\bf q} =
+      \left[
+        \begin{matrix}
+          {\bf \hat{q}} \\
+          {\bf x}_0\\
+          {\bf \theta}_0
+        \end{matrix}
+      \right] $
+  };
+\end{tikzpicture}
+
+%\begin{tikzpicture}[mindmap]
+%      \node[concept, color=black, text=white] (fca) {Flexible Compliance Actuation}
+%      child[grow=-120] {node[concept,text=white] (ma) {Material Fabrication}}
+%      child[concept color=blue,grow=-10]
+%      {
+%        node[concept,text=white] (ad) {Actuator Design}
+%        child[grow=-30] {node[concept,text=white] {Pneumatic}}
+%        child[grow=-140] {node[concept,text=white] {Hydraulic}}
+%        child[concept color=blue!60,grow=-80] 
+%        {
+%          node[concept,text=white] {Electric Motors + Flexible elements}
+%          child[grow=-45,concept color=blue!60] {node[concept,text=white] {Electro{-}\\magnets}}
+%          child[concept color=red,grow=-135] 
+%          {
+%            node[concept] {Electric motors and springs}
+%            child[grow=-20]  {node[concept, text width=1.5cm, text centered] (aa) 
+%              {Antagonistic\\agnostic}}
+%            child[grow=-80]  {node[concept, text width=1.5cm, text centered] (svsa) 
+%              {Serial-VSA}}
+%            child[grow=-140] {node[concept, text width=1.5cm,text centered] (maccepa)
+%              {MACCEPA}}
+%            child[grow=150]  {node[concept, text width=1cm,text centered] (sea)
+%              {SEA}}
+%          }
+%        }
+%      };
+%      \node[annotation,left,text width=2cm,text centered,fill=yellow] 
+%      at (ma.west) {Polymer\\Material Eng.\\Muscle Fabrication};
+%      \node[annotation,below,text width=1cm,text centered,fill=yellow] at (aa.south) {VSA-I\\VSA-II};
+%      \node[annotation,below,text width=1cm,text centered,fill=yellow] at (svsa.south) {VS-Joint\\AWAS};
+%      \node[annotation,below,text width=1.5cm,text centered,fill=yellow] at (maccepa.south) {MACCEPA 2.0};
+%      \node[annotation,below,text width=1cm,text centered,fill=yellow] at (sea.south) {SEA};  
+%\ref{fig:mindmap}
+%\end{tikzpicture}

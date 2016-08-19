@@ -1,0 +1,47 @@
+%!TEX root = ../../14-icra-RealTimeNMPC.tex
+
+\tikzstyle{block} = [draw, fill=blue!20, rectangle,
+    minimum height=2em, minimum width=5em, align=center]
+\tikzstyle{sum} = [draw, fill=blue, circle, node distance=1cm]
+\tikzstyle{input} = [coordinate]
+\tikzstyle{output} = [coordinate]
+\tikzstyle{pinstyle} = [pin edge={to-,thin,black}]
+
+% The block diagram code is probably more verbose than necessary
+\begin{tikzpicture}[auto, node distance=2cm,>=latex]
+\normalsize
+    % We start by placing the blocks
+    \node [input]  at (-2, 0.0) (input)  {};
+    \node [sum]    at ( -0.5, 0.0) (sumin)  {};
+    \node [sum]    at ( 7.5, 0.0) (sumout) {};
+    \node [output] at ( 8.5, 0.0) (output) {};
+
+    % SQP Controller Block
+    \node [block] at (3.5,0) (controller) {
+        \normalsize real time SQP Controller \\
+        \normalsize Orientation $+$ Position
+    };
+    % System Block
+    \node [block] at (3.5, -2) (system) {
+            \normalsize Generalized Inverse Kinematics\\
+             \normalsize Robot
+        };
+    
+    % PATHS
+    \draw [draw,->] (input) -- node {$
+        \mathbf{v}^{\mathrm{ref}}
+    $} (sumin);
+    \draw [->] (controller) -- node[name=u, align=center] {
+    $\begin{matrix}
+        \hat{c}_{k+1}^{x,y,\theta}\\
+        \hat{f}_{k+1}^{x,y,\theta}
+    \end{matrix}$
+    } (sumout);
+    \draw [draw,->] (sumout) -- node {$
+    $} (output);
+    \draw [->] (sumin) -- node {} (controller);
+    \draw [->] (sumout) |- node[near start] {}   (system);
+    \draw [- ] (sumout) |- node {} (-0.5, -1.0);
+    \draw [->] (-0.5, -1.0) -- node {} (sumin);
+
+\end{tikzpicture}
