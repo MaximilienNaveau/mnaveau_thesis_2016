@@ -2,7 +2,13 @@
 %\documentclass[draft]{beamer}
 
 \makeatletter
-\def\input@path{{./}{../}{./header/}}
+\def\input@path{
+  {./}
+  {../}
+  {./header/}
+  {./hose/}
+  {./figures/}
+}
 \makeatother
 
 \input{header} 
@@ -14,21 +20,29 @@
 \end{frame}
 
 % 45 slides :
-\input{introduction}            % 5
+%\input{introduction}             % 5
 
 %\input{nmpc-walkgen}            % 5
 %\input{multicontact}            % 5
-%\input{pulling-hose}            % 5
-%\input{two-thrid-power-law}     % 5
+
+%\section{Pulling a hose}
+%\setcounter{subsection}{3}
+%\input{pulling-hose}             % 5
+
+\section{two third power law}
+\setcounter{subsection}{4}
+\input{two-thrid-power-law}     % 5
 %\input{motion-primitives}       % 5
 %\input{airbus-demos}            % 5
 
-\input{conclusion}              % 5
+%\input{conclusion}               % 5
 
-\begin{frame}{Thank you!\\}
+\section{Thank you}
+
+\begin{frame}{Thank you!}
 \begin{center}
 \begin{LARGE}
- \includegraphics[scale=0.45]{finalslide.png}
+ \includegraphics[scale=0.45]{hose_xp/finalslide.png}
 \end{LARGE}
 \end{center}
 \end{frame}

@@ -1,7 +1,5 @@
 \section{Introduction}
 
-\setcounter{subsection}{1}
-
 \begin{frame}{Skills in manipulation and locomotion\\ are needed}
 \begin{center}
   \vspace*{0.7cm}
@@ -17,57 +15,3 @@
 
 
 
-\begin{frame}{Setup and Objective}
-\begin{center}
-  \vspace*{0.7cm}
-  \includegraphics[height=3cm]{coordinates.pdf}
-  \hspace*{1cm}
-  \includegraphics[height=3cm]{Hose_HRP2.pdf}
-\end{center}
-
-\begin{center}
-  \begin{minipage}{0.45\textwidth}
-    \textbf{\color{blue} Setup :}
-    \begin{itemize}
-      \item HRP-2 humanoid robot
-      \item rigid, \emph{empty} fire hoze
-      \item motion capture system
-      \item automated security crane
-    \end{itemize}
-  \end{minipage} 
-  \begin{minipage}{0.45\textwidth}
-    \textbf{\color{blue} Objectives :}
-    \begin{itemize}
-      \item Pick up a rigid fire hose
-      \item Pull it toward a desired position
-    \end{itemize}
-    \vspace*{0.7cm}
-  \end{minipage}
-\end{center}
-\end{frame}
-
-\pgfdeclareimage[height=4cm]{withoutwalkingtask.png}{withoutwalkingtask.png}
-\begin{frame}{Problem presentation}
-  \vspace*{0.6cm}
-  \begin{center}
-    \movie[autostart,loop]{\pgfuseimage{withoutwalkingtask.png}}  
-    {./videos/wihtoutwalkingtask.mpg}
-  \end{center}
-  \textbf{\color{blue} Major technical issues while }\\
-  \begin{minipage}{0.45\textwidth}
-    \textbf{\color{blue} pulling :}
-    \begin{itemize}
-      \item Important drift
-      \item Robot less balanced
-    \end{itemize}
-    \vspace*{0.4cm}    
-  \end{minipage}
-  \begin{minipage}{0.45\textwidth}
-    \textbf{\color{blue} picking :}
-    \begin{itemize}
-      \item Auto-collision
-      \item Joint limit
-      \item Balance
-    \end{itemize}
-  \end{minipage}
-\end{frame}

@@ -19,6 +19,13 @@
 \definecolor{bgcolor1}{rgb}{0.9,0.,0.}
 \definecolor{bgcolor2}{rgb}{0.9,0.,0.}
 
+\definecolor{txtcolor1}{RGB}{204 ,  85 , 0}% corail
+\definecolor{txtcolor2}{RGB}{231 ,  62 , 1}% orange 
+\definecolor{txtcolor3}{RGB}{237 , 127 ,16}%
+\definecolor{txtcolor4}{rgb}{0.9,0.,0.}
+
+\definecolor{corail}{RGB}{231 ,  62 , 1}
+
 \setbeamercolor{background canvas}{bg=}
 \setbeamercolor{alerted text}{bg=}
 \setbeamercolor{background canvas}{bg=}
@@ -29,7 +36,9 @@
 \setbeamercolor{block title}{bg=}
 \setbeamercolor{block title example}{bg=}
 \setbeamercolor{fine separation line}{bg=}
-\setbeamercolor{frametitle}{bg=}
+\setbeamercolor{frametitle}{fg=txtcolor1,bg=,rounded}
+\setbeamercolor{border}{fg=,bg=txtcolor1,rounded}
+\setbeamercolor{inside}{fg=txtcolor1,bg=white,rounded}
 \setbeamercolor{item projected}{bg=}
 \setbeamercolor{normal text}{bg=}
 \setbeamercolor{palette sidebar primary}{bg=}
@@ -44,7 +53,7 @@
 \setbeamercolor{structure}{bg=}
 \setbeamercolor{subsection in sidebar}{bg=}
 \setbeamercolor{subsection in sidebar shaded}{bg=}
-\setbeamercolor{title}{bg=}
+\setbeamercolor{title}{fg=white,bg=txtcolor1}
 \setbeamercolor{titlelike}{bg=}
 \setbeamercolor{framesubtitle}{bg=}
 \setbeamercolor{subsection in head/foot}{bg=}
@@ -110,31 +119,30 @@
 
 % Head
 \defbeamertemplate*{headline}{mysmoothbars theme}
-{%
+{%\insertsectionnavigationhorizontal{\linewidth}
+
   \begin{beamercolorbox}[ht=4ex,dp=1ex]{mysection in head/foot}
      %\insertnavigation{\paperwidth}  
-   {\textbf{\insertsectionnavigationhorizontal{\linewidth}{}{}}\hfill \insertframenumber/\inserttotalframenumber \hfill  }
-  \end{beamercolorbox}%
-  \vskip-0.5ex%
-  \ifbeamer@sb@subsection%
-   %{\color{bgcolor1}\rule{\paperwidth}{0.1pt}}
-    \begin{beamercolorbox}[ht=2ex,dp=1.125ex,%
-      leftskip=.3cm,rightskip=.3cm plus1fil]{mysubsection in head/foot}
-      
-      \usebeamercolor{mysubsection in head/foot}\insertsubsectionhead
-    \end{beamercolorbox}%
-  \fi%
-  \vskip-0.5ex%
-   {\color{bgcolor1}\rule{\paperwidth}{1pt}}
-
+   {\textbf{\insertnavigation{\linewidth}{}{}}\hfill
+    %\insertframenumber/\inserttotalframenumber
+    \hfill  }
+  \end{beamercolorbox}
+%  %
+%  \ifbeamer@sb@subsection%
+%    \begin{beamercolorbox}[ht=2ex,dp=1.125ex,%
+%      leftskip=.3cm,rightskip=.3cm plus1fil]{mysubsection in head/foot}
+%      
+%      \usebeamercolor{mysubsection in head/foot}\insertsubsectionhead
+%    \end{beamercolorbox}%
+%  \fi%
 }%
 
 \newcommand{\logowidth}{0.5 cm}
 \def\koroibotLogo{%
-\resizebox{!}{\logowidth}{\includegraphics{./logo/koroibot-logo}}
+  \resizebox{!}{\logowidth}{\includegraphics{./logo/koroibot-logo}}
 }
 \def\GepettoLogo{%
-\resizebox{!}{\logowidth}{\includegraphics{./logo/logo-medium-white}}
+  \resizebox{!}{\logowidth}{\includegraphics{./logo/logo-medium-white}}
 }
 
 % foot line
@@ -142,30 +150,148 @@
 {%
 
   \begin{beamercolorbox}[ht=7ex,dp=2ex]{mysection in head/foot}
-     %\insertnavigation{\paperwidth}  
-    {\color{bgcolor1}\rule{\paperwidth}{1pt}}
-    \vskip1ex%
-    
-    \hfill \hfill \GepettoLogo \hfill \insertauthor \hfill \insertshorttitle \hfill \koroibotLogo \hfill \hfill
-    
+%    {\color{bgcolor1}\rule{\paperwidth}{1pt}}
+%    \vskip1ex%
+
+    %% write the gepetto logo then put the text 
+    %% with slide number and put the koroibot logo
+    \hfill \GepettoLogo \hfill
+    \begin{minipage}{0.75\textwidth}
+      \vspace*{-4ex}
+      \begin{center}
+%        \insertshorttitle \\
+%        \insertauthor \hspace*{4.2cm} \insertframenumber / \inserttotalframenumber
+        \insertauthor \hfill
+        \insertshorttitle \hfill
+        \insertframenumber / \inserttotalframenumber
+      \end{center}
+    \end{minipage}
+    \hfill \koroibotLogo \hfill \hfill    
   \end{beamercolorbox}%
 }%
 
+%
+%\defbeamertemplate*{frametitle}{mysmoothbars theme}
+%{%
+%\begin{center}
+%  \vskip-2.5ex%
+%  \begin{block}
+%  {
+%    \usebeamerfont*{frametitle}
+%    \textbf{\insertframetitle}%
+%      \ifx\insertframesubtitle\@empty%
+%        \strut\par%
+%      \else
+%        \par{\usebeamerfont*{framesubtitle}{\usebeamercolor[fg]{framesubtitle}\insertframesubtitle}\strut\par}%
+%      \fi%%
+%  }
+%  \end{block}
+%\end{center}
+%}
+%
+%\defbeamertemplate*{frametitle}{mysmoothbars theme}
+%{%
+%  \@tempdima=\textwidth%  largeur boite interne
+%  \advance\@tempdima by -1ex
+%  \begin{beamercolorbox}[fg=txtcolor1, bg=txtcolor1, wd=\textwidth, ht=3.5ex,  sep=0.1ex, rounded=true, center]{bordure}
+%    \begin{beamercolorbox}[fg=txtcolor1 , bg=white, colsep=0.1ex, sep=0.2ex, ht=2.5ex, wd=\@tempdima, rounded=true]{frametitle}
+%    \begin{center}
+%    \usebeamerfont*{frametitle}
+%    \textbf{\insertframetitle}%
+%      \ifx\insertframesubtitle\@empty%
+%        \strut\par%
+%      \else
+%        \par{
+%          \usebeamerfont*{framesubtitle}{
+%            \usebeamercolor[fg]{framesubtitle}\insertframesubtitle
+%          }
+%          \strut\par}%
+%      \fi
+%      \end{center}
+%    \end{beamercolorbox}
+%  \end{beamercolorbox}
+%}
 
+%\makeatletter
+%\pgfdeclareshape{myNode}{
+%  \inheritsavedanchors[from=rectangle] % this is nearly a rectangle
+%  \inheritanchorborder[from=rectangle]
+%  \inheritanchor[from=rectangle]{center}
+%  \inheritanchor[from=rectangle]{north}
+%  \inheritanchor[from=rectangle]{south}
+%  \inheritanchor[from=rectangle]{west}
+%  \inheritanchor[from=rectangle]{east}
+%  \backgroundpath{% this is new
+%    % store lower right in xa/ya and upper right in xb/yb
+%    \southwest \pgf@xa=\pgf@x \pgf@ya=\pgf@y
+%    \northeast \pgf@xb=\pgf@x \pgf@yb=\pgf@y
+%    % construct main path
+%    \pgfsetcornersarced{\pgfpoint{5pt}{5pt}}
+%    \pgfpathmoveto{\pgfpoint{\pgf@xa}{\pgf@ya}}
+%    \pgfpathlineto{\pgfpoint{\pgf@xa}{\pgf@yb}}
+%    \pgfpathlineto{\pgfpoint{\pgf@xb}{\pgf@yb}}
+%    \pgfsetcornersarced{\pgfpoint{5pt}{5pt}}
+%    \pgfpathlineto{\pgfpoint{\pgf@xb}{\pgf@ya}}
+%    \pgfpathclose
+% }
+%}
+%\makeatother
+
+%\ExplSyntaxOn
+%\newcommand{\convertto}[2]{\fp_to_decimal:n { round ( (#2)/(1#1), 5 )} }
 \defbeamertemplate*{frametitle}{mysmoothbars theme}
 {%
 \begin{center}
-  \vskip-2.5ex%
-    \usebeamerfont*{frametitle}
-    \textbf{\insertframetitle}%
-      \ifx\insertframesubtitle\@empty%
-        \strut\par%
-      \else
-        \par{\usebeamerfont*{framesubtitle}{\usebeamercolor[fg]{framesubtitle}\insertframesubtitle}\strut\par}%
-      \fi%%
-  \end{center}
+\begin{tikzpicture}[node distance = 2cm, auto,->=stealth,point/.style= 
+                   {circle,fill=red,minimum size=0pt,inner sep=0pt}]
+\tikzstyle{block} = [rectangle, draw,very thick,
+    text centered, rounded corners, minimum height=1em]
+\node [block] (title) {%
+   \begin{varwidth}{15em}
+     \centering
+      \usebeamerfont*{frametitle}
+      \textbf{\insertframetitle}%
+   \end{varwidth}
+};
+\end{tikzpicture}
+\begin{tikzpicture}[node distance = 2cm, auto,->=stealth,point/.style= 
+                   {circle,fill=red,minimum size=0pt,inner sep=0pt}]
+\ifx\insertframesubtitle\@empty%
+  \strut\par%
+\else
+  \par{
+    \node (subtitle) {%
+      \begin{varwidth}{15em}
+        \centering
+        \usebeamerfont*{framesubtitle}{
+          \usebeamercolor[fg]{framesubtitle}\insertframesubtitle
+        }
+        \strut\par    
+      \end{varwidth}
+    };
+  }%
+\fi
+\end{tikzpicture}
+\end{center}
+%
+%  \begin{tikzpicture}
+%    \node[draw,shape=myNode, minimum width=\textwidth] {
+%      \usebeamerfont*{frametitle}
+%      \textbf{\insertframetitle}%
+%      \ifx\insertframesubtitle\@empty%
+%        \strut\par%
+%      \else
+%        \par{
+%          \usebeamerfont*{framesubtitle}{
+%            \usebeamercolor[fg]{framesubtitle}\insertframesubtitle
+%          }
+%          \strut\par
+%        }%
+%      \fi
+%    };
+%  \end{tikzpicture}
+%  \end{center}
 }
-  
   
 \mode
 <all>

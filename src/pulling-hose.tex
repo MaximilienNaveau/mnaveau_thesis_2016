@@ -1,0 +1,299 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%     Problem setup
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Pulling hose problem}
+%
+  \begin{minipage}{0.55\textwidth}
+    \begin{center}
+      \movie[autostart,loop,continue]{
+        \includegraphics[width=\linewidth, height=\textheight, keepaspectratio]
+        {hose_xp/withoutwalkingtask.png}
+      }
+      {./videos/wihtoutwalkingtask.mpg}
+    \end{center}
+  \end{minipage}  \hfill
+%
+\only<1>{
+  \begin{minipage}{0.42\textwidth}
+    \textbf{\color{txtcolor2} Setup :}
+    \begin{itemize}
+      \item HRP-2 humanoid robot
+      \item rigid, \emph{empty} fire hoze
+      \item motion capture system
+    \end{itemize}
+  \end{minipage}
+}
+%
+\only<2>{
+  \begin{minipage}{0.41\textwidth}
+    \textbf{\color{txtcolor2} Major technical issues while}
+    \begin{itemize}
+%
+    \item \textbf{\color{txtcolor2} pulling :}
+    \begin{itemize}
+      \item Important drift
+      \item Robot less balanced
+    \end{itemize}
+%    
+    \item \textbf{\color{txtcolor2} picking :}
+      \begin{itemize}
+        \item Self-collision
+        \item Joint limit
+        \item Balance
+      \end{itemize}
+%    
+    \end{itemize}
+  \end{minipage}
+}
+%
+\only<3>{
+  \begin{minipage}{0.39\textwidth}
+    \textbf{\color{txtcolor2} Objectives :}
+    \begin{itemize}
+      \item Pick up a rigid fire hose
+      \item Pull it toward a desired position
+    \end{itemize}
+    \vspace*{0.7cm}
+  \end{minipage}
+}
+%
+\end{frame}
+ 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Pick Up Motion}
+  \vspace*{0.6cm}
+  \begin{center}
+    \includegraphics[height = 4.0cm]{hose_xp/pickup.png}
+  \end{center}
+%
+  \vspace*{-1ex}
+  \textbf{\color{txtcolor2} Planning constraint using HPP :}\\
+%  
+  \begin{minipage}{0.45\textwidth}
+    \begin{itemize}
+      \item Static Balance
+      \item Feet flat on the floor
+      \item Left wrist position
+    \end{itemize}
+  \end{minipage}
+%
+  \begin{minipage}{0.50\textwidth}
+    \begin{itemize}
+      \item Robot facing forward
+      \item Close from half-sitting position
+    \end{itemize}
+    \vspace*{0.4cm}    
+  \end{minipage}
+%
+  \begin{center}
+    \small{\color{txtcolor3}\url{https://humanoid-path-planner.github.io/hpp-doc}}
+  \end{center}
+%
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Walking task}
+  \vspace*{0.2cm}
+  \begin{center}
+    \includegraphics[angle=90, height=0.25\paperheight]{./DSC00610.JPG}
+    \hspace*{1.5cm}
+    \includegraphics[height=0.25\paperheight]{./camera_raptor.jpeg}
+  \end{center}
+
+  \tikzstyle{na} = [baseline=-.5ex]
+  \begin{itemize}
+    \item adaptive gains
+      \tikz[na] \node[coordinate] (l) {};
+    \item referenced velocity 
+      \tikz[na] \node[coordinate] (vr) {};
+  \end{itemize}
+%
+%  \vspace*{-0.5cm}
+  \begin{align*}
+    \;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;
+    \tikz[baseline]{
+      \node[fill=txtcolor1,anchor=base] (v)
+      { $ \mathbf{v}^{\mathrm{ref}} $ };
+    }
+    = - \tikz[baseline]{
+      \node[fill=txtcolor2,anchor=base] (l1)
+      {$\lambda$};
+    } \;
+    \tikz[baseline]{
+      \node[fill=txtcolor3,anchor=base] (e1)
+      {$ \mathbf{e}_{w} $};
+    } - 
+    \tikz[baseline]{
+      \node[fill=txtcolor2,anchor=base] (l2)
+      {$ \mathbf{\Lambda} $};
+    }
+    \int \tikz[baseline]{
+      \node[fill=txtcolor3,anchor=base] (e2)
+      {$ \mathbf{e}_{w} $};
+    } dt
+  \end{align*}
+
+  \begin{itemize}
+    \item $ 
+     \tikz[baseline]{
+      \node[fill=txtcolor3,anchor=base] (e3)
+      {$ \mathbf{e}_{w} $};
+    }
+     = 
+     \begin{bmatrix}
+       x_{chest} & y_{chest} & \theta_{chest}
+     \end{bmatrix}^T
+     -$\tikz[na] \node[coordinate] (e) {};\\
+     $
+     \begin{bmatrix}
+       x^{des}_{chest} & y^{des}_{chest} & \theta^{des}_{chest}
+     \end{bmatrix}^T $
+  \end{itemize}
+%
+% Now it's time to draw some edges between the global nodes. Note that we
+% have to apply the 'overlay' style.
+  \begin{tikzpicture}[overlay]
+    \path[->,line width=0.5mm, txtcolor1] (vr) edge [bend left] (v);
+    \path[->,line width=0.5mm, txtcolor3] (e) edge [bend right] (e1);
+    \path[->,line width=0.5mm, txtcolor3] (e) edge [bend right] (e2);
+    \path[->,line width=0.5mm, txtcolor2] (l) edge [bend left] (l1);
+    \path[->,line width=0.5mm, txtcolor2] (l) edge [bend left] (l2);
+  \end{tikzpicture}
+%  
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Hybrid controller}
+  \tikzstyle{na} = [baseline=-0.5ex]
+  \begin{center}
+    \includegraphics[width=0.45\textwidth]
+    {hose_xp/force_Z_feet_withoutController_zoomEnd.pdf}\hfill
+    \includegraphics[width=0.45\textwidth]
+    {hose_xp/force_Z_feet_withController_zoomEnd.pdf}\\
+    \textbf{\color{txtcolor1} without the controller}
+    \tikz[na] \node[coordinate] (without) {};
+    \hfill
+    \tikz[na] \node[coordinate] (with) {};    
+    \textbf{\color{txtcolor1} with the controller}
+    \hfill \hfill
+  \end{center}  
+  
+  \begin{tikzpicture}[overlay]
+    \path[->,line width=0.5mm, txtcolor1] (without) edge (with);
+  \end{tikzpicture}
+  \vspace*{-1cm}
+
+%  \tikzstyle{na} = [baseline=-0.5ex]
+%   \tikz[na] \node[coordinate] (nfpull) {};
+%  desired force \tikz[na] \node[coordinate] (nfd) {};
+%  external force \tikz[na] \node[coordinate] (nflw) {};
+%  left wrist velocity and acceleration \tikz[na] \node[coordinate] (nav) {};
+
+%  
+%  \begin{itemize}
+%    \item pulling force
+%      \tikz[na] \node[coordinate] (nfpull) {};
+%    \item desired force
+%      \tikz[na] \node[coordinate] (nfd) {};
+%    \item wrist measured \\external force 
+%      \tikz[na] \node[coordinate] (nflw) {};
+%  \end{itemize}
+%
+\begin{small}
+  \begin{align*}
+    m & \tikz[baseline]{
+      \node[fill=txtcolor1,anchor=base] (a)
+      { $ \ddot{\bf lw}^{x} $ };
+    }
+   + c \tikz[baseline]{
+      \node[fill=txtcolor1,anchor=base] (v)
+      {$ \dot{\bf lw}^{x} $};
+    } = 
+    \tikz[baseline]{
+      \node[fill=txtcolor4,anchor=base] (flw)
+      {$ {\bf f}_{lw}^{x} $};
+    } + 
+    \tikz[baseline]{
+      \node[fill=txtcolor2,anchor=base] (fd)
+      {$ {\bf f}_{d}^{x} $};
+    } + 
+    \tikz[baseline]{
+      \node[fill=txtcolor3,anchor=base] (fpull)
+      {$ {\bf f}_{pull}^{x} $};
+    }
+    %
+    \\
+    %
+    m & \tikz[baseline]{
+      \node[fill=txtcolor1,anchor=base] (a)
+      { $ \ddot{\bf lw}^{z} $ };
+    }
+   + c \tikz[baseline]{
+      \node[fill=txtcolor1,anchor=base] (v)
+      {$ \dot{\bf lw}^{z} $};
+    } = 
+    \tikz[baseline]{
+      \node[fill=txtcolor4,anchor=base] (flw)
+      {$ {\bf f}_{lw}^{z} $};
+    } + 
+    \tikz[baseline]{
+      \node[fill=txtcolor2,anchor=base] (fd)
+      {$ {\bf f}_{d}^{z} $};
+    } + 
+    \tikz[baseline]{
+      \node[fill=txtcolor3,anchor=base] (fpull)
+      {$ {\bf f}_{pull}^{z} $};
+    }
+    %
+    \\
+    %
+    &\tikz[baseline]{
+      \node[fill=txtcolor1,anchor=base] (a)
+      { $ {\bf lw}^{y} $ };
+    } = {\bf waist}^{y} + \text{offset}
+  \end{align*}
+\end{small}
+%  \begin{itemize}
+%    \item left wrist velocity\\
+%    and acceleration \tikz[na] \node[coordinate] (nav) {};
+%  \end{itemize}
+
+% Now it's time to draw some edges between the global nodes. Note that we
+% have to apply the 'overlay' style.
+%  \begin{tikzpicture}[overlay]
+%    \path[->,line width=0.5mm, txtcolor1]  (nav) edge [bend right] (a);
+%    \path[->,line width=0.5mm, txtcolor1]  (nav) edge [bend right] (v);
+%    \path[->,line width=0.5mm, txtcolor4]   (nflw) edge [bend left] (flw);
+%    \path[->,line width=0.5mm, txtcolor2](nfd) edge [bend left] (fd);
+%    \path[->,line width=0.5mm, txtcolor3]   (nfpull) edge [bend left] (fpull);
+%  \end{tikzpicture}
+  
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Full controller}
+  \vspace*{1cm}
+  \hspace*{-0.7cm}
+  \scalebox{0.7}{\input{/figures/hose_xp/tikz/global_feedback_scheme_improved.tex}} \\
+%
+
+%  \textbf{\color{blue}Full feedback scheme}
+%
+\end{frame}
+
+\begin{frame}{Complete motion}
+\vspace*{0.6cm}
+  \begin{center}
+    \movie[autostart,loop]{
+    \includegraphics[width=0.9\linewidth, height=\textheight, keepaspectratio]
+    {hose_xp/wholemotion.png}    
+    }  
+    {./videos/wholemotion.mpg}
+  \end{center}
+\end{frame}

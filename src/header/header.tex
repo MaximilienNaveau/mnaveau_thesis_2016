@@ -9,14 +9,16 @@
 \usetikzlibrary{arrows,shapes,backgrounds,mindmap}
 \usepackage{verbatim}
 \usepackage{graphics}
-\usepackage{multimedia} 
 \usepackage{multicol}
 \usepackage{ifthen}
 \usepackage{cases}
 \usepackage{tabularx}
 %\usepackage{biblatex}
 %\usepackage{natbib}
+\usepackage{xparse}
+%\usepackage{media9}
 \usepackage{multimedia}
+\usepackage{varwidth}
 
 % For every picture that defines or uses external nodes, you'll have to
 % apply the 'remember picture' style. To avoid some typing, we'll apply
@@ -56,7 +58,7 @@
 }
 
 \useoutertheme{mysmoothbars}
-\useinnertheme{default}
+%\useinnertheme{default}
 \usefonttheme[onlymath]{serif}
 
 \usetheme{Frankfurt}
@@ -73,7 +75,8 @@
 \setbeamertemplate{enumerate subitem}[default]
 \setbeamertemplate{enumerate subsubitem}[default]
 \usecolortheme{dove}
-\setbeamertemplate{frametitle}[default][center]
+\setbeamertemplate{frametitle}[mysmoothbars theme]
+\setbeamertemplate{headline}[mysmoothbars theme]
 
 
 \setbeamertemplate{section in toc}[sections numbered]
@@ -119,8 +122,8 @@ footskip=0cm    % Pied de page
 
 \newcommand{\ka }{{k:\alpha}}
 
-\title[Motion Generation for Pulling a Fire Hose by a Humanoid Robot] % (optional, use only with long paper titles)
-{\huge Motion Generation for Pulling a Fire Hose by a Humanoid Robot}
+\title[Advanced human inspired walking strategies for humanoid robots] % (optional, use only with long paper titles)
+{\huge Advanced human inspired walking strategies for humanoid robots}
 
 
 %resets the environment to a one with less lost space after the title
@@ -137,7 +140,7 @@ footskip=0cm    % Pied de page
 
 
 \author 
-{\textbf{Maximilien~Naveau (\texttt{mnaveau@laas.fr})}, %Olivier~Stasse(\texttt{ostasse@laas.fr})
+{\textbf{Maximilien~Naveau} %(\texttt{mnaveau@laas.fr})}, %Olivier~Stasse(\texttt{ostasse@laas.fr})
 }
 
 
@@ -147,13 +150,13 @@ Gepetto team - LAAS / CNRS - Toulouse, France\\
 \includegraphics[height=2cm]{logo/LogoLAASCarnot.png}
 \hspace{0.5cm}\includegraphics[height=2cm]{logo/koroibot-logo}
 \hspace{0.5cm}\includegraphics[height=2cm]{hrp2.jpeg}
-\hspace{0.5cm}\includegraphics[height=1cm]{logo/logoAIST.jpeg}\\
+%\hspace{0.5cm}\includegraphics[height=1cm]{logo/logoAIST.jpeg}\\
 }
 % - Use the \inst command only if there are several affiliations.
 % - Keep it simple, no one is interested in your street address.
 
 \date % (optional, should be abbreviation of conference name)
-{JNRH - Toulouse - 2016}
+{PhD defense - Toulouse - 2016}
 % - Either use conference name or its abbreviation.
 % - Not really informative to the audience, more for people (including
 %   yourself) who are reading the slides online
