@@ -1,0 +1,34 @@
+
+\begin{frame}{Learning Movement Primitives for the Humanoid Robot HRP2}
+  \framesubtitle{(EKUT, CNRS-LAAS)}
+  %\vspace*{-0.8cm}  
+  \begin{center}
+    \scalebox{0.7}{\input{figures/motion_primitives/architecture_system.tex}}
+  \end{center}
+%  
+\end{frame}
+
+\begin{frame}{Implementation on HRP-2}
+  %\vspace*{-0.8cm}  
+  \begin{center}
+    \scalebox{0.7}{\input{figures/motion_primitives/feedback_scheme_albert.tex}}
+  \end{center}
+%  
+  \begin{itemize}
+    \item The upper body is learned from humans.
+    \item The lower body is computed via NMPC.
+    \item The Dynamic Filter links them.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Motion on HRP-2}
+  \begin{center}
+    \movie[autostart,loop]{
+    \includegraphics[width=0.9\linewidth, keepaspectratio]
+      {motion_primitives/16-mukovskiy-elsarticle.png}    
+    }  
+    {./videos/16-mukovskiy-elsarticle.mp4}
+  \end{center}
+\end{frame}
+
+

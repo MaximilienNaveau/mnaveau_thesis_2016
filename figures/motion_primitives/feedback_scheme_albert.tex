@@ -1,0 +1,105 @@
+%!TEX root = ../../14-icra-RealTimeNMPC.tex
+
+\tikzstyle{block} = [draw=blue!50, fill=blue!20, rectangle,
+    minimum height=2em, minimum width=5em, align=center]
+\tikzstyle{point} = [coordinate]
+\tikzstyle{pinstyle} = [pin edge={to-,thin,black}]
+
+\definecolor{KPS}{RGB}{204 ,  85 , 0}% corail
+\definecolor{SBG}{RGB}{222, 152, 22 }% melon
+\definecolor{WPG}{RGB}{231 ,  62 , 1}% orange 
+\definecolor{SOT}{RGB}{179, 103, 0}% cuivre
+\definecolor{ROB}{RGB}{173, 79, 9} % roux
+\definecolor{EST}{RGB}{255, 127, 0}
+
+% The block diagram code is probably more verbose than necessary
+\begin{tikzpicture}[auto, scale=1.0]
+  \draw [fill=green,opacity=.1,text opacity=1] (2.2,1.0) rectangle (14,-2.2);
+  \node at(11,-2.0) {\textcolor{green!20!black!100}{Stack of Task}};
+
+    \node [block, text depth=0.7cm, minimum width=2.0cm] at (10.0,-3.0) (robot) {
+        Robot
+    };
+    \node [block, text opacity=1, opacity=0, font=\small, minimum width=1.1cm ] at ([yshift=-0.2cm]robot.center){
+      (position \\
+      control)
+    };
+%%%%
+    \node [block,  text depth=0.8cm, minimum width=3.0cm] at (5.0,-3.0) (estimator) {
+      Estimator 
+    };
+    \node [block, text opacity=1, opacity=0, draw=white, font=\small, minimum width=1cm ] at ([yshift=-0.2cm]estimator.center){
+      (robot and objects\\
+      relative positions)
+    };
+%%%%
+    \node [block,  minimum width=0.1cm] at (3.5,-1.0) (wpg) {
+        Walking\\
+        Pattern\\
+        Generator
+    };
+%%%%
+    \node [block,  minimum width=0.1cm, text depth = 0.18cm] at (7.0,-1.0) (dyn) {
+        \\[0.1cm]
+        Dynamic\\
+        Filter
+    };
+%%%%%
+    \node [block,  text depth = 0.7cm, minimum width=2.0cm] at (10.5,-0.5) (sot) {
+      \\[0.1cm]
+      Task for\\
+      Trajectory\\
+      Tracking
+    };
+%%    \node [block, text opacity=1, opacity=0, draw=white, font=\footnotesize, minimum width=1.5cm ] at ([yshift=-0.3cm]sot.center){
+%%      (generalized\\
+%%      inverse\\
+%%      kinematics,\\
+%%      SoT)
+%    };
+    \node [block,  text depth = 1.0cm, minimum width=1.0cm] at (13.1,-0.5) (qp){
+      \\[0.5cm]      
+      QP\\solver
+    };
+%%%%  
+    \node [block,  minimum width=0.1cm] at (0.0, 0.0) (kps) {
+    		Kinematic \\
+      Pattern \\
+      Synthesis
+    	};
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    % PATHS
+    	% Forward chaine
+    	\node [point] at ([xshift=-0.5cm]wpg.west) (walkingwest) {};
+    \draw [ - ] ([yshift=-0.3cm]kps) -| node {} (walkingwest);
+    \draw [ ->] (walkingwest) |- node [left] {\small $[{\mathbf v}^{\,{\text{ref}}}\;,\;{\mathbf \omega}^{\,{\text{ref}}}]$} (wpg.west);
+%%%%    
+    	\node [point] at ( $(dyn.west) + (-0.4,1.0)$ ) (dynwest) {};
+    \draw [ - ] ([yshift=+0.1cm]kps) -- node  [above] {\small ${\mathbf q}^{\,{\text{upper body}}}$} (dynwest);
+    \draw [ ->] (dynwest) |- node {} ([yshift=+0.3cm]dyn.west);    
+    \draw [ ->] (dynwest) |- node {} ([yshift=+0.5cm]sot.west);
+%%%%
+    \draw [->] ([yshift=-0.1cm]wpg.east) -- node [below , font=\small] {} ([yshift=-0.1cm]dyn.west);
+    \node [block, text opacity=1, opacity=0, font=\scriptsize, minimum width=0.01cm] at ($(dyn.west) + (-0.9,-0.7)$){
+      CoM$^{ref,{\bf 1}}$ \\ ZMP$^{ref}$ \\ Feet$^{ref}$
+    };
+%%%%
+    \draw [->] (dyn.east) -- node {} ([yshift=-0.5cm]sot.west);
+    \node [block, text opacity=1, opacity=0, font=\scriptsize, minimum width=0.01cm] at ($(sot.west) + (-0.9,-1.1)$){
+      CoM$^{ref,{\bf 2}}$ \\ ZMP$^{ref}$ \\ Feet$^{ref}$
+    };
+    
+    \draw [draw,->] (sot) -- node {\small Tasks} (qp.west);
+
+   	% Feedback chaine
+    	\node [point] at ($(sot.east) + (0.1,0.0)$) (soteast) {};
+    \draw [draw,->] (qp) |- node {\small ${\mathbf q},\dot{{\mathbf q}},\ddot{{\mathbf q}}$} (robot);
+    
+    \draw [draw,->] (robot) -- node {\small sensors data} (estimator);
+    
+    \draw [draw,->] (estimator) -| node [below right = 0.0cm and 0.5cm]{\small scene parameters} ($(kps.south)+ (-0.1,0.0)$);
+
+    
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
+\end{tikzpicture}
+

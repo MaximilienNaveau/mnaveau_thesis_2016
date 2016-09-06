@@ -7,6 +7,8 @@
 \usepackage{wrapfig}
 \usepackage{tikz}
 \usetikzlibrary{arrows,shapes,backgrounds,mindmap}
+\usetikzlibrary{calc} 
+\usetikzlibrary{positioning}
 \usepackage{verbatim}
 \usepackage{graphics}
 \usepackage{multicol}
@@ -228,8 +230,14 @@ Gepetto team - LAAS / CNRS - Toulouse, France\\
 
 % Show the table of contents at the beginning of every subsection.
 \AtBeginSection[]{
-    \vspace*{-1cm}
+    \vspace*{-0.5cm}
     \frametitle{Table of contents}
     \tableofcontents[current,currentsubsection]
 }
 
+\newcommand\blfootnote[1]{%
+  \begingroup
+  \renewcommand\thefootnote{}\footnote{#1}%
+  \addtocounter{footnote}{-1}%
+  \endgroup
+}
