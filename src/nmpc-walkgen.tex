@@ -1,236 +1,213 @@
 
-\begin{frame}[t]{Walking without thinking}
-\framesubtitle{Herdt and Wieber algorithm}
+\begin{frame}{Reactive walking pattern generation \only<4>{with obstacles}}
+\framesubtitle{\textcolor{green!30!black!80}{(M. Naveau, RA-L 2016)}}
 
-\begin{columns}[T]
+  \begin{minipage}{0.48\textwidth}
+  \vspace*{0.2cm}
+    Optimization problem solved:
+    \vspace*{-0.3cm}
+    \only<1-3>{
+        \begin{equation*}
+          \begin{aligned}
+            \min_{{\bf U}_k} 
+            \sum_{i=0}^{j=4} w_i J_i({\bf U}_{k}) & \\
+                {\bf X}_{k+1} = {\bf A}{\bf X}_{k} + {\bf C} {\bf U}_k & \\
+                \underline{\bf P} < {\bf P} {\bf U}_k  < \overline{\bf P}& \\
+          \end{aligned}
+        \end{equation*}
+        with ${\bf U}_k=\begin{pmatrix} \dddot{\bf X}_k \; {\bf X}_k^\mathit{f}\; \dddot{\bf Y}_k \;{\bf Y}_k^\mathit{f}  \end{pmatrix}^T$ \\        
+      }
+      \only<4>{
+        \begin{equation*}
+          \begin{aligned}
+            \min_{{\bf U}_k} 
+            \sum_{i=0}^{j=4} w_i J_i({\bf U}_{k}) & \\
+                {\bf X}_{k+1} = {\bf A}{\bf X}_{k} + {\bf C} {\bf U}_k & \\
+                \underline{\bf P} < {\bf P}{\color{red}{({\bf U}_k)}} {\bf U}_k  < \overline{\bf P}& \\
+          \end{aligned}
+        \end{equation*}
+      with ${\bf U}_k=\begin{pmatrix} \dddot{\bf X}_k \; {\bf X}_k^\mathit{f}\; \dddot{\bf Y}_k \;{\bf Y}_k^\mathit{f} \;\color{red}{{\bf \Theta}_k^\mathit{f}}\end{pmatrix}^T$ \\
+      }
+  \end{minipage}
+  %
+  \begin{minipage}{0.48\textwidth}
+    \only<1-3>{
+      \includegraphics[width=\textwidth]{./images/tikz/convexHulls2}
+    }
+    \only<4>{
+      \includegraphics[width=\textwidth]{./images/tikz/convexHullsplusObstacles2}
+    }
+  \end{minipage}\\
 
-\column[l]{0.5\textwidth}
-\vspace*{2.0cm}
-\begin{minipage}[t]{0.5\textwidth}
-  \begin{center}
-    \scalebox{0.7}{\input{./figures/tikz/separated_feedback_scheme.tex}} \\
-  \end{center}
-\end{minipage}
+  \only<1>{
+    $J_1({\bf U}_{k})$ is the linear velocity tracking 
+    {\small
+      \begin{equation*}
+        J_1({\bf U}_k) = \lVert \dot {\bf X}_{k} - {\bf X}_{k}^{ref} \rVert^2_2
+        +  \lVert \dot {\bf Y}_{k} - {\bf Y}_{k}^{ref} \rVert^2_2 
+      \end{equation*}}
+    }
+    \only<2>{$J_2({\bf U}_{k})$ is the control norm
+      {\small
+        \begin{equation*}
+          J_2({\bf U}_k) = \lVert \dddot {\bf X}_{k} \rVert^2_2
+          + \lVert \dddot {\bf Y}_{k} \rVert^2_2
+        \end{equation*}
+      }
+    }
+    \only<3>{$J_3({\bf U}_{k})$ is distance of the CoP to the most stable trajectory
+      {\small
+        \begin{equation*}
+          J_3({\bf U}_k) = \lVert {\bf X}_{k}^{f} - CoP_{k+1}^{x} \rVert^2_2 +
+          \lVert {\bf Y}_{k+1}^{f} - CoP_{k+1}^{y} \rVert^2_2 
+        \end{equation*}
+      }
+    }
+    \only<4>{$J_4({\bf U}_{k})$ is the angular velocity tracking
+      {\small
+        \begin{equation*}
+            J_4({\bf U}_k) = \lVert {\bf \Theta}_{k} 
+            - \int {\bf \Theta}_{k}^{ref} dt \; \rVert_2^2 
+        \end{equation*}}
+    }    
 
-\column{0.35\textwidth} 
-\vspace*{1.5cm}
-\begin{minipage}[t]{\textwidth}
-  HRP-2 under actuation control compute the : 
-  \begin{enumerate}
-    \item {\color{black!20!red} CoM trajectory} w.r.t. a reference velocity
-      ($\dot{c}_x,\;\dot{c}_y,\;\dot{c}_{\theta} $)
-    \item {\color{black!20!red} feet positions and orientations} \footnotemark
-  \end{enumerate}
-\end{minipage}
-
-\end{columns}
-\footnotetext{\fullcite{herdt:iros:10}}
 \end{frame}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{frame}{Cost functions}
-\framesubtitle{Cost functions (1/2)}
-\tikzstyle{na} = [baseline=-.5ex]
-
-\begin{itemize}
-    \item tracking of a reference velocity
-        \tikz[na] \node[coordinate] (n1) {};
-\end{itemize}
-
-% Below we mix an ordinary equation with TikZ nodes. Note that we have to
-% adjust the baseline of the nodes to get proper alignment with the rest of
-% the equation.
+\begin{frame}{Solver}
+\begin{minipage}{0.48\textwidth}
+Quadratic approximation :
 \begin{equation*}
-  \min_{U_k^\theta} \quad \frac{\alpha}{2}
-  \tikz[baseline]{
-    \node[fill=green!20,anchor=base] (t1)
-    {
-      $ \lVert \dot{F}_{k+1}^\theta -
-      \dot{C}_{k+1}^{\theta,ref} \rVert_2^2$
-    };
-  }
-  \label{equ:Ori_QP_Problem}
+\begin{aligned}
+    \min_{{\Delta \bf U}_k} \sum_{i=0}^{j=4} w_i 
+    \left(
+      J_i({\bf U}_{k-1}) +
+      \nabla_{{\bf U}_k} J_i|_{{\bf U}_{k-1}}\,^T {\Delta \bf U}_k +
+      {\Delta \bf U}_k^T \nabla ^{2}_{{\bf U}_k} J_i|_{{\bf U}_{k-1}}\,^T {\Delta \bf U}_k
+    \right)\\
+    {\bf U}_{k} = {\bf U}_{k-1} {\Delta \bf U}_k \\
+    {\bf X}_{k+1} = {\bf A}{\bf X}_{k} + {\bf C} {\bf U}_k \\
+    \underline{\bf P} - {\bf P}{({\bf U}_{k-1})}{\bf U}_{k-1} 
+    < {\bf P}{({\bf U}_k)} {\bf U}_k  
+    < \overline{\bf P}  - {\bf P}{({\bf U}_{k-1})}{\bf U}_{k-1} \\
+    \underline{h} - h_{k-1} \leq (\nabla_{U_{k}} h_k|_{U_{k-1}})^T \Delta U_k \leq \overline{h} - h_{k-1}
+\end{aligned}
 \end{equation*}
+  with ${\bf U}_k=\begin{pmatrix} \dddot{\bf X}_k \; {\bf X}_k^\mathit{f}\; \dddot{\bf Y}_k \;{\bf Y}_k^\mathit{f} \;\color{red}{{\bf \Theta}_k^\mathit{f}}\end{pmatrix}^T$
+\end{minipage}\\
 
-\begin{center}
-DoFs : $  
-  U_k^{\theta} =
+
+
+\begin{subequations}
+    \label{eq:nonlinear_problem}
+    \begin{align}
+        \min_{U_k}  \quad & \frac{1}{2} \lVert l(U_k) \rVert_2^2 \label{eq:nonlinear_problem_objective}\\
+        \text{s.t.} \quad & \underline{h} \leq h(U_k) \leq \overline{h} \label{eq:nonlinear_problem_constraints}.
+    \end{align}
+\end{subequations}
+
+\begin{subequations}
+    \label{eq:second_order_approximation}
+    \begin{align}
+        \min_{\Delta U_k} \quad & \frac{1}{2} \lVert l_{k-1} + (\nabla_{U_{k}} l_k|_{U_{k-1}})^T \Delta U_k \rVert_2^2 \label{eq:second_order_approximation_objective}\\
+        \text{s.t.} \quad & \underline{h} - h_{k-1} \leq (\nabla_{U_{k}} h_k|_{U_{k-1}})^T \Delta U_k \leq \overline{h} - h_{k-1}
+        \label{eq:second_order_approximation_inequality_constraints}
+    \end{align}
+\end{subequations}
+with
+\begin{equation*}
+    l_k := l(U_k),\ h_k := h(U_k) \,.
+\end{equation*}
+Reformulating eq.~\eqref{eq:second_order_approximation} as a QP in canonical form, we get
+\begin{subequations}
+    \label{eq:final_qp}
+    \begin{align}
+        \min_{\Delta U_k} \quad & \frac{1}{2} \Delta U_{k}\,^T \tilde{Q_k} \Delta U_{k} + \tilde{p_k}^T \Delta U_{k} \\
+        \text{s.t.}       \quad & \underline{\tilde{U_k}} \leq \tilde{A_k} \Delta U_k \leq \overline{\tilde{U_k}}
+    \end{align}
+\end{subequations}
+with
+\begin{align}
+    \label{eq:problem_objective}
+    \tilde{Q_k} &= Q_k
+    ,\;\;\;\;
+    \tilde{p_k} =
     \begin{bmatrix}
-      \dddot F_k^{\theta,R} \\
-      \dddot F_k^{\theta,L}
-    \end{bmatrix} $
-\end{center}
-
-% Now it's time to draw some edges between the global nodes. Note that we
-% have to apply the 'overlay' style.
-\begin{tikzpicture}[overlay]
-        \path[->,line width=0.5mm, green!50!black!70]<1-> (n1) edge [bend left] (t1);
-\end{tikzpicture}
+        \frac{1}{2} (U_{k-1}^{x,y})^T Q_k^{x,y}       + p_k^{x,y} \\
+        \frac{1}{2} (U_{k-1}^{\theta})^T Q_k^{\theta} + p_k^{\theta}
+    \end{bmatrix} \notag \\
+    \tilde{A_k} &=
+    \begin{bmatrix}
+A_{cop,k}(U_{k-1}^\theta) &
+\nabla_{U_{k}^{\theta}}^T A_{cop,k}|_{U_{k-1}^\theta} \; U_{k-1}^{x,y}\\
+A_{foot,k}(U_{k-1}^\theta)&
+\nabla_{U_{k}^{\theta}}^T A_{foot,k}|_{U_{k-1}^\theta} \; U_{k-1}^{x,y}\\
+0 & A_{\theta} \\
+H_{obs,j} U_{k-1} + A_{obs,j} &   0
+    \end{bmatrix}, \notag
+    \\
+    \underline{\tilde{U_k}} &=
+    \begin{bmatrix}
+        -\infty \\
+        -\infty \\
+        \underline{U_{\theta,k}}\\
+        \underline{U_{obs,j}}
+    \end{bmatrix}
+    - h_{k-1} \;,\;\;\;\;\;\;
+    \overline{\tilde{U_k}} =
+    \begin{bmatrix}
+        \overline{U_{cop,k}} \\
+        \overline{U_{foot,k}} \\
+        \overline{U_{\theta,k}} \\
+        +\infty
+    \end{bmatrix}
+    - h_{k-1} \;, \notag \\
+    h_{k-1} &=
+    \begin{bmatrix}
+        A_{cop,k}(U_{k-1}^\theta) \; U_{k-1}^{x,y} \\
+        A_{foot,k}(U_{k-1}^\theta) \; U_{k-1}^{x,y} \\
+        A_{\theta} \; U_{k-1}^{\theta} \\
+        U_{k-1}^T H_{obs,j} U_{k-1} + A_{obs,j} U_{k-1}
+    \end{bmatrix} \; , \; \notag \\
+    &\forall j \in {1, \hdots , nf} \notag
+    .
+\end{align}
 
 \end{frame}
 
-\begin{frame}{Cost functions}
-\tikzstyle{na} = [baseline=-.5ex]
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{frame}{Solver}
+
 \begin{itemize}
-    \item tracking velocity
-        \tikz[na] \node[coordinate] (n2) {};
-    \item increase balance
-        \tikz[na] \node[coordinate] (n3) {};
+\item Original problem :
+  \begin{align*}
+    \min_{U_k}  \quad & l_k \\
+    \text{s.t.} \quad & \underline{h} \leq h_k \leq \overline{h}
+  \end{align*}
+\item QP approximation :
+  \begin{align*}
+    \min_{\Delta U_k} \quad & l_{k-1} + Grad(l_{k-1}) \Delta U_k +
+    \frac{1}{2} \Delta U_k^T Hess(l_{k-1}) \Delta U_k \\
+    \text{s.t.} \quad & \underline{h} - h_{k-1} \leq Jac(h_{k-1}) \Delta U_k \leq \overline{h} - h_{k-1}\\
+     & U_k = U_{k-1} + \alpha \Delta U_k
+  \end{align*}
+  with
+\begin{equation*}
+    l_k := l(U_k),\ h_k := h(U_k) \,.
+\end{equation*}
 \end{itemize}
-% Below we mix an ordinary equation with TikZ nodes. Note that we have to
-% adjust the baseline of the nodes to get proper alignment with the rest of
-% the equation.
-\begin{align*}
-  &\min_{U_{k}^{x,y}} \frac{\alpha}{2}
-  \tikz[baseline]{
-    \node[fill=green!20,anchor=base] (t2)
-    {$ \lVert \dot C_{k+1}^{x} - \dot c_{ref}^{x} \rVert^2_2 $};
-  }
-  + \frac{\alpha}{2} 
-  \tikz[baseline]{
-    \node[fill=green!20,anchor=base] (t3)
-    {$\lVert \dot C_{k+1}^{y} - \dot c_{ref}^{y} \rVert^2_2$};
-  }
-  + \frac{\gamma}{2}
-  \tikz[baseline]{
-    \node[fill=red!20,anchor=base] (t4)
-    {$ \lVert F_{k+1}^{x} - ZMP_{k+1}^{x} \rVert^2_2$};
-  }
-  +\\
-  & \frac{\gamma}{2} \tikz[baseline]{
-    \node[fill=red!20,anchor=base] (t5)
-    {$ \lVert F_{k+1}^{y} - ZMP_{k+1}^{y} \rVert^2_2$};
-  }  
-  + \frac{\delta}{2}
-  \tikz[baseline]{
-    \node[fill=blue!20,anchor=base] (t6)
-    {$ \lVert \dddot C_{k+1}^{x} \rVert^2_2$};
-  }  
-  + \frac{\delta}{2}
-  \tikz[baseline]{
-    \node[fill=blue!20,anchor=base] (t7)
-    {$ \lVert \dddot C_{k+1}^{y} \rVert^2_2$};
-  }
-\end{align*}
-\begin{itemize}
-    \item minimize the control
-        \tikz[na] \node[coordinate] (n4) {};
-\end{itemize}
-\begin{center}
-DoFs : $   
-        U_k^{x,y} =
-        \begin{bmatrix}
-          \dddot C_{k}^x & F_{k}^x & \dddot C_{k}^y & F_{k}^y
-        \end{bmatrix}^T
-         $
-\end{center}
-
-% Now it's time to draw some edges between the global nodes. Note that we
-% have to apply the 'overlay' style.
-\begin{tikzpicture}[overlay]
-        \path[->,line width=0.5mm, green!50!black!70]<2-> (n2) edge [bend left] (t2);
-        \path[->,line width=0.5mm, green!50!black!70]<2-> (n2) edge [bend left] (t3);
-        \path[->,line width=0.5mm, red!100!black!80]<3-> (n3) edge [bend left] (t4);
-        \path[->,line width=0.5mm, red!100!black!80]<3-> (n3) edge [bend left] (t5);
-        \path[->,line width=0.5mm, blue!50!black!70]<4-> (n4) edge [bend right] (t6);
-        \path[->,line width=0.5mm, blue!50!black!70]<4-> (n4) edge [bend right] (t7);
-\end{tikzpicture}
-
-
 \end{frame}
 
-
-%%
-%\begin{frame}{Cost functions}
-%%\framesubtitle{Constraints}
-%\begin{columns}
-%    \column{0.1\textwidth}
-%    \begin{cadre}
-%    \end{cadre}
-%    \column{0.8\textwidth}    
-%    \begin{cadre}
-%        \begin{flalign}
-%            \min_{U_k^\theta} \quad \frac{\alpha}{2} \lVert \dot{F}_{k+1}^\theta -
-%                \dot{C}_{k+1}^{\theta,ref} \rVert_2^2 & &
-%            \label{equ:Ori_QP_Problem}
-%        \end{flalign} 
-%        DoFs : $ 
-%        U_k^{\theta} =
-%            \begin{bmatrix}
-%                \dddot F_k^{\theta,R} \\
-%                \dddot F_k^{\theta,L}
-%            \end{bmatrix}
-%        $\\
-%        \begin{flalign}
-%            \min_{U_{k}^{x,y}} &
-%            \frac{\alpha}{2} \lVert \dot C_{k+1}^{x} - \dot c_{ref}^{x} \rVert^2_2
-%            + \nonumber
-%            \frac{\alpha}{2} \lVert \dot C_{k+1}^{y} - \dot c_{ref}^{y} \rVert^2_2\\
-%            + &
-%            \frac{\gamma}{2} \lVert F_{k+1}^{x} - ZMP_{k+1}^{x} \rVert^2_2
-%            + \nonumber
-%            \frac{\gamma}{2} \lVert F_{k+1}^{y} - ZMP_{k+1}^{y} \rVert^2_2 \\
-%            + &
-%            \frac{\delta}{2} \lVert \dddot C_{k+1}^{x} \rVert^2_2
-%            +
-%            \frac{\delta}{2} \lVert \dddot C_{k+1}^{y} \rVert^2_2
-%            \label{equ:Pos_QP_Problem} & &
-%        \end{flalign} 
-%
-%        with
-%        DoFs : $ 
-%        U_k^{x,y} =
-%        \begin{bmatrix}
-%          \dddot C_{k}^x & F_{k}^x & \dddot C_{k}^y & F_{k}^y
-%        \end{bmatrix}^T
-%        $
-%    \end{cadre}
-%    \column{0.1\textwidth}
-%    \begin{cadre}
-%    \end{cadre}
-%\end{columns}
-%\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-
-\begin{frame}{Constraints}
-%\framesubtitle{}
-\begin{columns}
-    \column{0.5\textwidth}
-    \begin{cadre}
-      \begin{center}
-        \scalebox{0.7}{\input{./figures/tikz/convexHulls.tex}}
-      \end{center}               
-    \end{cadre}
-    \column{0.6\textwidth}
-    \begin{cadre}
-        \begin{enumerate}
-            \item ZMP constraint :
-                \begin{itemize}
-                  \item $ {\bf d} _i R(f_k^\theta) \left( {\bf Z}_k -
-                      {\bf f}_k \right) \leq {\bf d} _i {\bf p} _i. $*
-                \end{itemize}
-             \item Foot position constraint :
-                \begin{itemize}
-                  \item ${\bf d}_i R(f_k^\theta) ({\bf f}_{k+1} - {\bf f}_k )
-                     \leq {\bf d}_i {\bf p}_i $*
-                \end{itemize}
-  
-              \item[*] with $ {\bf d}\,_i :=
-                  \begin{bmatrix}
-                      p_{i}^y-p_{i+1}^y & p_{i+1}^{x}-p_{i}^{x}
-                  \end{bmatrix} $
-                  $ \forall i = 1,...,n_\textup{edges} $\\
-                      $ \text{with} \,p_{n_\textup{edges}+1}\,:=p_1 $
-            \end{enumerate}
-        \end{cadre}
-    \end{columns}
-\end{frame}
-
-\begin{frame}[t]{Walking without thinking}
+\begin{frame}{Walking without thinking}
 \framesubtitle{Combined QP = SQP}
 
-\begin{columns}[T]
+\begin{columns}
 
 \column[l]{0.5\textwidth}
 \vspace*{2.5cm}
@@ -255,6 +232,8 @@ DoFs : $
 \end{columns}
 \end{frame}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \begin{frame}{Experiment on HRP2}
   \begin{center}
     \movie[autostart,loop]{
@@ -265,85 +244,5 @@ DoFs : $
   \end{center}
 \end{frame}
 
-\begin{frame}
-  \frametitle{Reactive walking pattern generation \only<4>{with obstacles}} 
-  \begin{columns}
-    \begin{column}{0.6\linewidth}
-      \vskip 1cm
-      Optimization problem solved:
-      \only<1-3>{
-        \begin{equation*}
-          \begin{aligned}
-            \min_{{\bf U}_k} 
-            \sum_{i=0}^{j=4} w_i J_i({\bf U}_{k}) & \\
-                {\bf X}_{k+1} = {\bf A}{\bf X}_{k} + {\bf C} {\bf U}_k & \\
-                \underline{\bf P} < {\bf P} {\bf U}_k  < \overline{\bf P}& \\
-          \end{aligned}
-        \end{equation*}
-        with ${\bf U}_k=\begin{pmatrix} \dddot{\bf X}_k \; {\bf X}_k^\mathit{f}\; \dddot{\bf Y}_k \;{\bf Y}_k^\mathit{f}  \end{pmatrix}^T$ \\        
-      }
-      \only<4>{
-        \begin{equation*}
-          \begin{aligned}
-            \min_{{\bf U}_k} 
-            \sum_{i=0}^{j=4} w_i J_i({\bf U}_{k}) & \\
-                {\bf X}_{k+1} = {\bf A}{\bf X}_{k} + {\bf C} {\bf U}_k & \\
-                \underline{\bf P} < {\bf P}{\color{red}{({\bf U}_k)}} {\bf U}_k  < \overline{\bf P}& \\
-          \end{aligned}
-        \end{equation*}
-      with ${\bf U}_k=\begin{pmatrix} \dddot{\bf X}_k \; {\bf X}_k^\mathit{f}\; \dddot{\bf Y}_k \;{\bf Y}_k^\mathit{f} \;\color{red}{{\bf \Theta}_k^\mathit{f}}\end{pmatrix}^T$ \\
-      }
-     \end{column}
-     \begin{column}{0.45\linewidth}
-       \only<1-3>{
-         \begin{tikzpicture}[remember picture, overlay]
-           \node[minimum width=5cm] at ([xshift=3.0cm,yshift=-0.25cm]current page.center)
-                {\includegraphics[width=\linewidth]{./images/tikz/convexHulls2}};
-           \node[font=\small,text ragged] at ([xshift=0.0cm,yshift=+3.0cm]current page.center)
-                     {\textcolor{blue}{[M. Naveau, RA-L 2016 accepted]}};
-         \end{tikzpicture}
-       }
-       \only<4>{
-          \begin{tikzpicture}[remember picture, overlay]
-            \node[minimum width=5cm] at ([xshift=3.0cm,yshift=-0.25cm]current page.center)
-                 {\href{run://home/ostasse/Videos/Koroibot/Koroibot-HRP2-NMPC-v18.mp4}
-                   {\includegraphics[width=\linewidth]{./images/tikz/convexHullsplusObstacles2}}};
-            \node[font=\small,text ragged] at ([xshift=0.0cm,yshift=+3.0cm]current page.center)
-               {\textcolor{blue}{[M. Naveau, RA-L 2016 accepted]}};
-          \end{tikzpicture}
-       }
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-     \end{column}
-   \end{columns}
-  \vskip 0.4cm
-    \only<1>{
-       $J_1({\bf U}_{k})$ is the linear velocity tracking 
-         {\small
-           \begin{equation*}
-               J_1({\bf U}_k) = \lVert \dot {\bf X}_{k} - {\bf X}_{k}^{ref} \rVert^2_2
-               +  \lVert \dot {\bf Y}_{k} - {\bf Y}_{k}^{ref} \rVert^2_2 
-           \end{equation*}}
-    }
-    \only<2>{$J_2({\bf U}_{k})$ is the control norm
-      {\small
-        \begin{equation*}
-          J_2({\bf U}_k) = \lVert \dddot {\bf X}_{k} \rVert^2_2
-          + \lVert \dddot {\bf Y}_{k} \rVert^2_2
-        \end{equation*}
-      }
-    }
-    \only<3>{$J_3({\bf U}_{k})$ is distance of the CoP to the most stable trajectory
-      {\small
-        \begin{equation*}
-          J_3({\bf U}_k) = \lVert {\bf X}_{k}^{f} - CoP_{k+1}^{x} \rVert^2_2 +
-          \lVert {\bf Y}_{k+1}^{f} - CoP_{k+1}^{y} \rVert^2_2 
-        \end{equation*}
-      }
-    }
-    \only<4>{$J_4({\bf U}_{k})$ is the angular velocity tracking
-      {\small
-          \begin{equation*}
-            J_4({\bf U}_k) = \lVert {\bf \Theta}_{k} - \int {\bf \Theta}_{k}^{ref} dt \; \rVert_2^2 
-      \end{equation*}}
-    }
-\end{frame}
