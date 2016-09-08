@@ -1,6 +1,12 @@
 
 \begin{frame}{Reactive walking pattern generation \only<4>{with obstacles}}
-\framesubtitle{\textcolor{green!30!black!80}{(M. Naveau, RA-L 2016)}}
+\framesubtitle{
+  \textcolor{green!30!black!80}
+  {
+    (M. Naveau, RA-L 2016) ; 
+    (M. Naveau, Humanoids 2014)
+  }
+}
 
   \begin{minipage}{0.48\textwidth}
   \vspace*{0.2cm}
@@ -75,161 +81,35 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{frame}{Solver}
-\begin{minipage}{0.48\textwidth}
-Quadratic approximation :
-\begin{equation*}
-\begin{aligned}
-    \min_{{\Delta \bf U}_k} \sum_{i=0}^{j=4} w_i 
-    \left(
-      J_i({\bf U}_{k-1}) +
-      \nabla_{{\bf U}_k} J_i|_{{\bf U}_{k-1}}\,^T {\Delta \bf U}_k +
-      {\Delta \bf U}_k^T \nabla ^{2}_{{\bf U}_k} J_i|_{{\bf U}_{k-1}}\,^T {\Delta \bf U}_k
-    \right)\\
-    {\bf U}_{k} = {\bf U}_{k-1} {\Delta \bf U}_k \\
-    {\bf X}_{k+1} = {\bf A}{\bf X}_{k} + {\bf C} {\bf U}_k \\
-    \underline{\bf P} - {\bf P}{({\bf U}_{k-1})}{\bf U}_{k-1} 
-    < {\bf P}{({\bf U}_k)} {\bf U}_k  
-    < \overline{\bf P}  - {\bf P}{({\bf U}_{k-1})}{\bf U}_{k-1} \\
-    \underline{h} - h_{k-1} \leq (\nabla_{U_{k}} h_k|_{U_{k-1}})^T \Delta U_k \leq \overline{h} - h_{k-1}
-\end{aligned}
-\end{equation*}
-  with ${\bf U}_k=\begin{pmatrix} \dddot{\bf X}_k \; {\bf X}_k^\mathit{f}\; \dddot{\bf Y}_k \;{\bf Y}_k^\mathit{f} \;\color{red}{{\bf \Theta}_k^\mathit{f}}\end{pmatrix}^T$
-\end{minipage}\\
-
-
-
-\begin{subequations}
-    \label{eq:nonlinear_problem}
-    \begin{align}
-        \min_{U_k}  \quad & \frac{1}{2} \lVert l(U_k) \rVert_2^2 \label{eq:nonlinear_problem_objective}\\
-        \text{s.t.} \quad & \underline{h} \leq h(U_k) \leq \overline{h} \label{eq:nonlinear_problem_constraints}.
-    \end{align}
-\end{subequations}
-
-\begin{subequations}
-    \label{eq:second_order_approximation}
-    \begin{align}
-        \min_{\Delta U_k} \quad & \frac{1}{2} \lVert l_{k-1} + (\nabla_{U_{k}} l_k|_{U_{k-1}})^T \Delta U_k \rVert_2^2 \label{eq:second_order_approximation_objective}\\
-        \text{s.t.} \quad & \underline{h} - h_{k-1} \leq (\nabla_{U_{k}} h_k|_{U_{k-1}})^T \Delta U_k \leq \overline{h} - h_{k-1}
-        \label{eq:second_order_approximation_inequality_constraints}
-    \end{align}
-\end{subequations}
-with
-\begin{equation*}
-    l_k := l(U_k),\ h_k := h(U_k) \,.
-\end{equation*}
-Reformulating eq.~\eqref{eq:second_order_approximation} as a QP in canonical form, we get
-\begin{subequations}
-    \label{eq:final_qp}
-    \begin{align}
-        \min_{\Delta U_k} \quad & \frac{1}{2} \Delta U_{k}\,^T \tilde{Q_k} \Delta U_{k} + \tilde{p_k}^T \Delta U_{k} \\
-        \text{s.t.}       \quad & \underline{\tilde{U_k}} \leq \tilde{A_k} \Delta U_k \leq \overline{\tilde{U_k}}
-    \end{align}
-\end{subequations}
-with
-\begin{align}
-    \label{eq:problem_objective}
-    \tilde{Q_k} &= Q_k
-    ,\;\;\;\;
-    \tilde{p_k} =
-    \begin{bmatrix}
-        \frac{1}{2} (U_{k-1}^{x,y})^T Q_k^{x,y}       + p_k^{x,y} \\
-        \frac{1}{2} (U_{k-1}^{\theta})^T Q_k^{\theta} + p_k^{\theta}
-    \end{bmatrix} \notag \\
-    \tilde{A_k} &=
-    \begin{bmatrix}
-A_{cop,k}(U_{k-1}^\theta) &
-\nabla_{U_{k}^{\theta}}^T A_{cop,k}|_{U_{k-1}^\theta} \; U_{k-1}^{x,y}\\
-A_{foot,k}(U_{k-1}^\theta)&
-\nabla_{U_{k}^{\theta}}^T A_{foot,k}|_{U_{k-1}^\theta} \; U_{k-1}^{x,y}\\
-0 & A_{\theta} \\
-H_{obs,j} U_{k-1} + A_{obs,j} &   0
-    \end{bmatrix}, \notag
-    \\
-    \underline{\tilde{U_k}} &=
-    \begin{bmatrix}
-        -\infty \\
-        -\infty \\
-        \underline{U_{\theta,k}}\\
-        \underline{U_{obs,j}}
-    \end{bmatrix}
-    - h_{k-1} \;,\;\;\;\;\;\;
-    \overline{\tilde{U_k}} =
-    \begin{bmatrix}
-        \overline{U_{cop,k}} \\
-        \overline{U_{foot,k}} \\
-        \overline{U_{\theta,k}} \\
-        +\infty
-    \end{bmatrix}
-    - h_{k-1} \;, \notag \\
-    h_{k-1} &=
-    \begin{bmatrix}
-        A_{cop,k}(U_{k-1}^\theta) \; U_{k-1}^{x,y} \\
-        A_{foot,k}(U_{k-1}^\theta) \; U_{k-1}^{x,y} \\
-        A_{\theta} \; U_{k-1}^{\theta} \\
-        U_{k-1}^T H_{obs,j} U_{k-1} + A_{obs,j} U_{k-1}
-    \end{bmatrix} \; , \; \notag \\
-    &\forall j \in {1, \hdots , nf} \notag
-    .
-\end{align}
-
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 
 \begin{frame}{Solver}
 
 \begin{itemize}
-\item Original problem :
+\item Original nonlinear problem :
   \begin{align*}
-    \min_{U_k}  \quad & l_k \\
-    \text{s.t.} \quad & \underline{h} \leq h_k \leq \overline{h}
+    \min_{\color{txtcolor2}{\bf U}_k}  \quad & J({\color{txtcolor2}{\bf U}_k}) \\
+    \text{s.t.} \quad & \underline{\bf P} \leq \tilde{\bf P}({\color{txtcolor2}{\bf U}_k}) \leq \overline{\bf P}
   \end{align*}
 \item QP approximation :
   \begin{align*}
-    \min_{\Delta U_k} \quad & l_{k-1} + Grad(l_{k-1}) \Delta U_k +
-    \frac{1}{2} \Delta U_k^T Hess(l_{k-1}) \Delta U_k \\
-    \text{s.t.} \quad & \underline{h} - h_{k-1} \leq Jac(h_{k-1}) \Delta U_k \leq \overline{h} - h_{k-1}\\
-     & U_k = U_{k-1} + \alpha \Delta U_k
+    \min_{{\color{txtcolor5}{\bf \Delta U}_k}} \quad &
+    Grad(J)({\bf U}_{k-1}) {\color{txtcolor5}{\bf \Delta U}_k} +
+    \frac{1}{2} {\color{txtcolor5}{\bf \Delta U}_k}^T Hess(J)({\bf U}_{k-1}) {\color{txtcolor5}{\bf \Delta U}_k} \\
+    \text{s.t.} \quad & \underline{h} - h_{k-1} \leq Jac(\tilde{\bf P})({\bf U}_{k-1}) {\color{txtcolor5}{\bf \Delta U}_k} \leq \overline{h} - h_{k-1}\\
+    {\color{txtcolor2}{\bf U}_k} =& {\bf U}_{k-1} + \alpha {\color{txtcolor5}{\bf \Delta U}_k}
   \end{align*}
-  with
-\begin{equation*}
-    l_k := l(U_k),\ h_k := h(U_k) \,.
-\end{equation*}
 \end{itemize}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
 \begin{frame}{Walking without thinking}
-\framesubtitle{Combined QP = SQP}
 
-\begin{columns}
+\begin{center}
+  \hspace*{-1cm}
+  \scalebox{0.7}{\input{./figures/nmpc_walkgen/wpg_feedback_scheme.tex}}
+\end{center}
 
-\column[l]{0.5\textwidth}
-\vspace*{2.5cm}
-\begin{minipage}[t]{0.5\textwidth}
-  \begin{center}
-    \scalebox{0.8}{\input{./figures/tikz/combined_feedback_scheme.tex}} \\
-  \end{center}
-\end{minipage}
-
-\column{0.35\textwidth} 
-\vspace*{1.5cm}
-\begin{minipage}[t]{\textwidth}
-  HRP-2 under actuation control compute : 
-    \begin{enumerate}
-    \item the CoM trajectory w.r.t. a
-        reference velocity ($\dot{c}_x,\;\dot{c}_y,\;\dot{c}_{\theta} $)
-    \item the feet positions and orientations
-    \end{enumerate}
-  Nice feature embedded (obstacle avoidance, ...)\\
-  Cost $2\times$ in computation times
-\end{minipage}
-\end{columns}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

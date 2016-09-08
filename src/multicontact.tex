@@ -1,0 +1,156 @@
+
+\begin{frame}{Multicontact Locomotion}
+\framesubtitle{
+  \textcolor{green!30!black!80}{
+    (M. Kudruss, Humanoids 2015)  ;
+    (J. Carpentier, ICRA 2016)
+  }
+}
+
+\begin{center}
+  \includegraphics[height=0.38\textheight]{multicontact/cover.pdf}
+  \scalebox{0.3}{\input{./figures/multicontact/tikz/escalier.tex}}
+\end{center}
+\vspace*{-0.5cm}
+\begin{center}
+  \scalebox{0.7}{\input{./figures/multicontact/tikz/feedback_scheme.tex}}
+\end{center}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{frame}{The formulation of the dynamics}
+
+\begin{itemize}
+
+\item The dynamic constraint \textcolor{txtcolor2}{(M. Kudruss, Humanoids 2015)} :
+\begin{scriptsize}
+\begin{align*}
+  m
+  \begin{bmatrix}
+  \ddcom - {\bf g} \\
+  \com \times (\ddcom - {\bf g})
+  \end{bmatrix}
+  +
+  \begin{bmatrix}
+   {\bf 0} \\
+     \textcolor{txtcolor2}{{\bf I}_c \dot{\omega} - \sigma}
+  \end{bmatrix}
+  =
+  \begin{bmatrix}
+  \sum_{i=1}^{M}
+  \Qf \ff \\
+  \sum_{i=1}^{M}
+  \pf \times \Qf  \ff
+  \end{bmatrix}
+\end{align*}
+\end{scriptsize}
+\item the state :
+$
+\begin{bmatrix}
+c & \dot{c} & \textcolor{txtcolor2}{\omega}
+\end{bmatrix}^T
+$
+\item the controls :
+$
+\begin{bmatrix}
+\ff & \textcolor{txtcolor2}{\sigma}
+\end{bmatrix}^T
+$
+
+\textcolor{txtcolor1}{\hrule}
+\vspace*{0.5cm}
+
+\item The dynamic constraint \textcolor{txtcolor5}{(J. Carpentier, ICRA 2016)} :
+\begin{scriptsize}
+\begin{align*}
+  m
+  \begin{bmatrix}
+  \ddcom - {\bf g} \\
+  \com \times (\ddcom - {\bf g})
+  \end{bmatrix}
+  +
+  \begin{bmatrix}
+   {\bf 0} \\
+   \textcolor{txtcolor5}{ \dot{\mathcal{L}} }
+  \end{bmatrix}
+  =
+  \begin{bmatrix}
+  \sum_{i=1}^{M}
+  \Qf \ff \\
+  \sum_{i=1}^{M}
+  \pf \times \Qf  \ff +
+  \textcolor{txtcolor5}{ \Qf \tauf}
+  \end{bmatrix}
+\end{align*}
+\end{scriptsize}
+\item the state :
+$
+\begin{bmatrix}
+\com & h=m\dcom & \textcolor{txtcolor5}{\mathcal{L}}
+\end{bmatrix}^T
+$
+\item the controls :
+$
+\begin{bmatrix}
+\ff & \textcolor{txtcolor5}{\tauf}
+\end{bmatrix}^T
+$
+
+\end{itemize}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{The optimal control problem}
+
+\begin{center}
+  \hspace*{-1cm}
+  \scalebox{0.7}{\input{./figures/nmpc_walkgen/wpg_feedback_scheme.tex}}
+\end{center}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Experiment on HRP2}
+  \begin{center}
+    \movie[autostart,loop]{
+    \includegraphics[width=0.8\linewidth, keepaspectratio]
+      {multicontact/15-ichr-multicontact.png}
+    }  
+    {videos/15-ichr-multicontacts.avi}
+  \end{center}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+%\begin{equation}
+%  m
+%  \begin{bmatrix}
+%  \ddcom - {\bf g} \\
+%  \com \times (\ddcom - {\bf g})
+%  \end{bmatrix}
+%  +
+%  \begin{bmatrix}
+%  {\bf 0} \\
+%  \tikz[baseline]{
+%      \node[anchor=base] (l) {$ \dot{\mathcal{L}} $} ;
+%      %
+%      \draw [draw,-,color=red!50,thick] ([xshift=-0.2cm,yshift= 0.2cm]l.center) -- node {}     ([xshift= 0.2cm,yshift=-0.2cm]l.center);
+%      %
+%      \draw [draw,-,color=red!50,thick] ([xshift=-0.2cm,yshift=-0.2cm]l.center) -- node {}     ([xshift= 0.2cm,yshift= 0.2cm]l.center);
+%    }
+%  \end{bmatrix}
+%  =
+%  \begin{bmatrix}
+%  \sum_{i=1}^{M}
+%  \Qf \ff \\
+%  \sum_{i=1}^{M}
+%  \pf \times \Qf  \ff
+%  \end{bmatrix}
+%\end{equation}

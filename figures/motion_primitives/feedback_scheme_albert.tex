@@ -14,7 +14,7 @@
 
 % The block diagram code is probably more verbose than necessary
 \begin{tikzpicture}[auto, scale=1.0]
-  \draw [fill=green,opacity=.1,text opacity=1] (2.2,1.0) rectangle (14,-2.2);
+  \draw [fill=green,opacity=.2,text opacity=1] (2.2,1.0) rectangle (14,-2.2);
   \node at(11,-2.0) {\textcolor{green!20!black!100}{Stack of Task}};
 
     \node [block, text depth=0.7cm, minimum width=2.0cm] at (10.0,-3.0) (robot) {
@@ -59,7 +59,7 @@
 %    };
     \node [block,  text depth = 1.0cm, minimum width=1.0cm] at (13.1,-0.5) (qp){
       \\[0.5cm]      
-      QP\\solver
+      HQP\\solver
     };
 %%%%  
     \node [block,  minimum width=0.1cm] at (0.0, 0.0) (kps) {
