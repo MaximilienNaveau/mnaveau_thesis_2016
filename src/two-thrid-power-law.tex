@@ -16,45 +16,41 @@
     \textsuperscript{\tikz[baseline]{\node[fill=red!50,anchor=base]{$-\beta$};}}
     \end{center}
 \vspace*{-0.5cm}
-\scalebox{1}{
-    \begin{tikzpicture}
-   \filldraw [gray] ([xshift=-3cm,yshift=-2cm] current page.center) circle (2pt)
-      % +(3,0) circle (2pt)
-      % +([xshift=2.7488cm,yshift=-1.1762cm] current page.center) circle (2pt)
-                     +(6,0) circle (2pt);
-    \node[color=gray] at ([xshift=-3.75cm,yshift=-2cm] current page.center) {Start};
-    \node[color=gray] at ([xshift=3.75cm,yshift=-2cm] current page.center) {Goal};
+\begin{tikzpicture}
+    \node (zero) at (0,0) {};
+    \filldraw [gray] ([xshift=-3cm,yshift=-2cm] zero) circle (2pt) + (6,0) circle (2pt);
+    \node[color=gray] at ([xshift=-3.75cm,yshift=-2cm] zero) {Start};
+    \node[color=gray] at ([xshift=3.75cm,yshift=-2cm] zero) {Goal};
     
     % Trajectory
-      \draw[thick,color=red]
-       ([xshift=-3cm,yshift=-2cm] current page.center) .. controls +(3,0) and +(-1,2) .. +(6,0);
+    \draw[thick,color=red]
+    (-3,-2) .. controls +(3,0) and +(-1,2) .. +(6,0);
 
       % Point in gray
-      \filldraw [gray] ([xshift=1.75cm,yshift=-1.1262cm] current page.center) circle (2pt);
+      \filldraw [gray] ([xshift=1.75cm,yshift=-1.1262cm] zero) circle (2pt);
       % Name of the point: P
-      \node at ([xshift=1.75cm,yshift=-0.75cm]current page.center) {$P$};
+      \node at ([xshift=1.75cm,yshift=-0.75cm]zero) {$P$};
 
 
         % Osculting circle
-        \draw[color=blue] ([xshift=1.7cm,yshift=-2.125cm]current page.center) circle (1cm);
+        \draw[color=blue] ([xshift=1.7cm,yshift=-2.125cm]zero) circle (1cm);
         % Drawig Ray to the plot 
-        \draw ([xshift=1.7cm,yshift=-2.125cm]current page.center) -- ([xshift=1.75cm,yshift=-1.1262cm]current page.center);
+        \draw ([xshift=1.7cm,yshift=-2.125cm]zero) -- ([xshift=1.75cm,yshift=-1.1262cm]zero);
         % Ray label
-        \node at ([xshift=2.0cm,yshift=-1.6262cm]current page.center) {$R$};
+        \node at ([xshift=2.0cm,yshift=-1.6262cm]zero) {$R$};
         % Tangent vector to the osculting circle along the trajectory (velocity vector)
-        \draw ([xshift=0.7512cm,yshift=-1.0762cm]current page.center) -- ([xshift=2.7488cm,yshift=-1.1762cm]current page.center);
+        \draw ([xshift=0.7512cm,yshift=-1.0762cm]zero) -- ([xshift=2.7488cm,yshift=-1.1762cm]zero);
 
     % Speed
-      \draw[-latex,thick,color=orange] ([xshift=1.75cm,yshift=-1.1262cm]current page.center) -- ([xshift=2.4991cm,yshift=-1.1637cm]current page.center)
+      \draw[-latex,thick,color=orange] ([xshift=1.75cm,yshift=-1.1262cm]zero) -- ([xshift=2.4991cm,yshift=-1.1637cm]zero)
       node[above] {$v$};
 
-    \draw[-latex,thick,color=orange] ([xshift=-3cm,yshift=-2cm]current page.center) -- ([xshift=-2.5cm,yshift=-2cm]current page.center)
+    \draw[-latex,thick,color=orange] ([xshift=-3cm,yshift=-2cm]zero) -- ([xshift=-2.5cm,yshift=-2cm]zero)
     node[above]{$v_{Start}$};
     
-    \draw[-latex,thick,color=orange] ([xshift=3.0cm,yshift=-2cm]current page.center) -- ([xshift=3.25cm,yshift=-2.5cm]current page.center)
+    \draw[-latex,thick,color=orange] ([xshift=3.0cm,yshift=-2cm]zero) -- ([xshift=3.25cm,yshift=-2.5cm]zero)
     node[below]{$v_{Goal}$};
-  \end{tikzpicture}
-}
+\end{tikzpicture}
     \item Does this two third power law help humanoid robots to walk?
   \end{itemize}
 \end{frame}

@@ -50,7 +50,7 @@
 \item the state :
 $
 \begin{bmatrix}
-c & \dot{c} & \textcolor{txtcolor2}{\omega}
+\com & \dcom & \textcolor{txtcolor2}{\omega}
 \end{bmatrix}^T
 $
 \item the controls :
@@ -89,7 +89,7 @@ $
 \item the state :
 $
 \begin{bmatrix}
-\com & h=m\dcom & \textcolor{txtcolor5}{\mathcal{L}}
+\com & {\bf h}=m\dcom & \textcolor{txtcolor5}{\mathcal{L}}
 \end{bmatrix}^T
 $
 \item the controls :
@@ -106,11 +106,72 @@ $
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{frame}{The optimal control problem}
+\vspace*{-0.5cm}
+\begin{columns}
+\begin{column}{0.5\textwidth}
 
-\begin{center}
-  \hspace*{-1cm}
-  \scalebox{0.7}{\input{./figures/nmpc_walkgen/wpg_feedback_scheme.tex}}
-\end{center}
+\begin{itemize}
+\item \textcolor{txtcolor2}{(M. Kudruss, Humanoids 2015)}
+\end{itemize}
+%
+\begin{subequations}
+\begin{eqnarray*}
+\hspace{0em}	\underset{\substack{\hspace{0.2em} \underline{\bm x}, \; \underline{\bm u}} }{\min } \ \ \
+	& & \hspace{-4em} \int_{0}^{T}
+%	{\scriptstyle
+	  \textcolor{red!70!black}{||\dcom||^2_2 +
+	  ||{\omega}||^2_2} +
+    \textcolor{orange!70!black}{\ell_2\,_{kin}} \\
+    & & \hspace{-3em} +
+    \textcolor{green!50!black}{||{\dot{\omega}}||^2_2} +
+    \textcolor{purple!100!blue!100}{||{\ddcom}||^2_2}
+%  }
+  dt  \\[1em]
+	s.t.
+	&  \forall t,i& \ff \in \mathcal{K}_i^{\textcolor{blue!50!green!100!black}{3D}} \\
+  &  \forall t& \textcolor{orange!70!black}{\com ,\; \dcom} ,\; {\omega} \in \mathcal{B}_x \\ 
+  &  \forall t,i& {\ff ,\; {\sigma}} \in \mathcal{B}_u    \\[1em]
+  & \forall t & \dot{\bm{x}} = {dyn}(\bm x, \bm u)  \\	
+	& & \hspace{-4em} \bm x(0) = \bm x_{0} \; ; \; \bm x(T) \in \mathcal{X}_* 
+\end{eqnarray*}
+\end{subequations}
+
+\end{column}
+%
+{\color{txtcolor2}\vrule}
+%
+%
+\begin{column}{0.5\textwidth}
+
+\begin{itemize}
+\item \textcolor{txtcolor5}{(J. Carpentier, ICRA 2016)}
+\end{itemize}
+%
+\begin{subequations}
+\begin{eqnarray*}
+\hspace{0em}	\underset{\substack{\hspace{0.2em} \underline{\bm x}, \; \underline{\bm u}} }{\min } \ \ \  
+	& & \hspace{-4em} \int_{0}^{T}
+%	{\scriptstyle
+    \textcolor{red!70!black}{||m\dcom||^2_2} +
+  	  \textcolor{orange!70!black}{\text{exp}_{kin}} \\
+  	  & & \hspace{-3em} +
+    \textcolor{green!50!black}{||{\dot{\mathcal{L}}}||^2_2} +
+	  \textcolor{purple!100!blue!100}{||{\ff}||^2_2} 
+%  }
+  dt  \\[1em]
+	s.t.
+	&  \forall t,i& [\ff \;\; {\tauf}] \in \mathcal{K}_i^{\textcolor{blue!50!green!100!black}{6D}} \\
+  &  \forall t& {{\mathcal{L}}} \in \mathcal{B}_{\mathcal{L}}    \\ 
+  &  \forall t& {\ff ,\; {\tauf}} \in \mathcal{B}_u    \\ [1em]
+  & \forall t,i & \dot{\bm{x}} = {dyn}(\bm x, \bm u)  \\	
+	& & \hspace{-4em} \bm x(0) = \bm x_{0} \; ; \; \bm x(T) \in \mathcal{X}_* 
+\end{eqnarray*}
+\end{subequations}
+
+\end{column}
+\end{columns}
+
+
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
