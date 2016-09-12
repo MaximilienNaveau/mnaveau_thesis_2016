@@ -16,7 +16,7 @@
         \begin{equation*}
           \begin{aligned}
             \min_{{\bf U}_k} 
-            \sum_{i=0}^{j=4} w_i J_i({\bf U}_{k}) & \\
+            \sum_{i=0}^{j=4} w_i L_i({\bf U}_{k}) & \\
                 {\bf X}_{k+1} = {\bf A}{\bf X}_{k} + {\bf C} {\bf U}_k & \\
                 \underline{\bf P} < {\bf P} {\bf U}_k  < \overline{\bf P}& \\
           \end{aligned}
@@ -27,7 +27,7 @@
         \begin{equation*}
           \begin{aligned}
             \min_{{\bf U}_k} 
-            \sum_{i=0}^{j=4} w_i J_i({\bf U}_{k}) & \\
+            \sum_{i=0}^{j=4} w_i L_i({\bf U}_{k}) & \\
                 {\bf X}_{k+1} = {\bf A}{\bf X}_{k} + {\bf C} {\bf U}_k & \\
                 \underline{\bf P} < {\bf P}{\color{red}{({\bf U}_k)}} {\bf U}_k  < \overline{\bf P}& \\
           \end{aligned}
@@ -46,33 +46,33 @@
   \end{minipage}\\
 
   \only<1>{
-    $J_1({\bf U}_{k})$ is the linear velocity tracking 
+    $L_1({\bf U}_{k})$ is the linear velocity tracking 
     {\small
       \begin{equation*}
-        J_1({\bf U}_k) = \lVert \dot {\bf X}_{k} - {\bf X}_{k}^{ref} \rVert^2_2
+        L_1({\bf U}_k) = \lVert \dot {\bf X}_{k} - {\bf X}_{k}^{ref} \rVert^2_2
         +  \lVert \dot {\bf Y}_{k} - {\bf Y}_{k}^{ref} \rVert^2_2 
       \end{equation*}}
     }
-    \only<2>{$J_2({\bf U}_{k})$ is the control norm
+    \only<2>{$L_2({\bf U}_{k})$ is the control norm
       {\small
         \begin{equation*}
-          J_2({\bf U}_k) = \lVert \dddot {\bf X}_{k} \rVert^2_2
+          L_2({\bf U}_k) = \lVert \dddot {\bf X}_{k} \rVert^2_2
           + \lVert \dddot {\bf Y}_{k} \rVert^2_2
         \end{equation*}
       }
     }
-    \only<3>{$J_3({\bf U}_{k})$ is distance of the CoP to the most stable trajectory
+    \only<3>{$L_3({\bf U}_{k})$ is distance of the CoP to the most stable trajectory
       {\small
         \begin{equation*}
-          J_3({\bf U}_k) = \lVert {\bf X}_{k}^{f} - CoP_{k+1}^{x} \rVert^2_2 +
+          L_3({\bf U}_k) = \lVert {\bf X}_{k}^{f} - CoP_{k+1}^{x} \rVert^2_2 +
           \lVert {\bf Y}_{k+1}^{f} - CoP_{k+1}^{y} \rVert^2_2 
         \end{equation*}
       }
     }
-    \only<4>{$J_4({\bf U}_{k})$ is the angular velocity tracking
+    \only<4>{$L_4({\bf U}_{k})$ is the angular velocity tracking
       {\small
         \begin{equation*}
-            J_4({\bf U}_k) = \lVert {\bf \Theta}_{k} 
+            L_4({\bf U}_k) = \lVert {\bf \Theta}_{k} 
             - \int {\bf \Theta}_{k}^{ref} dt \; \rVert_2^2 
         \end{equation*}}
     }    
@@ -87,15 +87,15 @@
 \begin{itemize}
 \item Original nonlinear problem :
   \begin{align*}
-    \min_{\color{txtcolor2}{\bf U}_k}  \quad & J({\color{txtcolor2}{\bf U}_k}) \\
+    \min_{\color{txtcolor2}{\bf U}_k}  \quad & L({\color{txtcolor2}{\bf U}_k}) \\
     \text{s.t.} \quad & \underline{\bf P} \leq \tilde{\bf P}({\color{txtcolor2}{\bf U}_k}) \leq \overline{\bf P}
   \end{align*}
 \item QP approximation :
   \begin{align*}
     \min_{{\color{txtcolor5}{\bf \Delta U}_k}} \quad &
-    Grad(J)({\bf U}_{k-1}) {\color{txtcolor5}{\bf \Delta U}_k} +
-    \frac{1}{2} {\color{txtcolor5}{\bf \Delta U}_k}^T Hess(J)({\bf U}_{k-1}) {\color{txtcolor5}{\bf \Delta U}_k} \\
-    \text{s.t.} \quad & \underline{h} - h_{k-1} \leq Jac(\tilde{\bf P})({\bf U}_{k-1}) {\color{txtcolor5}{\bf \Delta U}_k} \leq \overline{h} - h_{k-1}\\
+    g({\bf U}_{k-1}) {\color{txtcolor5}{\bf \Delta U}_k} +
+    \frac{1}{2} {\color{txtcolor5}{\bf \Delta U}_k}^T H({\bf U}_{k-1}) {\color{txtcolor5}{\bf \Delta U}_k} \\
+    \text{s.t.} \quad & \underline{h} - h_{k-1} \leq J({\bf U}_{k-1}) {\color{txtcolor5}{\bf \Delta U}_k} \leq \overline{h} - h_{k-1}\\
     {\color{txtcolor2}{\bf U}_k} =& {\bf U}_{k-1} + \alpha {\color{txtcolor5}{\bf \Delta U}_k}
   \end{align*}
 \end{itemize}
