@@ -11,6 +11,8 @@ RM:=rm -f
 PDFLATEX:= cd src/ ; pdflatex --output-directory=../build $(TEXFILE) ; cd ..
 LATEXMK:= cd build/ ; latexmk --pdf ../src/$(TEXFILE) ; cd ..
 BIBTEX:= cd build ; bibtex $(FILENAME).aux ; cd ..
+LATEX:= cd build/ ; latexmk ../src/$(TEXFILE) ; cd ..
+
 
 ${PDFFILE}: ./src/$(TEXFILE)
 	if [ ! -d "build" ]; then mkdir build; fi
@@ -21,6 +23,9 @@ ${PDFFILE}: ./src/$(TEXFILE)
 
 pdf:
 	$(PDFLATEX) 
+
+latex:
+	$(LATEX)
 
 bibtex:
 	$(BIBTEX)

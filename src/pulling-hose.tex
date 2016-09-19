@@ -329,20 +329,21 @@
   \end{minipage}
 %
 {\color{txtcolor2}\vrule}
-  \begin{minipage}{0.30\textwidth}
+  \begin{minipage}{0.25\textwidth}
     \begin{center}
       \includegraphics[height=0.20\textheight]{./camera_raptor.jpeg}
     \end{center}
   \end{minipage}
 %
 {\color{txtcolor2}\vrule}    
-  \begin{minipage}{0.35\textwidth}
+  \begin{minipage}{0.4\textwidth}
     \begin{center}
       \includegraphics[trim={5.0cm 1.5cm 7.0cm 1.0cm}, clip, width=\textwidth , height=0.15\textheight]
       {hose_xp/force_Z_feet_withoutController_zoomEnd.pdf}\\[1.ex]
       \includegraphics[trim={5.0cm 1.5cm 7.0cm 1.0cm}, clip, width=\textwidth , height=0.15\textheight]
-      {hose_xp/force_Z_feet_withController_zoomEnd.pdf}
+      {hose_xp/force_Z_feet_withController_zoomEnd.pdf}\\
       %trim={<left> <lower> <right> <upper>}
+      {\scriptsize left/right foot $z$ forces}
       \end{center}
   \end{minipage}\\[-1ex]
 %   
@@ -356,113 +357,113 @@
   \end{minipage}
 %
 {\color{txtcolor2}\vrule}
-  \begin{minipage}{0.30\textwidth}
+  \begin{minipage}{0.25\textwidth}
     \vspace*{2ex}
     \begin{itemize}
-      \item PI controller :
+      \item PI controller
     \end{itemize}
-    \vspace*{-0.5cm}
-    \begin{scriptsize}
-    \begin{align*}
-      \tikz[baseline]{
-        \node[fill=txtcolor1,anchor=base] (v)
-        { $ \mathbf{v}^{\mathrm{ref}} $ };
-      }
-      = &- \tikz[baseline]{
-        \node[fill=txtcolor2,anchor=base] (l1)
-        {$\lambda$};
-      } \;
-      \tikz[baseline]{
-        \node[fill=txtcolor3,anchor=base] (e1)
-        {$ \mathbf{e}_{ch} $};
-      }
-      %
-      \\
-      %    
-      &- 
-      \tikz[baseline]{
-        \node[fill=txtcolor2,anchor=base] (l2)
-        {$ \mathbf{\Lambda} $};  
-      }
-      \int \tikz[baseline]{
-        \node[fill=txtcolor3,anchor=base] (e2)
-        {$ \mathbf{e}_{ch} $};
-      } dt
-    \end{align*}
-    \tikz[baseline]{
-    \node[fill=txtcolor3,anchor=base] (e3)
-      {$ \mathbf{e}_{ch} $};
-    }
-    $= 
-    \begin{bmatrix}
-      x_{ch} \\ y_{ch} \\ \theta_{ch}
-    \end{bmatrix}
-    -
-    \begin{bmatrix}
-      x^{des}_{ch} \\ y^{des}_{ch} \\ \theta^{des}_{ch}
-    \end{bmatrix}
-    $   
-    \end{scriptsize}
+%    \vspace*{-0.5cm}
+%    \begin{scriptsize}
+%    \begin{align*}
+%      \tikz[baseline]{
+%        \node[fill=txtcolor1,anchor=base] (v)
+%        { $ \mathbf{v}^{\mathrm{ref}} $ };
+%      }
+%      = &- \tikz[baseline]{
+%        \node[fill=txtcolor2,anchor=base] (l1)
+%        {$\lambda$};
+%      } \;
+%      \tikz[baseline]{
+%        \node[fill=txtcolor3,anchor=base] (e1)
+%        {$ \mathbf{e}_{ch} $};
+%      }
+%      %
+%      \\
+%      %    
+%      &- 
+%      \tikz[baseline]{
+%        \node[fill=txtcolor2,anchor=base] (l2)
+%        {$ \mathbf{\Lambda} $};  
+%      }
+%      \int \tikz[baseline]{
+%        \node[fill=txtcolor3,anchor=base] (e2)
+%        {$ \mathbf{e}_{ch} $};
+%      } dt
+%    \end{align*}
+%    \tikz[baseline]{
+%    \node[fill=txtcolor3,anchor=base] (e3)
+%      {$ \mathbf{e}_{ch} $};
+%    }
+%    $= 
+%    \begin{bmatrix}
+%      x_{ch} \\ y_{ch} \\ \theta_{ch}
+%    \end{bmatrix}
+%    -
+%    \begin{bmatrix}
+%      x^{des}_{ch} \\ y^{des}_{ch} \\ \theta^{des}_{ch}
+%    \end{bmatrix}
+%    $   
+%    \end{scriptsize}
   \end{minipage}
 %
 {\color{txtcolor2}\vrule}
-  \begin{minipage}{0.30\textwidth}
+  \begin{minipage}{0.40\textwidth}
     \vspace*{2ex}
     \begin{itemize}
-    \item Hybrid Control
+    \item Hybrid Control on the left gripper
     \end{itemize}
-    \vspace*{-0.5cm}
-    \begin{scriptsize}
-    \begin{align*}
-      m & \tikz[baseline]{
-        \node[fill=txtcolor1,anchor=base] (a)
-        { $ \ddot{\bf lw}^{\alpha} $ };
-      }
-     + c \tikz[baseline]{
-        \node[fill=txtcolor1,anchor=base] (v)
-        {$ \dot{\bf lw}^{\alpha} $};
-      } = 
-      %
-      \\
-      %
-      &\tikz[baseline]{
-        \node[fill=txtcolor4,anchor=base] (flw)
-        {$ {\bf f}_{lw}^{\alpha} $};
-      } + 
-      \tikz[baseline]{
-        \node[fill=txtcolor2,anchor=base] (fd)
-        {$ {\bf f}_{d}^{\alpha} $};
-      } + 
-      \tikz[baseline]{
-        \node[fill=txtcolor3,anchor=base] (fpull)
-        {$ {\bf f}_{pull}^{\alpha} $};
-      }
-      %
-      \\
-      %
-      &\alpha \in \{x,z\}
-      %
-      \\
-      %
-      &\tikz[baseline]{
-        \node[fill=txtcolor1,anchor=base] (a)
-        { $ {\bf lw}^{y} $ };
-      } = {\bf waist}^{y} + \text{offset}
-    \end{align*}
-    \end{scriptsize}
+%    \vspace*{-0.5cm}
+%    \begin{scriptsize}
+%    \begin{align*}
+%      m & \tikz[baseline]{
+%        \node[fill=txtcolor1,anchor=base] (a)
+%        { $ \ddot{\bf lw}^{\alpha} $ };
+%      }
+%     + c \tikz[baseline]{
+%        \node[fill=txtcolor1,anchor=base] (v)
+%        {$ \dot{\bf lw}^{\alpha} $};
+%      } = 
+%      %
+%      \\
+%      %
+%      &\tikz[baseline]{
+%        \node[fill=txtcolor4,anchor=base] (flw)
+%        {$ {\bf f}_{lw}^{\alpha} $};
+%      } + 
+%      \tikz[baseline]{
+%        \node[fill=txtcolor2,anchor=base] (fd)
+%        {$ {\bf f}_{d}^{\alpha} $};
+%      } + 
+%      \tikz[baseline]{
+%        \node[fill=txtcolor3,anchor=base] (fpull)
+%        {$ {\bf f}_{pull}^{\alpha} $};
+%      }
+%      %
+%      \\
+%      %
+%      &\alpha \in \{x,z\}
+%      %
+%      \\
+%      %
+%      &\tikz[baseline]{
+%        \node[fill=txtcolor1,anchor=base] (a)
+%        { $ {\bf lw}^{y} $ };
+%      } = {\bf waist}^{y} + \text{offset}
+%    \end{align*}
+%    \end{scriptsize}
   \end{minipage}
 %
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\begin{frame}{Full controller}
-  \scalebox{0.7}{\input{/figures/hose_xp/tikz/global_feedback_scheme_improved.tex}} \\
 %
-
-%  \textbf{\color{blue}Full feedback scheme}
+%\begin{frame}{Full controller}
+%  \scalebox{0.7}{\input{/figures/hose_xp/tikz/global_feedback_scheme_improved.tex}} \\
+%%
 %
-\end{frame}
+%%  \textbf{\color{blue}Full feedback scheme}
+%%
+%\end{frame}
 
 \begin{frame}{Complete motion}
   \begin{center}

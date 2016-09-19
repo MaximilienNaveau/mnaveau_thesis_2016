@@ -1,0 +1,1 @@
+while inotifywait -r -e modify src ; do make ; done

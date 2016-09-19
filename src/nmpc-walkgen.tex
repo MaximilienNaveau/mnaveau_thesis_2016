@@ -3,21 +3,20 @@
 \framesubtitle{
   \textcolor{green!30!black!80}
   {
-    (M. Naveau, RA-L 2016) ; 
-    (M. Naveau, Humanoids 2014)
+    (M. Naveau, RA-L 2016) 
   }
 }
 
   \begin{minipage}{0.48\textwidth}
   \vspace*{0.2cm}
-    Optimization problem solved:
+    Optimization problem solved :
     \vspace*{-0.3cm}
     \only<1-3>{
         \begin{equation*}
           \begin{aligned}
             \min_{{\bf U}_k} 
             \sum_{i=0}^{j=4} w_i L_i({\bf U}_{k}) & \\
-                {\bf X}_{k+1} = {\bf A}{\bf X}_{k} + {\bf C} {\bf U}_k & \\
+                \text{LIPM : } {\bf X}_{k+1} = {\bf A}{\bf X}_{k} + {\bf C} {\bf U}_k & \\
                 \underline{\bf P} < {\bf P} {\bf U}_k  < \overline{\bf P}& \\
           \end{aligned}
         \end{equation*}
@@ -46,32 +45,35 @@
   \end{minipage}\\
 
   \only<1>{
-    $L_1({\bf U}_{k})$ is the linear velocity tracking 
     {\small
       \begin{equation*}
+        \text{linear velocity tracking : }
         L_1({\bf U}_k) = \lVert \dot {\bf X}_{k} - {\bf X}_{k}^{ref} \rVert^2_2
         +  \lVert \dot {\bf Y}_{k} - {\bf Y}_{k}^{ref} \rVert^2_2 
       \end{equation*}}
     }
-    \only<2>{$L_2({\bf U}_{k})$ is the control norm
+    \only<2>{
       {\small
         \begin{equation*}
+          \text{control norm : }
           L_2({\bf U}_k) = \lVert \dddot {\bf X}_{k} \rVert^2_2
           + \lVert \dddot {\bf Y}_{k} \rVert^2_2
         \end{equation*}
       }
     }
-    \only<3>{$L_3({\bf U}_{k})$ is distance of the CoP to the most stable trajectory
+    \only<3>{
       {\small
         \begin{equation*}
+          \text{balance criteria : }
           L_3({\bf U}_k) = \lVert {\bf X}_{k}^{f} - CoP_{k+1}^{x} \rVert^2_2 +
           \lVert {\bf Y}_{k+1}^{f} - CoP_{k+1}^{y} \rVert^2_2 
         \end{equation*}
       }
     }
-    \only<4>{$L_4({\bf U}_{k})$ is the angular velocity tracking
+    \only<4>{
       {\small
         \begin{equation*}
+            \text{angular velocity tracking : }
             L_4({\bf U}_k) = \lVert {\bf \Theta}_{k} 
             - \int {\bf \Theta}_{k}^{ref} dt \; \rVert_2^2 
         \end{equation*}}
@@ -104,7 +106,12 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{frame}{Walking without thinking}
-
+\framesubtitle{
+  \textcolor{green!30!black!80}
+  {
+    (M. Naveau, Humanoids 2014)
+  }
+}
 \begin{center}
   \hspace*{-1cm}
   \scalebox{0.7}{\input{./figures/nmpc_walkgen/wpg_feedback_scheme.tex}}
@@ -120,7 +127,7 @@
     \includegraphics[width=0.85\linewidth, keepaspectratio]
       {16-raletter-NMPC-v19.png}    
     }  
-    {videos/16-raletter-NMPC-v19.mp4}
+    {videos/16-raletter-NMPC-short.mp4}
   \end{center}
 \end{frame}
 
