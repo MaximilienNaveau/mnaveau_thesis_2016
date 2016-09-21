@@ -1,4 +1,5 @@
 \begin{frame}{Context : KoroiBot project}
+\vspace*{-1.0cm}
 \begin{center}
   \includegraphics[width=\linewidth]{koroibot/KoroibotChallengeEnhanced.pdf}
   \begin{tikzpicture}[remember picture, overlay]
@@ -15,7 +16,6 @@
 %\begin{itemize}
 %  \item 
 %\end{itemize}
-
 Goal : enhance the ability of humanoid robots to walk in a dynamic and versatile way, and to bring them closer to human capabilities.
 \end{frame}
 
@@ -47,99 +47,13 @@ Goal : enhance the ability of humanoid robots to walk in a dynamic and versatile
 %\end{itemize}
 \end{frame}
 
-%\fullFrameImage{figures/koroibot/components2.png}{}
-
-%
-%\begin{frame}{Context}
-%\begin{center}
-%   \includegraphics[width=0.90\linewidth]{koroibot/KPIabilities.jpg}
-%\begin{tikzpicture}[remember picture, overlay]
-%    %\draw[help lines, color=blue] (-8,0) grid (8,25);
-%    %\node [color=red] at (0,0) {\textbf (0,0)};
-%    %\node [color=red] at (0,20) {\textbf (0,20)};
-%    %\node [color=red] at (0,10) {\textbf (0,10)};
-%    \draw[line width=1.5pt, color=red](-4.6,16.2) ellipse (2.2cm and .43cm);
-%    \draw[line width=1.5pt, color=red](-4.6,13.3) ellipse (2.2cm and .43cm);
-%    \draw[line width=1.5pt, color=red](-4.6,12.45) ellipse (2.2cm and .43cm);
-%  \end{tikzpicture}
-%\end{center}
-%%\begin{itemize}
-%%  \item 
-%%\end{itemize}
-%\end{frame}
-%
-%
-%
-%\begin{frame}{Context}
-%\begin{center}
-%   \includegraphics[height=0.9\textheight]{koroibot/KPIexperiment.jpg}
-%\begin{tikzpicture}[remember picture, overlay]
-%    %\draw[help lines, color=blue] (-8,0) grid (8,25);
-%    %\node [color=red] at (0,0) {\textbf (0,0)};
-%    %\node [color=red] at (0,20) {\textbf (0,20)};
-%    %\node [color=red] at (0,10) {\textbf (0,10)};
-%    \draw[line width=1.5pt, color=red](-3.9,19.7) ellipse (2cm and .5cm);
-%    \draw[line width=1.5pt, color=red](-3.9,16.9) ellipse (2cm and .5cm);
-%    \draw[line width=1.5pt, color=red](-3.9,9.0) ellipse (2cm and .5cm);
-%    \draw[line width=1.5pt, color=red](-9.5,7.25) ellipse (2cm and .5cm);
-%  \end{tikzpicture}
-%\end{center}
-%%\begin{itemize}
-%%  \item 
-%%\end{itemize}
-%\end{frame}
-
 \begin{frame}{Problem presentation}
 
 \begin{columns}
 
-
-%Continuous formulation :
-%
-%\begin{align*}
-%\text{min}  &\quad f({\bm q},{\bm v},t) \\
-%\text{s.t.} &\quad
-%g({\bm q},{\bm v},t) < 0 \nonumber \\
-%&\quad h({\bm q},{\bm v},t) = 0 \nonumber
-%\end{align*}
-
-%\vspace*{2.5cm}
-
-\column{0.45\linewidth}
-
-Optimal Control Formulation :
-
-\begin{align*}
-\hspace{-3em}	\underset{\substack{\hspace{0.2em} \underline{\bm x}, \; \underline{\bm u}} }{\min } \ \ \  
-	& & \hspace{-3em} {\sum_{s=1}^S} \int_{t_{s}}^{t_{s}+\Delta t_s\hspace{-4em}} \ell_{s} (\bm x, \bm u) \, dt \\
-	s.t. & \forall t & \dot{\bm{x}} = \text{dyn}(\bm x, \bm u) \\
-	&  \forall t& \bm\phi \in \mathcal{K} \\
-  &  \forall t& {\bm x} \in \mathcal{B}_x \\ 
-  &  \forall t& {\bm u} \in \mathcal{B}_u \\ 
-	& & \bm x(0) = \bm x_{0} \\
-	& & \bm x(T) \in \mathcal{X}_*
-\end{align*}
-
 \column{0.5\linewidth}
 
-\vspace*{0.7cm}
-\begin{itemize}
-\item $x$ : state (pose,velocity,..)
-\item $u$ : control (forces)
-\item $\bm\phi$ : forces applied to the system
-\item $\text{dyn}$ : dynamics of the system
-\item $\mathcal{K}$ : balance criteria
-\item $\mathcal{B}_x$ \& $\mathcal{B}_u$ : Bounds on $x$ \& $u$\\[0.5cm]
-\item Initial condition
-\item Final condition (task)
-\end{itemize}
-
-\end{columns}
-
-\end{frame}
-
-
-\begin{frame}{Dynamics}
+\scalebox{0.7}{
 \begin{tikzpicture}
   \draw [->] (-0.4,0) -- (10.5,0);
   \draw [->] (0,0.4) -- (0,-4);
@@ -153,91 +67,185 @@ Optimal Control Formulation :
   \draw (0.6,-2.0) node {GIK};
   \draw (5,-2.0) node {General problem over the preview};
 \end{tikzpicture}
-\end{frame}
+}
 
-\begin{frame}{State Of Art}
-
+\column{0.5\linewidth}
+\hspace*{1.2cm}
+\scalebox{0.8}{
+  \begin{tikzpicture}[remember picture]
+	  \node (pic) at (0,0) {\includegraphics[width=0.38\paperwidth]{./images/HRP-2-Nishiwaki-Alone}};
+	%  \node (pic) at (2.7,3.6) {\includegraphics[width=0.8\linewidth]{./images/HRP-2-Nishiwaki-Alone}};
+	
+	%  \draw[help lines] (1,1) grid (5,6);         
+	%  \draw (0,0) {(0,0)};         
+  \node (lf) at ([shift={(-0.5,-1.63)}]pic) {};
+	  \ExtractCoordinate{$(lf)$};
+	  \draw[color=darkgreen, left color=green, right color=green!60, 
+	    xshift=\XCoord,yshift=\YCoord, drop shadow={ashadow, color=green!60!black}] [rotate=100,scale=0.15] 
+	  \arrowt;
+	
+	  \node (rf) at ([shift={(0.4,-1.44)}]pic) {};
+	  \ExtractCoordinate{$(rf)$};
+	  \draw[color=darkgreen, left color=green, right color=green!60, 
+	    xshift=\XCoord,yshift=\YCoord, drop shadow={ashadow, color=green!60!black}] [rotate=100,scale=0.15] 
+	  \arrowt;
+	\end{tikzpicture}
+}
+\end{columns}
 \begin{center}
-\includegraphics[trim={0.0cm 0.0cm 3.0cm 0.0cm}, clip,
-height=0.4\textheight ,keepaspectratio]
-{figures/stateoftheart/bostondynamics.jpeg}\hspace*{0.3cm}
-\includegraphics[trim={20.0cm 0.0cm 0.0cm 0.0cm}, clip,
-height=0.4\textheight , keepaspectratio]
-{figures/stateoftheart/humanoids2015.png}\hspace*{0.3cm}
-\includegraphics[height=0.4\textheight , keepaspectratio]
-{figures/stateoftheart/rsj30_humanoid_navigaion_nishiwaki_aist.png}
-
-[Boston Dynamics 2016] %\hspace*{0.5cm}
-[Fallon Humanoids 2015] %\hspace*{0.5cm}
-[Nishiwaki IJRR 2012]
-%trim={<left> <lower> <right> <upper>}
+\begin{minipage}{0.35\linewidth}
+HRP-2 (36 DoFs)\\
+control period (5ms)\\
+preview duration (1.6s)
+\end{minipage} 
+ = 10 000 variables : \textbf{Not Convex Problem}
 \end{center}
 
 \end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{
+Dynamics - \only<1> {Whole Body}\only<2> {Mixed}\only<3>{Wheel}\only<4>{Linearized Inverted Pendulum} Model
+}
+  \vskip -0.5cm
+  \begin{columns}[t]
+%%
+    \begin{column}[T]{0.5\linewidth}
+    \only<1>{
+      \begin{alertblock}{No approximation}
+        [Koch Humanoids 2014] Step over 20$cm$ high obstacle (hours/days)
+      \end{alertblock}
+      \vspace*{-0.2cm}
+      \begin{alertblock}{Approximation on contact}
+        [Todorov ICRA 2014] No walk feasible on the robot (100ms)
+      \end{alertblock}
+    }
+    \only<2>{
+      \begin{alertblock}{Mixed Formulation}
+        [Kuindersma Autonomous Robots 2015]
+        
+        [Sherikov PhD Thesis 2016]
+      \end{alertblock}
+      \vspace*{-0.8cm}
+    }
+    \only<3>{
+      \begin{alertblock}{3D PG}
+        [Hirukawa ICRA 2007]
+        
+        Contacts and Forces Distribution Known
+        
+        [Perrin IJRR 2015]
+        
+        $\mathbf{\dot{L}}=0$ ; Forces Direction Known
+      \end{alertblock}
+      \vspace*{-0.8cm}
+      \begin{align*}
+        m\,( \mathbf{ \ddot{c} } - \mathbf{g}) &= \sum_{i} \mathbf{R} _{i} \mathbf{f} _{i}\\
+        m \,\mathbf{c} \times ( \mathbf {\ddot{c}} - \mathbf{g} ) + \mathbf{\dot{L}} &= \sum_{i} \mathbf{p} _{i} \times \mathbf{R} _{i} \mathbf{f} _{i}\\
+        \mathcal{A}({\bf q},{\bf \lambda}) \geq 0 \iff & \mu f^2_z > f^2_x + f^2_y
+      \end{align*}    
+    }
+    \only<4>{
+      \begin{alertblock}{2D PG}
+        [Herdt Advanced Robotics 2010]        
+        [Sherikov Humnaoids 2014]
+      \end{alertblock}
+      \vspace*{-0.3cm}
+      \begin{alertblock}{Linearized Inverted Pendulum Model}
+        \itemd coplanar contact
+      
+        \itemd $\dot{\bf \am} = 0$ \itemd $c^z = cst$ \itemd ${\bf p}=CoP$
+      \end{alertblock}
+      \vspace*{-0.5cm}
+      \begin{equation*}
+        \left\lbrace
+        \begin{aligned}
+          p_{x} = c_x - \frac{c_z}{g}\ddot{c}_x \\
+          p_{y} = c_y - \frac{c_z}{g}\ddot{c}_y \\
+          {\bf p} \in \text{Support Polygon}
+        \end{aligned}
+        \right.
+      \end{equation*}
+    }
+    \end{column}
 
+    %
+
+    \begin{column}[T]{0.4\linewidth}    
+    %\vskip 1cm
+	  \scalebox{0.4}{
+		\begin{tikzpicture}
+		  \draw [->] (-0.4,0) -- (10.5,0);
+		  \draw [->] (0,0.4) -- (0,-4);
+		  \only<1>{
+		  \shadedraw[left color=yellow, right color= orange, draw=yellow!50!orange](0.05,-0.05) rectangle (10.05,-3.75);}
+		  \shadedraw[left color=gray, right color= white, draw=gray!50!white] (0.1,-0.1) rectangle (10,-1.0);
+		  \shadedraw[left color=gray, right color= white, draw=gray!50!white](0.1,-1.1) rectangle (1,-3.7);
+		  \only<2>{
+		  \draw [color=blue,line width=4pt,->] (0.5,-0.5) -- node {} (0.5,-1.5);
+		  \draw [color=blue,line width=4pt,->] (0.5,-1.5) -- node {} (0.5,-0.5);
+		  }
+		  \draw (10.05,0.4) node {t};
+		  \draw (-0.5,-0.4) node {CoM};
+		  \draw (-0.4,-2.0) node {${\bf \hat{q} }$};
+		  \draw (5,-0.5) node {Balance on underactuated part};
+		  \draw (0.6,-2.0) node {GIK};
+		  \only<1>{\draw (5,-2.0) node {General problem over the preview};}
+		\end{tikzpicture}
+	  }
+	  \vspace*{-0.2cm}
+    \only<1>{
+      \scalebox{0.8}{
+         \begin{tikzpicture}[remember picture]
+				  \node (pic) at (0,0) {\includegraphics[width=0.38\paperwidth]{./images/HRP-2-Nishiwaki-Alone}};
+			  \node (lf) at ([shift={(-0.5,-1.63)}]pic) {};
+				  \ExtractCoordinate{$(lf)$};
+				  \draw[color=darkgreen, left color=green, right color=green!60, 
+				    xshift=\XCoord,yshift=\YCoord, drop shadow={ashadow, color=green!60!black}] [rotate=100,scale=0.15] 
+				  \arrowt;
+				
+				  \node (rf) at ([shift={(0.4,-1.44)}]pic) {};
+				  \ExtractCoordinate{$(rf)$};
+				  \draw[color=darkgreen, left color=green, right color=green!60, 
+				    xshift=\XCoord,yshift=\YCoord, drop shadow={ashadow, color=green!60!black}] [rotate=100,scale=0.15] 
+				  \arrowt;
+				\end{tikzpicture}
+       }
+     }
+     \only<2-3>{
+       \scalebox{0.8}{\input{figures/stateoftheart/dynhrp2nishiwaki.tex}}
+     }
+     \only<4>{
+       \scalebox{0.7}{\input{figures/stateoftheart/dynhrp2nishiwaki.tex}}
+     }
+     \end{column}
+     %
+   \end{columns}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{State Of Art}
-\vspace*{-0.7cm}
-\begin{small}
 
-\begin{minipage}{0.4\textwidth}
-\begin{minipage}{0.4\textwidth}
-Linearized Inverted Pendulum Model :
-\begin{itemize}
-\item $\dot{\bf \am} = 0$
-\item $\ddot{c}^z = 0$
-\item $c^z = cst$
-\end{itemize}
-\end{minipage}
-\begin{minipage}{0.2\textwidth}
-\begin{align*}
-& cop^x = {c}^x - \frac{c^z}{g}\ddot{c}^x \\
-& cop^y = {c}^y - \frac{c^z}{g}\ddot{c}^y \\
-& cop^z = 0
-\end{align*}
-\end{minipage}
-\end{minipage}
-%
-\begin{minipage}{0.4\textwidth}
-\begin{align*}
-&m (\ddot{\mbf{c}}-\mbf{g}) = \sum\limits_{k=1}^{K} \; {^0}R_k \mbf{f}_k
-\\
-&m \mbf{c} \times (\ddot{\mbf{c}}-\mbf{g}) + \dot{\bf \am} = \sum\limits_{k=1}^{K} \mbf{p}_k \times {^0}R_k \mbf{f}_k  + \bm{\tau}_k
-\end{align*}
-\end{minipage}\\
-%
-\begin{minipage}{0.4\textwidth}
-\begin{align*}
-m (\ddot{\mbf{c}}-\mbf{g}) = \sum\limits_{k=1}^{K} \; {^0}R_k \mbf{f}_k
-\\
-m \mbf{c} \times (\ddot{\mbf{c}}-\mbf{g}) + \dot{\bf \am} = \sum\limits_{k=1}^{K} \mbf{p}_k \times {^0}R_k \mbf{f}_k  + \bm{\tau}_k
-\end{align*}
-\end{minipage}
-%
-\begin{minipage}{0.4\textwidth}
-\begin{minipage}{0.4\textwidth}
-Linearized Inverted Pendulum Model :
-\begin{itemize}
-\item $\dot{\bf \am} = 0$
-\item $\ddot{c}^z = 0$
-\item $c^z = cst$
-\end{itemize}
-\end{minipage}
-\begin{minipage}{0.2\textwidth}
-\begin{align*}
-& cop^x = {c}^x - \frac{c^z}{g}\ddot{c}^x \\
-& cop^y = {c}^y - \frac{c^z}{g}\ddot{c}^y \\
-& cop^z = 0
-\end{align*}
-\end{minipage}
-\end{minipage}
+\begin{center}
+\includegraphics[trim={2.0cm 0.0cm 2.0cm 0.0cm}, clip,
+height=0.4\textheight ,keepaspectratio]
+{figures/stateoftheart/bostondynamics.jpeg}
+\hspace*{0.3cm}
+\includegraphics[trim={20.0cm 0.0cm 0.0cm 0.0cm}, clip,
+height=0.4\textheight , keepaspectratio]
+{figures/stateoftheart/humanoids2015.png}
+\hspace*{0.3cm}
+\includegraphics[trim={1.5cm 0.0cm 1.0cm 0.0cm}, clip,
+height=0.4\textheight , keepaspectratio]
+{figures/stateoftheart/rsj30_humanoid_navigaion_nishiwaki_aist.png}
+\hspace*{0.3cm}
+\includegraphics[trim={1.5cm 0.0cm 1.0cm 0.0cm}, clip,
+height=0.4\textheight , keepaspectratio]
+{figures/stateoftheart/what-is-atrias.png}
 
-\end{small}
+%trim={<left> <lower> <right> <upper>}
+\end{center}
+\vspace*{-0.5cm}
+[Boston Dynamics 2016] \hspace*{1.7cm} [Nishiwaki IJRR 2012]
 
-
-\begin{tikzpicture}[remember picture, overlay]
-%  \draw[help lines] (0,0) grid (-1,1);
-%  \node at (0,0) {(0,0)};
-  \draw [line width=1.5pt, color=txtcolor2] (5.3,0.0) rectangle (11.7,2.7);
-\end{tikzpicture}
+\hspace*{2.8cm} [Fallon Humanoids 2015] \hspace*{1.3cm} [Hubicki IJRR 2016]\footnote{ATRIA}
 
 \end{frame}

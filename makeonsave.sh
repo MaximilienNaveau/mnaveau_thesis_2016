@@ -1,1 +1,1 @@
-while inotifywait -r -e modify src ; do make ; done
+while inotifywait -r -e modify src figures ; do make ; done

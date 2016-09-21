@@ -1,0 +1,15 @@
+\newcommand{\lcite}[1]{\textcolor{blue}{\small[#1]}}
+
+\newcommand{\extg}{\left[ \begin{matrix} \mathbb{0}_N \\ \mathbf{g} \\ \mathbb{0}_3\end{matrix} \right]}
+
+\newcommand{\motionpbpone}{{\bf M}_1(\mq) \mqddot +  {\bf N}_1(\mq,\mqdot) \mqdot + {\bf G}_1(\mq)
+           = {\bf T}_1 ({\bf q}){\bf u} + {\bf C}_1^{\top}(\mq) {\bf \lambda} & \text{\tiny Actuated dynamics of the robot}\\
+           {\bf M}_2(\mq) \mqddot +  {\bf N}_2(\mq,\mqdot) \mqdot + {\bf G}_2(\mq) 
+           = {\bf C}_2^{\top}(\mq) {\bf \lambda} & \text{\tiny Underactuated dynamics of the robot} \\
+}
+
+\newcommand{\motionpbptwo}{           \mathcal{A}\; {\bf \lambda}  \geq 0 & \text{\tiny General balance criteria}\\
+                   {\bf u}_{min} < {\bf u} < {\bf u}_{max} &\text{\tiny Torques limits}\\
+                   {\bf \hat{q}}_{min} < {\bf \hat{q}} < {\bf \hat{q}}_{max} & \text{\tiny Joints limits}  \\
+           d(\mathcal{B}_i({\bf q}),\mathcal{B}_j({\bf q})) > \epsilon, \forall p(i,j) \in \mathcal{P} &\text{\tiny (self-)collisions} \\
+} 
