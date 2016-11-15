@@ -160,16 +160,38 @@ footskip=0cm    % Pied de page
 \institute[] % (optional, but mostly needed)
 {
 Gepetto team - LAAS / CNRS - Toulouse, France\\
-\includegraphics[height=2cm]{logo/koroibot-logo}
-\hspace{0.5cm}\includegraphics[height=2cm]{hrp2.jpeg}
-\hspace{0.5cm}\includegraphics[height=2cm]{logo/LAAS-2016.jpg}
+PhD defense - Toulouse - 2016
 %\hspace{0.5cm}\includegraphics[height=1cm]{logo/logoAIST.jpeg}\\
 }
 % - Use the \inst command only if there are several affiliations.
 % - Keep it simple, no one is interested in your street address.
 
 \date % (optional, should be abbreviation of conference name)
-{PhD defense - Toulouse - 2016}
+{
+\hspace*{1.2cm}
+\begin{minipage}{0.4\linewidth}
+{\footnotesize
+Mme Christine CHEVALLEREAU \\[-0.5ex]
+M. Christian OTT \\[-0.5ex]
+M. Pierre-Brice WIEBER\\[-0.5ex]
+M. Florent LAMIRAUX\\[-0.5ex]
+M. Olivier STASSE}
+\end{minipage}
+\begin{minipage}{0.3\linewidth}
+{\footnotesize
+Rapporteur\\[-0.5ex]
+Rapporteur\\[-0.5ex]
+Membre du Jury\\[-0.5ex]
+Membre du Jury\\[-0.5ex]
+Directeur de th\`ese}
+\end{minipage}
+\begin{tikzpicture}[remember picture, overlay]
+\node at(-10,0.8){\includegraphics[height=1cm]{logo/logo-medium-white}};
+\node at(-10,-0.5){\includegraphics[height=1cm]{hrp2.jpeg}};
+\node at(0.0,0.8){\includegraphics[height=1cm]{logo/koroibot-logo}};
+\node at(0.0,-0.5){\includegraphics[height=1cm]{logo/LAAS-2016.jpg}};
+\end{tikzpicture}
+}
 % - Either use conference name or its abbreviation.
 % - Not really informative to the audience, more for people (including
 %   yourself) who are reading the slides online
@@ -190,13 +212,13 @@ Gepetto team - LAAS / CNRS - Toulouse, France\\
 
 % Delete this, if you do not want the table of contents to pop up at
 % the beginning of each subsection:
-%\AtBeginSubsection[]
-%{
-%  \begin{frame}<beamer>{Outline}
-%  \vskip-6ex
-%   \tableofcontents[currentsection,currentsubsection]
-% \end{frame}
-%}
+\AtBeginSubsection[]
+{
+  \begin{frame}<beamer>{Outline}
+  \vskip-6ex
+   \tableofcontents[currentsection,currentsubsection]
+ \end{frame}
+}
 
 %\AtBeginSection[]
 %{
@@ -241,6 +263,7 @@ Gepetto team - LAAS / CNRS - Toulouse, France\\
 %         font issue/.style={execute at begin picture={#1\selectfont}}
 %        }
 
+
 % Show the table of contents at the beginning of every subsection.
 \AtBeginSection[]{
     \vspace*{-0.5cm}
@@ -248,9 +271,22 @@ Gepetto team - LAAS / CNRS - Toulouse, France\\
     \tableofcontents[current,currentsubsection]
 }
 
+
+% Show the table of contents at the beginning of every subsection.
+%\AtBeginSection[]{
+%    \vspace*{-0.5cm}
+%    \frametitle{Table of contents}
+%    \tableofcontents[current,currentsubsection]
+%}
+
 \newcommand\blfootnote[1]{%
   \begingroup
   \renewcommand\thefootnote{}\footnote{#1}%
   \addtocounter{footnote}{-1}%
   \endgroup
 }
+
+
+\setbeamercolor{alerted text}{fg=red}
+\setbeamercolor{block body alerted}{bg=gray!10}
+\setbeamercolor{block title alerted}{bg=gray!30}

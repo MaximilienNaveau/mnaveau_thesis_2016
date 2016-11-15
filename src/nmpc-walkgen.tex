@@ -1,5 +1,5 @@
-\begin{frame}{Reactive walking pattern generation \only<4>{with obstacles}}
-  \vspace*{-1cm}
+\begin{frame}{Reactive walking pattern generation}
+\framesubtitle{Example :}
   \begin{center}
   \scalebox{0.8}{
 	\newcommand{\tetazero}{20.55}
@@ -18,8 +18,7 @@
 	\definecolor{color1}{RGB}{1, 121, 111}% corail
 	\definecolor{color2}{RGB}{27, 79, 8}% orange 
 	\definecolor{color3}{RGB}{237 , 127 ,16}%
-	\definecolor{color4}{rgb}{0.9,0.,0.}
-	
+	\definecolor{color4}{rgb}{0.9,0.,0.}	
 	\begin{tikzpicture}
 		\begin{axis}[xlabel=x,ylabel=y,xmin=-0.2,xmax=0.6,ymin=-0.25,ymax=0.35]
 			\only<1>{
@@ -93,7 +92,6 @@
 
 
 \begin{frame}{Reactive walking pattern generation \only<4>{with obstacles}}
-  \only<4>{\blfootnote{\textbf{Naveau} et al., RA-L 2016}}
   \begin{minipage}{0.48\textwidth}
     Optimization problem solved :
     \vspace*{-0.3cm}
@@ -105,7 +103,7 @@
         \underline{\bf P} < {\bf P}\only<4>{{\color{red}{({\bf U}_k)}}} {\bf U}_k  < \overline{\bf P}& \\
       \end{aligned}
     \end{equation*}
-    with ${\bf U}_k=\begin{pmatrix} \dddot{\bf C}^x_k \; {\bf F}^x_k\; \dddot{\bf C}^y_k \;{\bf F}^y_k \;\only<4>{\color{red}{{\bf \Theta}_k^\mathit{f}}}\end{pmatrix}^T$ \\
+    with ${\bf U}_k=\begin{pmatrix} \dddot{\bf C}^x_k \; {\bf F}^x_k\; \dddot{\bf C}^y_k \;{\bf F}^y_k \;\only<4>{\color{red}{{\bf F}^{\theta}_k}}\end{pmatrix}^T$ \\
   \end{minipage}
   %
   \begin{minipage}{0.48\textwidth}
@@ -116,11 +114,12 @@
       \includegraphics[width=\textwidth]{./images/tikz/convexHullsplusObstacles2}
     }
   \end{minipage}\\
-  \vspace*{-0.5cm}
+
+  $\dddot{\bf C}_k$ = CoM jerk ; ${\bf F}_k$ = Support Foot Position\\
   \begin{center}
   \only<1>{
     {
-      \small $L_1({\bf U}_k)$ : linear velocity tracking
+       $L_1({\bf U}_k)$ : linear velocity tracking
 %      \begin{equation*}
 %        \text{linear velocity tracking : }
 %        L_1({\bf U}_k) = \lVert \dot {\bf X}_{k} - {\bf X}_{k}^{ref} \rVert^2_2
@@ -130,7 +129,7 @@
   }
   \only<2>{
     {
-      \small $L_2({\bf U}_k)$ : control norm
+       $L_2({\bf U}_k)$ : control norm
 %      \begin{equation*}
 %        \text{control norm : }
 %        L_2({\bf U}_k) = \lVert \dddot {\bf X}_{k} \rVert^2_2
@@ -140,7 +139,7 @@
   }
   \only<3>{
     {
-      \small $L_3({\bf U}_k)$ : balance criteria
+       $L_3({\bf U}_k)$ : balance criteria
 %      \begin{equation*}
 %        \text{balance criteria : }
 %        L_3({\bf U}_k) = \lVert {\bf X}_{k}^{f} - CoP_{k+1}^{x} \rVert^2_2 +
@@ -150,7 +149,7 @@
   }
   \only<4>{
     {
-      \small $L_4({\bf U}_k)$ : angular velocity tracking
+       $L_4({\bf U}_k)$ : angular velocity tracking
 %      \begin{equation*}
 %        \text{angular velocity tracking : }
 %        L_4({\bf U}_k) = \lVert {\bf \Theta}_{k} 
@@ -168,41 +167,22 @@
 \begin{frame}{SQP Solver}
 
 \begin{itemize}
-\item Original nonlinear problem :
-  \begin{align*}
-    \min_{\color{txtcolor2}{\bf U}_k}  \quad & L({\color{txtcolor2}{\bf U}_k}) \\
-    \text{s.t.} \quad & \underline{\bf P} \leq \tilde{\bf P}({\color{txtcolor2}{\bf U}_k}) \leq \overline{\bf P}
-  \end{align*}
-\item QP approximation :
-  \begin{align*}
-    \min_{{\color{txtcolor5}{\bf \Delta U}_k}} \quad &
-    g({\bf U}_{k-1}) {\color{txtcolor5}{\bf \Delta U}_k} +
-    \frac{1}{2} {\color{txtcolor5}{\bf \Delta U}_k}^T H({\bf U}_{k-1}) {\color{txtcolor5}{\bf \Delta U}_k} \\
-    \text{s.t.} \quad & \underline{h} - h_{k-1} \leq J({\bf U}_{k-1}) {\color{txtcolor5}{\bf \Delta U}_k} \leq \overline{h} - h_{k-1}\\
-    {\color{txtcolor2}{\bf U}_k} =& {\bf U}_{k-1} + \alpha {\color{txtcolor5}{\bf \Delta U}_k}
-  \end{align*}
+\item Principle
+\begin{itemize}
+\item Original nonlinear problem, free variable : ${\color{txtcolor2}{\bf U}_k}$
+\item Taylor approximation, creation of a sequence of QP,
+      
+      free variable : ${\color{txtcolor5}{\bf \Delta U}_k}$
 \end{itemize}
-\end{frame}
+\end{itemize}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{itemize}
+\item Observation : $1$ iteration is enough to solve the original QP
 
-\begin{frame}{Dynamic Filter}
-\blfootnote{\textbf{Naveau}, Kudruss et al., Humanoids 2014}
-\vspace*{-1cm}
-  \begin{center}
-    \includegraphics[height=0.8\textheight, keepaspectratio]
-      {./figures/nmpc_walkgen/copmbpres.pdf}    
-  \end{center}
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\begin{frame}{Feedback Scheme}
-
-\begin{center}
-  \hspace*{-1cm}
-  \scalebox{0.7}{\input{./figures/nmpc_walkgen/wpg_feedback_scheme.tex}}
-\end{center}
+[Herdt Advanced Robotics 2010].
+\item Hypothesis : $1$ optimal solution of a QP is enough to solve the SQP.
+\item Statistical results : mean $1.2$ optimal solution of a QP is enough to solve the SQP.
+\end{itemize}
 
 \end{frame}
 
@@ -216,6 +196,8 @@
     }  
     {videos/16-raletter-NMPC-short.mp4}
   \end{center}
+  \vspace*{-0.5cm}
+  \blfootnote{\textbf{Naveau}, Kudruss et al. RA-L 2016}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

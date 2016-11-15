@@ -1,23 +1,21 @@
 
 
 \begin{frame}{Transferring the human power-law to humanoid robots}
-\framesubtitle{
-  \textcolor{green!30!black!80}
-  {
-    (K. Matan, BioRob 2016)
-  }
-}
+  \vspace*{-0.5cm}
   \begin{itemize}
-    \item Observation : Human moves according to the two-third power-law\\
+    \item Observation :
+    \begin{itemize}
+      \item Robots drift in curved trajectories
+      \item Human moves according to the one-third power-law
+    \end{itemize}
     \begin{center}
     \tikz[baseline]{\node[fill=txtcolor3,anchor=base]{$ v $};} =
-    \tikz[baseline]{\node[fill=blue!50,anchor=base]{$ \gamma $};}
-    \tikz[baseline]{\node[fill=green!50,anchor=base]{$ \kappa $};}
+    \tikz[baseline]{\node[fill=green!50,anchor=base]{$\left( \frac{1}{R} \right)$};}
     \textsuperscript{\tikz[baseline]{\node[fill=red!50,anchor=base]{$-\beta$};}}
     \end{center}
     \vspace*{-0.5cm}
-    \input{figures/two_third/tikz/power_law.tex}
-    \item Does this two third power law help humanoid robots to walk?
+    \scalebox{1}{\input{figures/two_third/tikz/power_law.tex}}
+    \item Does this one-third power law help humanoid robots to walk?
   \end{itemize}
 \end{frame}
 
@@ -33,10 +31,51 @@
     \item (c) $\rightarrow$ (f) $\beta=\{-\frac{1}{3},0,\frac{1}{3},\frac{2}{3}\}$
   \end{itemize}
 \end{frame}
-%
-%\begin{frame}{Full controller}
+
+%\pgfdeclareimage[width=2.0cm]{VectorFields}{./images/Koroibot/EllipseBetaThird}
+%\begin{frame}{Feedback controller}
 %  \begin{center}
-%    \scalebox{0.7}{\input{/figures/two_third/tikz/control-scheme.tex}} \\
+%      \begin{tikzpicture}%[show background grid]% every node/.style={draw,outer sep=0pt,thick}]
+%
+%    % Ellispe Reference
+%    \node[rectangle,minimum width=2cm, minimum height=1cm,draw=blue!70,fill=blue!20] (ellipseref) at (4.0,3.25) {};
+%    \node[ellipse,draw=blue,thick,minimum width=1cm,minimum height=0.5cm] at (4.0,3.25) {};
+%    \node at (4.0,2.25) {Reference trajectory};
+%
+%    % Vector Field
+%    \node[rectangle,minimum width=2cm, text width=2cm,minimum height=1cm,draw=blue!70,fill=blue!20,align=center] (vectorfields) at (0.0,0.0) 
+%         {Vector Field\\
+%           $\pgfuseimage{VectorFields}$};
+%         %\node at (0.0,2.5) {$\gamma,\beta$};
+%
+%    % Walking Pattern Generator
+%    \node[rectangle,minimum width=2cm, minimum height=1cm,draw=blue!70,fill=blue!20]  (wpg) at (5.4,1.0) {Walking Pattern Generator};
+%
+%    % Robot
+%    \node[rectangle,minimum width=2cm, text width=3cm, align=center, minimum height=1cm,draw=blue!70,fill=blue!20] (sot) at (6.0,-1.0) 
+%      {Stack-of-Tasks\\ Whole Body Motion Generator};
+%
+%    % Power Law
+%    \node[rectangle,text width=2cm,align=center,minimum width=2cm, minimum height=1cm,draw=blue!70,fill=blue!20] (powerlaw) at (3.0,-1.0) {Power Law\\$\gamma,\beta$};
+%    \path[->,>=stealth',draw=black] (vectorfields.314)-- node[below] {$\kappa$} (powerlaw.189);
+%    \path[->,>=stealth',draw=black] (powerlaw.170)-- node[above] {$v$} (vectorfields.325);
+%
+%    % Robot
+%    \node[rectangle,minimum width=2cm, minimum height=1cm,draw=blue!70,fill=blue!20] (robot) at (6.0,-3.0) {Robot};
+%
+%    % Localization
+%    \node[rectangle,minimum width=2cm, minimum height=1cm,draw=blue!70,fill=blue!20] (localization) at (0.0,-3.0) {Localization};
+%
+%    %\path[->,>=stealth',draw=black] (0.0,2.25)-- (vectorfields.90);
+%
+%    % Links
+%    \draw[->,>=stealth',draw=black] (ellipseref.180) -| (vectorfields.90);
+%    \draw[->,>=stealth',draw=black] (vectorfields.42) -- node[above] {${\bf c}^*$} (wpg.180);
+%    \path[->,>=stealth',draw=black] (wpg.320)-- node[left] {${\bf c}_{ref},{\bf z}_{ref},{\bf LF}_{ref},{\bf RF}_{ref}$}(sot);
+%    \path[->,>=stealth',draw=black] (sot)-- node[right] {${\bf q}$} (robot);
+%    \path[->,>=stealth',draw=black] (robot)-- node[below,font=\small] {Motion capture}(localization);
+%    \path[->,>=stealth',draw=black] (localization)-- node[left] {${\bf w}$}(vectorfields);
+%  \end{tikzpicture}
 %  \end{center}
 %\end{frame}
 
@@ -59,7 +98,7 @@
 	  \end{tabular}
   \end{table}
   \end{center}
-  \blfootnote{(Karklinsky et al. BioRob 2016)}
+  \blfootnote{(Karklinsky, \textbf{Naveau} et al. BioRob 2016)}
 %  
 %  Globally, the     values of the simulated motions reflect the ones of     the reference trajectory 
 %

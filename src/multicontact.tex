@@ -1,27 +1,31 @@
 
 \begin{frame}{Multicontact Locomotion}
-\framesubtitle{
-  \textcolor{green!30!black!80}{
-    (M. Kudruss, Humanoids 2015)  ;
-    (J. Carpentier, ICRA 2016)
-  }
-}
+\vspace*{-0.5cm}
+\begin{itemize}
+ \item Observation : Great energy consumption during climbing stairs
+\end{itemize}
 
 \begin{center}
-  \includegraphics[height=0.38\textheight]{multicontact/cover.pdf}
-  \scalebox{0.3}{\input{./figures/multicontact/tikz/escalier.tex}}
+  \includegraphics[height=0.6\textheight]{multicontact/cover.pdf}
+  \hspace*{0.5cm}
+  \begin{minipage}{0.3\linewidth}
+    \vspace*{-4.8cm}
+    \includegraphics[width=\linewidth]{multicontact/rbprm2.png}\\
+    \includegraphics[width=\linewidth]{multicontact/rbprm3.png}  
+  \end{minipage}
 \end{center}
-\vspace*{-0.5cm}
-\begin{center}
-  \scalebox{0.7}{\input{./figures/multicontact/tikz/feedback_scheme.tex}}
-\end{center}
+
+
+\begin{itemize}
+ \item Hypothesis : Distributing the forces on the whole robot body will decrease the energy consumption
+\end{itemize}
 
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-\begin{frame}{The formulation of the dynamics}
+\begin{frame}{Centroidal Dynamics}
 
 \begin{itemize}
 
@@ -36,7 +40,7 @@
   +
   \begin{bmatrix}
    {\bf 0} \\
-     \textcolor{txtcolor2}{{\bf I}_c \dot{\omega} - \sigma}
+     \textcolor{txtcolor2}{{\bf I}_c \dot{\omega}}
   \end{bmatrix}
   =
   \begin{bmatrix}
@@ -56,7 +60,7 @@ $
 \item the controls :
 $
 \begin{bmatrix}
-\ff & \textcolor{txtcolor2}{\sigma}
+\ff
 \end{bmatrix}^T
 $
 
@@ -74,7 +78,7 @@ $
   +
   \begin{bmatrix}
    {\bf 0} \\
-   \textcolor{txtcolor5}{ \dot{\mathcal{L}} }
+   \textcolor{txtcolor5}{ \dot{\bf \am} }
   \end{bmatrix}
   =
   \begin{bmatrix}
@@ -111,30 +115,47 @@ $
 \begin{column}{0.5\textwidth}
 
 \begin{itemize}
-\item \textcolor{txtcolor2}{(M. Kudruss, Humanoids 2015)}
+  \item {(M. Kudruss, Humanoids 2015)}
+\end{itemize}
+
+\begin{itemize}
+  \item Cost Functions :
+  \begin{itemize}
+    \item Linear/Angular velocity
+    \item \textcolor{blue!70!black}{CoM attracted by all contacts}
+    \item Controls (forces)
+    \item \textcolor{blue!70!black}{Fixed sequence timing}
+    \item Linear/Angular acceleration
+  \end{itemize}
+  \vspace*{0.5cm}
+  \item Constraints :
+  \begin{itemize}
+    \item \textcolor{blue!70!black}{Kinematic Constraints}
+    \item \textcolor{blue!70!black}{3D Friction Cone}
+  \end{itemize}
 \end{itemize}
 %
-\begin{subequations}
-\begin{eqnarray*}
-\hspace{0em}	\underset{\substack{\hspace{0.2em} \underline{\bm x}, \; \underline{\bm u}} }{\min } \ \ \
-	& & \hspace{-4em} \int_{0}^{T}
-%	{\scriptstyle
-	  \textcolor{red!70!black}{||\dcom||^2_2 +
-	  ||{\omega}||^2_2} +
-    \textcolor{orange!70!black}{\ell_2\,_{kin}} \\
-    & & \hspace{-3em} +
-    \textcolor{green!50!black}{||{\dot{\omega}}||^2_2} +
-    \textcolor{purple!100!blue!100}{||{\ddcom}||^2_2}
-%  }
-  dt  \\[1em]
-	s.t.
-	&  \forall t,i& \ff \in \mathcal{K}_i^{\textcolor{blue!50!green!100!black}{3D}} \\
-  &  \forall t& \textcolor{orange!70!black}{\com ,\; \dcom} ,\; {\omega} \in \mathcal{B}_x \\ 
-  &  \forall t,i& {\ff ,\; {\sigma}} \in \mathcal{B}_u    \\[1em]
-  & \forall t & \dot{\bm{x}} = {dyn}(\bm x, \bm u)  \\	
-	& & \hspace{-4em} \bm x(0) = \bm x_{0} \; ; \; \bm x(T) \in \mathcal{X}_* 
-\end{eqnarray*}
-\end{subequations}
+%\begin{subequations}
+%\begin{eqnarray*}
+%\hspace{0em}	\underset{\substack{\hspace{0.2em} \underline{\bm x}, \; \underline{\bm u}} }{\min } \ \ \
+%	& & \hspace{-4em} \int_{0}^{T}
+%%	{\scriptstyle
+%	  \textcolor{red!70!black}{||\dcom||^2_2 +
+%	  ||{\omega}||^2_2} +
+%    \textcolor{orange!70!black}{\ell_2\,_{kin}} \\
+%    & & \hspace{-3em} +
+%    \textcolor{green!50!black}{||{\dot{\omega}}||^2_2} +
+%    \textcolor{purple!100!blue!100}{||{\ddcom}||^2_2}
+%%  }
+%  dt  \\[1em]
+%	s.t.
+%	&  \forall t,i& \ff \in \mathcal{K}_i^{\textcolor{blue!50!green!100!black}{3D}} \\
+%  &  \forall t& \textcolor{orange!70!black}{\com ,\; \dcom} ,\; {\omega} \in \mathcal{B}_x \\ 
+%  &  \forall t,i& {\ff ,\; {\sigma}} \in \mathcal{B}_u    \\[1em]
+%  & \forall t & \dot{\bm{x}} = {dyn}(\bm x, \bm u)  \\	
+%	& & \hspace{-4em} \bm x(0) = \bm x_{0} \; ; \; \bm x(T) \in \mathcal{X}_* 
+%\end{eqnarray*}
+%\end{subequations}
 
 \end{column}
 %
@@ -144,29 +165,47 @@ $
 \begin{column}{0.5\textwidth}
 
 \begin{itemize}
-\item \textcolor{txtcolor5}{(J. Carpentier, ICRA 2016)}
+\item {(J. Carpentier, ICRA 2016)}
 \end{itemize}
+
+\begin{itemize}
+  \item Cost Functions :
+  \begin{itemize}
+    \item {Linear Momentum}
+    \item \textcolor{blue!70!black}{CoM rejected by all contacts}
+    \item {Controls (forces and torques)}
+    \item \textcolor{blue!70!black}{Free sequence timing}
+    \item {Linear/Angular momentum derivatives}
+  \end{itemize}
+  \item Constraints :
+  \begin{itemize}
+    \item \textcolor{blue!70!black}{No Kinematics Hard Constraints}
+    \item \textcolor{blue!70!black}{6D Friction Cone}
+  \end{itemize}
+\end{itemize}
+
 %
-\begin{subequations}
-\begin{eqnarray*}
-\hspace{0em}	\underset{\substack{\hspace{0.2em} \underline{\bm x}, \; \underline{\bm u}} }{\min } \ \ \  
-	& & \hspace{-4em} \int_{0}^{T}
-%	{\scriptstyle
-    \textcolor{red!70!black}{||m\dcom||^2_2} +
-  	  \textcolor{orange!70!black}{\text{exp}_{kin}} \\
-  	  & & \hspace{-3em} +
-    \textcolor{green!50!black}{||{\dot{\mathcal{L}}}||^2_2} +
-	  \textcolor{purple!100!blue!100}{||{\ff}||^2_2} 
-%  }
-  dt  \\[1em]
-	s.t.
-	&  \forall t,i& [\ff \;\; {\tauf}] \in \mathcal{K}_i^{\textcolor{blue!50!green!100!black}{6D}} \\
-  &  \forall t& {{\mathcal{L}}} \in \mathcal{B}_{\mathcal{L}}    \\ 
-  &  \forall t& {\ff ,\; {\tauf}} \in \mathcal{B}_u    \\ [1em]
-  & \forall t,i & \dot{\bm{x}} = {dyn}(\bm x, \bm u)  \\	
-	& & \hspace{-4em} \bm x(0) = \bm x_{0} \; ; \; \bm x(T) \in \mathcal{X}_* 
-\end{eqnarray*}
-\end{subequations}
+%\begin{subequations}
+%\begin{eqnarray*}
+%\hspace{0em}	\underset{\substack{\hspace{0.2em} \underline{\bm x}, \; \underline{\bm u}} }{\min } \ \ \  
+%	& & \hspace{-4em} \int_{0}^{T}
+%%	{\scriptstyle
+%    \textcolor{red!70!black}{||m\dcom||^2_2} +
+%  	  \textcolor{orange!70!black}{\text{exp}_{kin}} \\
+%  	  & & \hspace{-3em} +
+%    \textcolor{green!50!black}{||{\dot{\mathcal{L}}}||^2_2} +
+%	  \textcolor{purple!100!blue!100}{||{\ff}||^2_2} +
+% 	  \textcolor{purple!100!blue!100}{||{\tauf}||^2_2} 
+%%  }
+%  dt  \\[1em]
+%	s.t.
+%	&  \forall t,i& [\ff \;\; {\tauf}] \in \mathcal{K}_i^{\textcolor{blue!50!green!100!black}{6D}} \\
+%  &  \forall t& {{\mathcal{L}}} \in \mathcal{B}_{\mathcal{L}}    \\ 
+%  &  \forall t& {\ff ,\; {\tauf}} \in \mathcal{B}_u    \\ [1em]
+%  & \forall t,i & \dot{\bm{x}} = {dyn}(\bm x, \bm u)  \\	
+%	& & \hspace{-4em} \bm x(0) = \bm x_{0} \; ; \; \bm x(T) \in \mathcal{X}_* 
+%\end{eqnarray*}
+%\end{subequations}
 
 \end{column}
 \end{columns}
@@ -184,6 +223,9 @@ $
     }  
     {videos/multicontact-short.mp4}
   \end{center}
+  \vspace*{-0.5cm}
+  \blfootnote{Kudruss, \textbf{Naveau} et al. Humanoids 2015)}
+  \blfootnote{Carpentier, Tonneau, \textbf{Naveau} et al. ICRA 2016)}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

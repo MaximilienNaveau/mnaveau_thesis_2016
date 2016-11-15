@@ -61,43 +61,22 @@
 %\end{frame}
  
 \begin{frame}{Pulling hose problem}
-\framesubtitle{
-  \textcolor{green!30!black!80}
-  {
-    (I. Ramirez-Alpizar, Humanoids 2016)
-  }
-}
-%
+  \vspace*{-0.5cm}
   \begin{center}
     \movie[autostart,loop,continue]{
       \includegraphics[height=0.5\textheight, keepaspectratio]
       {hose_xp/withoutwalkingtask.png}
     }
-    {./videos/wihtoutwalkingtask.mpg}\\
-  \end{center}
-  \textbf{\color{txtcolor2} Major technical issues :}\\
-  \begin{minipage}{0.48\textwidth}
+    {./videos/wihtoutwalkingtask.mpg}
+  \end{center} 
+  \begin{itemize}
+    \item Observation : important drift, robot less balanced
+    \item Hypothesis :
     \begin{itemize}
-      \item \textbf{\color{txtcolor2} pulling :}
-      \begin{itemize}
-        \item Important drift
-        \item Robot less balanced
-      \end{itemize}
+      \item simple controller is enough to correct the drift
+      \item admittance control should reject the perturbation 
     \end{itemize}
-  \end{minipage}
-%    
-  \begin{minipage}{0.48\textwidth}
-    \begin{itemize}
-      \item \textbf{\color{txtcolor2} picking :}
-      \begin{itemize}
-        \item Self-collision
-        \item Joint limit
-        \item Balance
-      \end{itemize}
-    \end{itemize}
-  \end{minipage}
-%
-
+  \end{itemize}
 \end{frame} 
  
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -320,7 +299,7 @@
 
 \begin{frame}{3 combined controllers}
 %
-  \begin{minipage}{0.30\textwidth}
+  \begin{minipage}{0.3\textwidth}
     \begin{center}
       \includegraphics[trim={7.0cm 2.0cm 10.5cm 2.0cm}, clip, height=0.30\textheight]
       {hose_xp/pickup.png}
@@ -329,26 +308,29 @@
   \end{minipage}
 %
 {\color{txtcolor2}\vrule}
-  \begin{minipage}{0.25\textwidth}
+  \begin{minipage}{0.3\textwidth}
     \begin{center}
       \includegraphics[height=0.20\textheight]{./camera_raptor.jpeg}
     \end{center}
   \end{minipage}
 %
 {\color{txtcolor2}\vrule}    
-  \begin{minipage}{0.4\textwidth}
+  \begin{minipage}{0.3\textwidth}
     \begin{center}
+      {\scriptsize Without the controller}
       \includegraphics[trim={5.0cm 1.5cm 7.0cm 1.0cm}, clip, width=\textwidth , height=0.15\textheight]
       {hose_xp/force_Z_feet_withoutController_zoomEnd.pdf}\\[1.ex]
+      {\scriptsize With the controller}
       \includegraphics[trim={5.0cm 1.5cm 7.0cm 1.0cm}, clip, width=\textwidth , height=0.15\textheight]
       {hose_xp/force_Z_feet_withController_zoomEnd.pdf}\\
       %trim={<left> <lower> <right> <upper>}
-      {\scriptsize left/right foot $z$ forces}
+      {\scriptsize {\color{blue}left}/{\color{red}right} foot $z$ forces}
       \end{center}
   \end{minipage}\\[-1ex]
 %   
-  \begin{minipage}{0.30\textwidth}
-    \vspace*{2ex}
+  \begin{minipage}{0.3\textwidth}
+    \vspace*{-1cm}
+    Planning:
     \begin{itemize}
       \item Static Balance
       \item Feet flat
@@ -357,100 +339,22 @@
   \end{minipage}
 %
 {\color{txtcolor2}\vrule}
-  \begin{minipage}{0.25\textwidth}
-    \vspace*{2ex}
+  \begin{minipage}{0.3\textwidth}
+    \vspace*{-0.2cm}
+    Position Control :
     \begin{itemize}
-      \item PI controller
+      \item Reactive Walking
+      \item Localization via motion capture
+      \item {\footnotesize Perturbation rejection}\textbf{{\scriptsize (in progress)}}
     \end{itemize}
-%    \vspace*{-0.5cm}
-%    \begin{scriptsize}
-%    \begin{align*}
-%      \tikz[baseline]{
-%        \node[fill=txtcolor1,anchor=base] (v)
-%        { $ \mathbf{v}^{\mathrm{ref}} $ };
-%      }
-%      = &- \tikz[baseline]{
-%        \node[fill=txtcolor2,anchor=base] (l1)
-%        {$\lambda$};
-%      } \;
-%      \tikz[baseline]{
-%        \node[fill=txtcolor3,anchor=base] (e1)
-%        {$ \mathbf{e}_{ch} $};
-%      }
-%      %
-%      \\
-%      %    
-%      &- 
-%      \tikz[baseline]{
-%        \node[fill=txtcolor2,anchor=base] (l2)
-%        {$ \mathbf{\Lambda} $};  
-%      }
-%      \int \tikz[baseline]{
-%        \node[fill=txtcolor3,anchor=base] (e2)
-%        {$ \mathbf{e}_{ch} $};
-%      } dt
-%    \end{align*}
-%    \tikz[baseline]{
-%    \node[fill=txtcolor3,anchor=base] (e3)
-%      {$ \mathbf{e}_{ch} $};
-%    }
-%    $= 
-%    \begin{bmatrix}
-%      x_{ch} \\ y_{ch} \\ \theta_{ch}
-%    \end{bmatrix}
-%    -
-%    \begin{bmatrix}
-%      x^{des}_{ch} \\ y^{des}_{ch} \\ \theta^{des}_{ch}
-%    \end{bmatrix}
-%    $   
-%    \end{scriptsize}
   \end{minipage}
 %
 {\color{txtcolor2}\vrule}
-  \begin{minipage}{0.40\textwidth}
-    \vspace*{2ex}
+  \begin{minipage}{0.3\textwidth}
+    \vspace*{-0.5cm}
     \begin{itemize}
     \item Hybrid Control on the left gripper
     \end{itemize}
-%    \vspace*{-0.5cm}
-%    \begin{scriptsize}
-%    \begin{align*}
-%      m & \tikz[baseline]{
-%        \node[fill=txtcolor1,anchor=base] (a)
-%        { $ \ddot{\bf lw}^{\alpha} $ };
-%      }
-%     + c \tikz[baseline]{
-%        \node[fill=txtcolor1,anchor=base] (v)
-%        {$ \dot{\bf lw}^{\alpha} $};
-%      } = 
-%      %
-%      \\
-%      %
-%      &\tikz[baseline]{
-%        \node[fill=txtcolor4,anchor=base] (flw)
-%        {$ {\bf f}_{lw}^{\alpha} $};
-%      } + 
-%      \tikz[baseline]{
-%        \node[fill=txtcolor2,anchor=base] (fd)
-%        {$ {\bf f}_{d}^{\alpha} $};
-%      } + 
-%      \tikz[baseline]{
-%        \node[fill=txtcolor3,anchor=base] (fpull)
-%        {$ {\bf f}_{pull}^{\alpha} $};
-%      }
-%      %
-%      \\
-%      %
-%      &\alpha \in \{x,z\}
-%      %
-%      \\
-%      %
-%      &\tikz[baseline]{
-%        \node[fill=txtcolor1,anchor=base] (a)
-%        { $ {\bf lw}^{y} $ };
-%      } = {\bf waist}^{y} + \text{offset}
-%    \end{align*}
-%    \end{scriptsize}
   \end{minipage}
 %
 \end{frame}
@@ -468,9 +372,11 @@
 \begin{frame}{Complete motion}
   \begin{center}
     \movie[autostart,loop]{
-    \includegraphics[width=0.9\linewidth, height=\textheight, keepaspectratio]
+    \includegraphics[width=0.8\linewidth, height=\textheight, keepaspectratio]
     {hose_xp/wholemotion.png}    
     }  
     {./videos/wholemotion.mpg}
   \end{center}
+  \vspace*{-0.5cm}
+  \blfootnote{Ramirez-Alpizar, \textbf{Naveau} et al. Humanoids 2016}
 \end{frame}
