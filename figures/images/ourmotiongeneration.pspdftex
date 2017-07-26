@@ -1,0 +1,21 @@
+\begin{picture}(0,0)%
+\includegraphics{./images/ourmotiongeneration_pspdftex}%
+\end{picture}%
+\setlength{\unitlength}{4144sp}%
+%
+\begingroup\makeatletter\ifx\SetFigFont\undefined%
+\gdef\SetFigFont#1#2#3#4#5{%
+  \reset@font\fontsize{#1}{#2pt}%
+  \fontfamily{#3}\fontseries{#4}\fontshape{#5}%
+  \selectfont}%
+\fi\endgroup%
+\begin{picture}(10374,6324)(-11,-6373)
+\put(9001,-1096){\makebox(0,0)[lb]{\smash{{\SetFigFont{20}{24.0}{\familydefault}{\mddefault}{\updefault}{\color[rgb]{0,0,0}$\dot{\bf{q}}(t),\bf{q}(t)$}%
+}}}}
+\put(5491,-1141){\makebox(0,0)[lb]{\smash{{\SetFigFont{20}{24.0}{\rmdefault}{\mddefault}{\itdefault}{\color[rgb]{0,0,0}$\bf{p}(t)$}%
+}}}}
+\put(5491,-2086){\makebox(0,0)[lb]{\smash{{\SetFigFont{20}{24.0}{\rmdefault}{\mddefault}{\itdefault}{\color[rgb]{0,0,0}$\bf{c}(t)$}%
+}}}}
+\put(1891,-4876){\makebox(0,0)[lb]{\smash{{\SetFigFont{20}{24.0}{\rmdefault}{\mddefault}{\itdefault}{\color[rgb]{0,0,0}$min_{\mathcal{C}_i \in \mathcal{C}, t \in [O,T]} d_{\mathcal{C}_i}(\bf{q}(t))$}%
+}}}}
+\end{picture}%

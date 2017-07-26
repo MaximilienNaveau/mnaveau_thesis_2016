@@ -1,0 +1,8 @@
+To build this document :
+
+"""
+cd [document_root]
+make
+"""
+
+The pdf is located in the [build/] folder, a successfull build is located in [bin/]
