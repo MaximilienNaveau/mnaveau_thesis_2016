@@ -23,14 +23,15 @@ define prepare_build
 	$(bash export TEXINPUTS=$(pwd)/:$(TEXINPUTS))
 	if [ ! -d "build" ]; then mkdir build; fi
 	if [ ! -d "bin" ]; then mkdir bin; fi
-	ln -fs ../$(SOURCEDIR)/$(FILENAME).bib ./build/
 	ln -fs ../$(SOURCEDIR)/$(FILENAME)-short.bib ./build/
 # 	create a link to the log file for texmaker
 	ln -sf ../$(BUILDDIR)/$(FILENAME).log $(SOURCEDIR)/
 	ln -sf ../src/texmf/tex/latex/modele-these/StyleThese.bst $(BUILDDIR)/
 	ln -sf ../src/texmf/tex/latex/modele-these/StyleThese.cls $(BUILDDIR)/
+	ln -sf ../src/texmf/tex/latex/modele-these/formatAndDefs.tex $(BUILDDIR)/
+	ln -sf ../src/texmf/tex/latex/modele-these/formatAndDefs.aux $(BUILDDIR)/
 	ln -sf ../src/texmf/tex/latex/modele-these/tlsflyleaf.sty $(BUILDDIR)/
-	# ln -sf ../src/texmf/tex/latex/modele-these/tlsflyleaf $(SOURCEDIR)/
+	ln -sf ../src/texmf/tex/latex/modele-these/tlsflyleaf $(SOURCEDIR)/
 endef
 
 define end_build
