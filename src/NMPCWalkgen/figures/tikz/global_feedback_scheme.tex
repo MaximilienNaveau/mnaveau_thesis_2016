@@ -1,0 +1,85 @@
+%!TEX root = ../../14-icra-RealTimeNMPC.tex
+
+\tikzstyle{block} = [draw, fill=blue!20, rectangle,
+    minimum height=2em, minimum width=5em, align=center]
+\tikzstyle{sum} = [draw, fill=blue!20, circle, node distance=1cm]
+\tikzstyle{input} = [coordinate]
+\tikzstyle{output} = [coordinate]
+\tikzstyle{pinstyle} = [pin edge={to-,thin,black}]
+
+% The block diagram code is probably more verbose than necessary
+\begin{tikzpicture}[auto, node distance=2cm,>=latex]
+    % We start by placing the blocks
+    \node [input]  at (-1.5, 0.0) (input)  {};
+    \node [input]  at (-0.5, -1.0) (feedback)  {};
+    \node []    at ( 0.0, 0.0) (sumin)  {};
+    \node [output]    at ( 14, 0.0) (sumout) {};
+
+    \node [block] at (0.8,0) (wpg) {
+        Walking\\
+        Pattern\\
+        Generator
+    };
+    \node [block] at (3.8,0) (dyn) {
+        Dynamic\\
+        Filter
+    };
+    \node [block] at (7.0,0) (sot) {
+        Generalized\\
+        Inverse\\
+        Kinematics
+    };
+    \node [block] at (10.5, 0) (system) {
+    		Robot Hardware\\
+    		{\small Simulation/Robot}
+    	};
+
+    % PATHS
+    	% Forward chaine
+    \draw [draw,->] (input) -- node {\small ${Vel}^{\,ref}$} (wpg);
+    \draw [draw,->] (wpg) -- node [text width=0.7cm]{\small $c^{ref}$ $f^{ref}$} (dyn);
+    \draw [draw,->] (dyn.east) -- node [text width=0.7cm]{\small $\tilde{c}^{\,ref}$ $f^{ref}$} (sot);
+    \draw [draw,->] (sot) -- node [text width=0.7cm]{\small $q^{ref}$ $\dot q^{ref}$} (system);
+    %\draw [->] (system) -- node {} (sumout);
+
+    % Feedback chaine
+    \draw [- ] ($(dyn.east) + (0.35,0.0)$)  |- node {} (feedback);
+    \draw [->] (feedback) |- node {} ([yshift=-0.2cm]wpg);
+
+%    \draw [->] (dyn) -| node[above right] {\small $\hat{c}^{\,x,y,\theta}$, $\hat{f}^{\,\,x,y,\theta}$} (wpg);
+\end{tikzpicture}
+
+
+% The block diagram code is probably more verbose than necessary
+%\begin{tikzpicture}[auto, node distance=2cm,>=latex']
+%    % We start by placing the blocks
+%    \node [input]  at (-0.5, 0.0) (input)  {};
+%    \node [sum]    at ( 0.5, 0.0) (sumin)  {};
+%    \node [sum]    at ( 6.5, 0.0) (sumout) {};
+%    \node [output] at ( 7.5, 0.0) (output) {};
+%
+%    % QP Controller Blocks
+%    \node [block] at (2.0,0) (oriqp) {
+%        QP Controller\\
+%        \small{Orientation}
+%    };
+%    \node [block] at (5.0,0) (posqp) {
+%        QP Controller\\
+%        \small{Position}
+%    };
+%    \node [block] at (5.0, -2.0) (dynamics) {Dynamics};
+%    \node [block] at (2.0, -2.0) (system)   {System};
+%
+%    % PATHS
+%    \draw [draw,->] (input) -- node {$
+%        \dot C_{k+1}^{ref}
+%    $} (sumin);
+%    \draw [->] (oriqp) -- node {$U_k$} (posqp);
+%    \draw [->] (posqp) -- node {$U_k$} (sumout);
+%    \draw [->] (dynamics) --  (system);
+%
+%    \draw [->] (sumout) -- node {$ $} (output);
+%    \draw [->] (sumin) -- node {} (oriqp);
+%    \draw [->] (sumout) |- node[near start] {$y$}   (dynamics);
+%    \draw [->] (system) -| node[near end]   {$val$} (sumin);
+%\end{tikzpicture}

@@ -1,0 +1,22 @@
+\ifdefined\included
+\else
+\documentclass[a4paper,11pt,twoside]{StyleThese}
+\include{formatAndDefs}
+\sloppy
+\begin{document}
+\setcounter{chapter}{0} %% Numéro du chapitre précédent ;)
+\dominitoc
+\dominilof
+\faketableofcontents
+\fakelistoffigures
+\fi
+
+
+
+
+\ifdefined\included
+\else
+\bibliographystyle{StyleThese}
+{\footnotesize \bibliography{16-thesis-mnaveau}}
+\end{document}
+\fi

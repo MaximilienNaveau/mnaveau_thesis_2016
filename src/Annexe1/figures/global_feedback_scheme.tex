@@ -1,0 +1,213 @@
+%!TEX root = ../../14-icra-RealTimeNMPC.tex
+
+\tikzstyle{block} = [draw, fill=blue!20, rectangle,
+    minimum height=2em, minimum width=5em, align=left]
+\tikzstyle{sum} = [draw, fill=blue!20, circle, node distance=1cm]
+\tikzstyle{input} = [coordinate]
+\tikzstyle{output} = [coordinate]
+\tikzstyle{pinstyle} = [pin edge={to-,thin,black}]
+
+\begin{tikzpicture}[auto, node distance=2cm,>=latex, font=\footnotesize]
+    % We start by placing the blocks
+    \node [input]  at (0.0, 0.0) (input)  {};
+    \node [input]  at (3, 0.0) (velocity) {};
+    \node [input]  at (0.2, -2.8) (feedback)  {};
+    \node [input]  at (13.5, -2.8) (feedback2)  {};
+    \node []    at ( 0.0, 0.0) (sumin)  {};
+    %\node [output]    at ( 15, 0.0) (sumout) {};
+    
+    \node [block] at (0,0) (wpg) {
+      W.P.G. \\
+      \hspace*{0.2cm} FIFO :\\
+      T = $0.8$ s\\
+      dt = $0.005$ s
+    };
+        
+    \node [block] at (3.2,0) (sub) {
+      Subsampling\\
+      \hspace*{0.2cm} FIFO :\\
+      T = $0.8$ s\\
+      dt = $0.005*i$ s
+    };
+
+    \node [block] at (6.6,0) (aik) {
+      A.I.K.\\
+      \hspace*{0.2cm} FIFO :\\
+      T = $0.8$ s\\
+      dt = $0.005*i$ s
+    };
+
+    \node [block] at (9.7,0) (fd) {
+      F.D.\\ % finite differenciation
+      \hspace*{0.2cm} FIFO :\\
+      T = $0.8$ s\\
+      dt = $0.005*i$ s
+    };
+
+    \node [block] at ([yshift=2cm]fd) (ub) {
+      Upper Body \\
+      \hspace*{0.2cm} FIFO :\\
+      T = $0.1$ s\\
+      dt = $0.005$ s
+    };
+
+    \node [block] at (13.5,0) (id) {
+      I.D. + $CoP^{MB}$\\ %inverse dynamics
+      \hspace*{0.2cm} FIFO :\\
+      T = $0.8$ s\\
+      dt = $0.005*i$ s
+    };
+
+    \node [block] at (2.2,-4) (li) {
+      L.I.\\ %linear interpolation
+      \hspace*{0.2cm} FIFO :\\
+      T = $0.8-0.005*i$ s\\
+      dt = $0.005$ s
+    };
+
+    \node [block] at (6.5,-4) (minus) {
+      Substractor \\
+      \hspace*{0.2cm} FIFO :\\
+      T = $0.8-0.005i$ s\\
+      dt = $0.005$ s
+    };
+
+    \node [block] at (10,-4) (pc) {
+      Kajita\\ Preview\\ Control\\
+      \hspace*{0.2cm} FIFO :\\
+      T = $0.1$ s\\
+      dt = $0.005$ s
+    };
+    
+    \node [block] at (13.1,-4) (add) {
+      Adder \\
+      \hspace*{0.2cm} FIFO :\\
+      T = $0.1$ s\\
+      dt = $0.005$ s
+    };
+    
+    \node [block] at (15.5,-2) (ctrlfifo) {
+      Ctrl FIFO \\
+      \hspace*{0.2cm} FIFO :\\
+      T = $0.1$ s\\
+      dt = $0.005$ s
+    };
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    % PATHS
+    	% Forward chaine
+    	\draw [draw,->] (wpg) -- node
+    	{
+    	  $\begin{matrix}
+      	  \mathbf{CoM}^{*}\\
+      	  \mathbf{CoP}^{*}\\
+      	  \mathbf{Feet}^{*}
+    	  \end{matrix}$
+    	} (sub);
+    	
+    	\draw [draw,->] (sub) -- node
+    	{
+    	  $\begin{matrix}
+      	  \mathbf{CoM}^{*}\\
+      	  \mathbf{CoP}^{*}\\
+      	  \mathbf{Feet}^{*}
+    	  \end{matrix}$
+    	} (aik);
+    	
+    	\draw [draw,- ] (ub) -| node
+    	{
+    	  $\begin{matrix}
+      	  \mathbf{q}^{ub}        \\
+      	  \mathbf{\dot{q}}^{ub}  \\
+      	  \mathbf{\ddot{q}}^{ub}
+    	  \end{matrix}$
+    	} ([xshift=-0.5cm,yshift=0.5cm]id.west);
+
+    	\draw [draw,->] ([xshift=-0.5cm,yshift=0.5cm]id.west) -- node
+    	{} ([yshift=0.5cm]id.west) ;
+
+    	\draw [draw,->] (aik) -- node
+    	{
+    	  $\begin{matrix}
+      	  \mathbf{q}^{ff}\\
+      	  \mathbf{q}^{lb}
+    	  \end{matrix}$
+    	} ([yshift=-0.1cm]fd);
+    	
+    	\draw [draw,->] (fd) -- node [below]
+    	{
+    	  $\begin{matrix}
+      	  \mathbf{q}^{lb+ff}        \\
+      	  \mathbf{\dot{q}}^{lb+ff}  \\
+      	  \mathbf{\ddot{q}}^{lb+ff}
+    	  \end{matrix}$
+    	} ([yshift=-0.1cm]id);
+    	
+ 		\draw [draw,dashed,- ] (id) -- node
+    	{
+    	  $\mathbf{CoP}^{MB}$
+    	} ([xshift=1.5cm]id.east);
+
+ 		\draw [draw,dashed,->] ([xshift=-1.5cm]li.west) -- node
+    	{
+    	  $\mathbf{CoP}^{MB}$
+    	} (li) ;    	
+    	
+    	\draw [draw,-] ([yshift=-0.8cm]wpg) -| node
+    	{} 	([xshift=0.2cm,yshift=-3cm]wpg.east);
+    	\draw [draw,-] ([xshift=0.2cm,yshift=-3cm]wpg.east) -| node [above left]
+    	{$ \mathbf{CoP}^{*} $	} ([xshift=-0.5cm,yshift=0.4cm]minus.west);
+    	\draw [draw,->] ([xshift=-0.5cm,yshift=0.4cm]minus.west) |- node
+    	{} ([yshift=0.4cm]minus.west);
+    	
+    	\draw [draw,->] (li) -- node [below]
+    	{
+    	  $ \mathbf{CoP}^{MB} $
+    	} (minus);
+
+    	\draw [draw,->] (minus) -- node [below]
+    	{
+    	  $ \begin{matrix}
+    	  \mathbf{\Delta CoP}
+    	  \end{matrix} $
+    	} (pc);
+
+    	\draw [draw,->] (pc) -- node [below]
+    	{
+    	  $ \begin{matrix}
+    	  \mathbf{\Delta CoM}
+    	  \end{matrix} $
+    	} (add);
+
+
+    	\draw [draw,-] (add) -| node
+    	{} 	([xshift=-0.3cm,yshift=-0.4cm]ctrlfifo.west);
+    	\draw [draw,->] ([xshift=-0.3cm,yshift=-0.4cm]ctrlfifo.west) -- node [xshift=0.5cm, yshift=-1cm]
+    	{$ \mathbf{\overline{CoM}}^{*} $	} ([yshift=-0.4cm]ctrlfifo.west);
+    	
+    	\draw [draw,-] ([yshift=-0.7cm]wpg) -| node
+    	{} 	([xshift=0.5cm,yshift=-2.5cm]wpg.east);
+    	\draw [draw,-] ([xshift=0.5cm,yshift=-2.5cm]wpg.east) -| node [above left]
+    	{$ \mathbf{CoM}^{*} $	} ([xshift=-0.5cm,yshift=0.4cm]pc.west);
+    	\draw [draw,->] ([xshift=-0.5cm,yshift=0.4cm]pc.west) -- node
+    	{} ([yshift=0.4cm]pc.west);
+
+    	\draw [draw,-] ([yshift=-0.5cm]wpg) -| node
+    	{} 	([xshift=0.8cm,yshift=-2cm]wpg.east);
+    	\draw [draw,->] ([xshift=0.8cm,yshift=-2cm]wpg.east) -- node [above left]
+    	{
+    	  $
+    	  \begin{matrix}
+    	    \mathbf{CoP}^{*} \\
+    	    \mathbf{Feet}^{*}
+    	  \end{matrix}
+    	  $
+    } (ctrlfifo.west);
+    	
+\end{tikzpicture}
+%
+%\caption[Block scheme of the dynamic filter]{
+%This scheme describe the action of the dynamic filter.
+%It contains all need information in order to filter a desired CoM trajectory ($\mathbf{CoM}^{*}$) knowing the feet and CoP trajectories($\mathbf{Feet}^{*}$,$\mathbf{CoP}^{*}$).
+%See Subsec.~\ref{subsec:technic} for all the details.
+%}

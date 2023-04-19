@@ -1,0 +1,10 @@
+bin/
+build/
+*.backup
+*.bak
+src/16-thesis-mnaveau.log
+src/HoseApplication/abst.tex
+*.zip
+*.~
+*.orig
+src/tlsflyleaf

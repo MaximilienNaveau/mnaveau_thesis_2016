@@ -1,0 +1,69 @@
+\documentclass[a4paper,11pt,twoside]{StyleThese}
+\newcommand{\included}{}
+
+\include{formatAndDefs}
+
+\title{\textbf{\large ADVANCED HUMAN INSPIRED WALKING STRATEGIES FOR HUMANOID ROBOTS}}
+\author{Maximilien NAVEAU}
+\defencedate{28/09/2016}
+\lab{Laboratoire d'analyse et d'architecture des syst\'emes}
+
+%% Boss
+\nboss{1}
+\makesomeone{boss}{1}{M. Olivier STASSE}{}{} % Sera afiche en premier
+%% Referee
+\nreferee{2}
+\makesomeone{referee}{1}{Mme Christine CHEVALLEREAU}{}{}
+\makesomeone{referee}{2}{M. Christian  OTT}{}{}
+%% Judges
+\njudge{5}
+\makesomeone{judge}{1}{Mme Christine CHEVALLEREAU}{Directeur de recherche}{Rapporteur}
+\makesomeone{judge}{2}{M. Christian OTT}{Chef de departement, DLR}{Rapporteur}
+\makesomeone{judge}{3}{M. Pierre-Brice WIEBER}{Charg\'e de Recherche}{Membre du Jury}
+\makesomeone{judge}{4}{M. Florent LAMIRAUX }{Directeur de recherche}{Membre du Jury}
+\makesomeone{judge}{5}{M. Olivier STASSE}{Directeur de recherche}{Directeur de th\`ese}
+
+\sloppy
+
+\begin{document}
+
+    \makeflyleaf
+
+    \cleardoublepage
+
+\pagenumbering{roman}
+
+\include{acknowledgment}
+
+\dominitoc
+\dominilof
+
+\tableofcontents
+%\listoffigures
+
+\mainmatter
+
+\include{Introduction}
+\include{Chapter-NMPCWalkgen}
+\include{Chapter-Multicontact}
+\include{Chapter-Application}
+\include{Conclusion}
+
+
+\appendix
+
+\include{Annexe1}
+
+\bibliographystyle{./StyleThese}
+%\bibliographystyle{plain}
+{
+\bibliographystyle{StyleThese}
+\newgeometry{left=1.0in,right=1.0in,top=1in,bottom=1in,
+  includefoot,includehead,headheight=13.6pt}
+\bibliography{16-thesis-mnaveau-short}
+\restoregeometry
+}
+
+\include{Resume}
+
+\end{document}

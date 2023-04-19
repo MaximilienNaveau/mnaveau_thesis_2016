@@ -1,0 +1,49 @@
+\section*{Contributions}
+\label{section:contribution}
+
+The scientific contributions of my thesis are :
+\begin{list}{ \arabic{point}.}{%
+		\usecounter{point}%
+		\setlength{\topsep}{5pt}%
+		\setlength{\itemsep}{0pt}%
+		\setlength{\parsep}{0pt}%
+		\setlength{\labelwidth}{3.em}%
+		\setlength{\leftmargin}{2em}%
+		\setlength{\labelsep}{0.5em}%
+	}
+\item[$\bluesquare$] the design a novel real time walking pattern generator using nonlinear model predictive control (Chap.~\ref{chap:nmpc}),
+%The input is a $SE(2)$ velocity $[\dot{x},\dot{y},\dot{\theta}]$. It optimizes simultaneously the position and orientation of the left and right foot respectively.
+%The use of a nonlinear solver allow additional functionalities like local obstacle avoidance.
+\item[$\bluesquare$] the implementation of two multicontact pattern generators using the centroidal dynamics. They both take the contact placements as input and produce dynamically stable center of mass (CoM) motion (Chap.~\ref{chap:multicontact}).
+\end{list}
+
+In the context of the \koroibot\ project several technical contributions are to be noted:
+\begin{list}{ \arabic{point}.}{%
+		\usecounter{point}%
+		\setlength{\topsep}{5pt}%
+		\setlength{\itemsep}{0pt}%
+		\setlength{\parsep}{0pt}%
+		\setlength{\labelwidth}{3.em}%
+		\setlength{\leftmargin}{2em}%
+		\setlength{\labelsep}{0.5em}%
+	}
+\item[$\bluesquare$] the integration of a hose manipulation by HRP-2. The robot pick the hose from the floor and pull it to a desired position without falling,
+\item[$\bluesquare$] the inclusion of the one third power law as control law for humanoid walking,
+\item[$\bluesquare$] the elaboration of transfer rules to use upper body human motions integrated with a walking pattern generator (Chap.~\ref{chap:primitives}),
+\item[$\bluesquare$] the study of potential application for humanoid robots in an industrial environment (Chap.~\ref{chap:univworker}) including,
+\begin{list}{ \arabic{point}.}{%
+		\usecounter{point}%
+		\setlength{\topsep}{5pt}%
+		\setlength{\itemsep}{0pt}%
+		\setlength{\parsep}{0pt}%
+		\setlength{\labelwidth}{3.em}%
+		\setlength{\leftmargin}{2em}%
+		\setlength{\labelsep}{0.5em}%
+	}
+	\item[$\bluesquare$] the use of fast planning in order to make HRP-2 walking towards a desired position while avoiding obstacles,
+	\item[$\bluesquare$] the integration of visual servoing to track a target position while walking,
+  \item[$\bluesquare$] the use of the whole body motion generator (Stack-of-Tasks) to evaluate the kinematic feasibility of screwing motions,
+	\item[$\bluesquare$] the design of feet 3D trajectory to allow the robot to climb stairs or go across stepping stones and beams,  
+\end{list}
+\item[$\bluesquare$] the implementation of the dynamic filter on the LAAS-CNRS HRP-2 (An.~\ref{an:dyn:filter}),
+\end{list}

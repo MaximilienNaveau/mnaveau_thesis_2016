@@ -1,0 +1,105 @@
+\section{Dynamic model}
+\label{sec:dyn}
+
+
+\subsection{Model of the whole body}
+
+We consider a free-floating based system composed of $6 + n$ degrees of freedom (DOF). Its configuration vector \mbox{$\bm q \in \mathcal{Q} \overset{\text{def}}{=}  SE(3) \times \mathbb{R}^{n}$} can be split in two parts: \mbox{$M = (R,p) \in SE(3)$} (represented by a homogeneous matrix $M\in\mathbb{R}^{4\times 4}$) characterizes the placement of a given link of the robot relatively to the inertial frame; and $\bm q_{a} \in \mathbb{R}^{n}$ is the configuration vector of the joints. 
+The first and second time derivatives of $\bm q$ are denoted by $\dot{\bm q} = \left( \bm v, \bm \omega, \dot{\bm q}_{a} \right)$ and $\ddot{\bm q} = \left( \dot{\bm v},  \dot{\bm \omega}, \ddot{\bm q}_{a} \right)$ where $\bm v$ and $\bm \omega$ are respectively the linear and angular velocity of the arbitrary free-floating base (typically, the center of the robot pelvis).
+
+Given a set of $K$ contacts  denoted by $\mathcal{I} \subset SE(3)^{K}$, the Lagrangian dynamics of the polyarticulated system is:
+\begin{equation}
+M_{\bm q}(\bm q)\ \ddot{\bm q}
++
+b_{\bm q}(\bm q, \dot{\bm q})
+= g_{\bm q}(\bm q) +
+S^{T} \bm \tau_q + \sum_{k = 1}^{K} J_{k}^{T}(\bm q)\ \BIN \bm f_i \\ \bm \tau_i \BOUT,
+\label{eq:lagragian_dyn}
+\end{equation}
+where $M_{\bm q}$ is the generalized inertia matrix, $b_{\bm q}$ is the centrifugal and Coriolis effects, $g_{\bm q}$ is the action of the gravity field, $S = \BIN 0_{n\times 6} & I_{n\times n} \BOUT$ is a selection matrix which distributes the joint-torque vector $\bm \tau_q$ over the configuration space, $J_{k}$ is the Jacobian of the contact $k$
+and $\bm f_{k}$ and $\bm \tau_{k}$ are the force and torque applied at the contact $k$.
+%$\bm \phi_{k}$ is the vectorial representation of the unilateral contact wrenches \cite{brogliato2012nonsmooth} acting on the robot and it is composed of a linear $\bm f_{k}$ and angular $\bm \tau_{k}$ components.
+
+In the following, we consider that the quantities $\bm v$, $\bm \omega$, $\bm f_k$, $\bm \tau_k$ are all represented in a common arbitrary inertial frame $\mathcal{F}_0$. We indistinctly design the Euclidean vector and its numerical representation. Similarly, the matrices $M_{\bm q}$ and $J_k$ are written in the same coordinate system.
+
+\subsection{Contact model}
+We assume that each contact $k$ corresponds to a rigid interface (i.e. no motion, only forces) between one body of the robot and the environment. Each contact is associated to a robot body and to a placement $M_k = (R_k,\bm p_k) \in SE(3)$ defining the position $\bm p_k$ of an arbitrary reference point of the contacting body in the world and the orientation $R_k$ of this body (typically the reference point is the rotation center of the joint actuating the body).
+
+The interface is defined by a finite set of contact points where only forces (no torques) are exerted. For example, the contact of a rectangular foot with the ground is represented by four contact points corresponding to the four corners of the foot. 
+Each force is typically constrained to stay within a friction (quadratic ``ice-cream'') cone defined by the friction coefficient $\mu$. 
+
+Rather than considering for contact $k$ the collection of all these forces, we only consider the resulting wrench, i.e. the linear force $\bm f_k$ and the torque $\bm \tau_k$ about $\bm p_k$. The wrench $(\bm f_k, \bm \tau_k)$ is constrained to be in a 6D conic set $\mathcal{K}_k$, obtained as the Minkowski sum of the cones of the contact points \cite{caron_icra15}. Considering $(\bm f_k, \bm \tau_k) \in \mathcal{K}_{k}$ is equivalent to considering all the forces of the interface in their 3D cones.
+
+We denote by $\bm \phi = (\bm f_1, \bm \tau_1, ..., \bm \tau_K)$ the concatenation of all the contact wrenches, and by $\mathcal{K}$ the Cartesian product of the 6D contact cones.
+
+\subsection{The under-actuated dynamics}
+The contact forces and torques are related to the change of linear and angular momenta. We denote by $\bm h$ the linear momentum and $\am$ the angular momentum around the COM of the robot (once more expressed in $\mathcal{F}_0$). Denoting by $\bm c$ the COM, the linear momentum is simply $\bm h = m \dot{\bm c}$ with $m$ the total mass of the robot.
+The contact forces and torques modify the momentum according to the Newton-Euler law:
+%\begin{eqnarray}
+\begin{subequations}\label{eq:momentum}
+\begin{align}
+  \dot{\bm h}&= \sum_{k=0}^K \bm f_{k} + m \bm g \label{eq:linear_momentum}\\
+  \dot {\am} &= \sum_{k} (\bm p_{k} - \bm c) \times \bm f_{k} + \bm \tau_{k} \label{eq:angular_momentum},
+%\end{eqnarray}
+\end{align}
+\end{subequations}
+with $\bm p_k$ the ``center'' of contact $k$ around which $\bm \tau_k$ is expressed and $\bm g = (0,0,-9.81...)$ is the gravity 3D vector.
+
+These two equations simply correspond to the first six rows of \eqref{eq:lagragian_dyn}, but expressed around the COM instead of the robot root. Let the dynamics of the free-floating base (first six rows) be denoted by index $b$ and the  dynamics of the actuated segment ($n$ last rows) be denoted by index~$a$.
+\begin{equation}
+\begin{bmatrix}
+M_{b}\\
+M_{a}
+\end{bmatrix}
+\ddot{\bm q}
++
+\begin{bmatrix}
+b_{b} \\
+b_{a}
+\end{bmatrix}
+=
+\begin{bmatrix}
+g_{b} \\
+g_{a}
+\end{bmatrix}
++
+\begin{bmatrix}
+\bm 0_{6} \\
+\bm \tau_q
+\end{bmatrix}
++
+\sum_{k=1}^K
+\BIN J_{k,b}^T \\ J_{k,a}^T \BOUT \BIN \bm f_k \\ \bm \tau_k \BOUT
+\label{eq:split_dynamics}
+\end{equation}
+
+The $b$ rows corresponds to the total wrench applied to the robot, but expressed around the robot basis instead of the COM. Following this observation, $J_{k,b}$ has a particular shape $J_{k,b} = \BIN I & (\bm p_k-\bm b) \times \\ 0 & I \BOUT = \ ^bX_{k}$ with $\bm b$ the position of the robot's base and $\bm v \times$ the skew matrix associated to any vector real $\bm v$ of dimension $3$. 
+
+The total momentum of the system expressed around $\bm c$  is obtained by multiplying the first six rows of \eqref{eq:split_dynamics} by \mbox{$^cX_b^{*} $}:
+\begin{eqnarray}
+	\begin{bmatrix} \bm p \\  \mathcal{L} \end{bmatrix} 
+	\;=\;
+	^{\bm c}X_{b}^{*}\, M_{b}\,\dot{\bm q}\,,
+	&
+	^{\bm c}X_{b}^{*} = \BIN I & 0 \\ (\bm b - \bm c)\times & I \BOUT
+\end{eqnarray}
+Eqs. \eqref{eq:momentum} are obtained considering the velocity of the COM instead of the velocity of the base in the configuration velocity.
+
+\subsection{Sequence of contacts and phases}
+
+In the following, we will consider a sequence of contact configurations, i.e. an ordered collection of $S$ contact sets $\{ \mathcal{I}_1, ... \mathcal{I}_S \}$. Each contact set $\mathcal{I}_s$ corresponds to the \emph{phase} $s$ of the movement. Inside a phase, all the contacts of $\mathcal{I}_s$ are constants (according to the contact model). We denote the phase by exponent $s$: $K^s$ is the number of active contacts during phase $s$;  $\mathcal{K}_k^s$ is the 6D friction cone of contact $k$ during phase $s$; etc. For example a walking sequence would be first both feet touching the ground, then only one foot on the floor, etc. 
+
+The duration of the phase is typically specified by a time interval $\left[ \Delta \underline{ t}^s, \Delta  \bar t^s \right]$ of the minimum to maximum duration (with $\Delta \underbar t^s = \Delta \bar t^s$ when the duration is specified and $\Delta \underbar t^s = 0$, $\Delta \bar t^s = +\infty$ when no prior information is available).
+
+The number of contacts typically varies at each change of phase, and therefore the dimension of $\bm \phi$. In practice, two solutions might be considered. It is possible to consider that the wrenches of all possible contact bodies are contained in $\bm \phi$ while a binary variable $\alpha_k^s$ specifies if the contact $k$ is active during phase $s$: $\alpha_k^s$ is added in the dynamic equations as a factor of every instance of $\bm f_k$ and $\bm \tau_k$ to nullify the effect of inactive contacts~\cite{rotella_humanoid15}. The interest of this solution is that the dynamics keeps a constant dimension during all the movement, which simplifies the implementation of any control method.
+%
+Alternatively, it is possible to specifically handle the variation of dimension of $\bm \phi$ in the implementation. The advantage is that there is no artificial ``zeros'' in the dynamics and the implementation is more efficient \cite{kudruss_ichr15}.
+%
+In the implementation of our method, we have chosen the second solution. In the following, we will abusively neglect the change of dimension to keep the presentation simple.
+
+%\subsection{The phase dynamic}
+%In the following, we set $\bm u_{k}$ to be the stack of all the wrenches of the active contacts during for the set $\mathcal{I}_{k}$. For this contact set, the dynamics of the under-actuation is defined by:
+%\begin{equation} 
+%	\dot{\bm x} = f_{k} (\bm x, \bm u_{k})
+%\end{equation}
+%where $f_{k}$ is the right hand side of both equations (\ref{eq:linear_momentum}) and (\ref{eq:angular_momentum}) for the corresponding  active set $\mathcal{I}_{k}$.

@@ -1,0 +1,282 @@
+\newcommand{\chwithnonumbers}{false}
+\newcommand{\bq}{{\bf q}}
+\newcommand{\bhq}{{\bf \hat{q}}}
+\newcommand{\eq}[1]{(\ref{#1})}
+\newcommand{\mbf}[1]{{\mathbf{#1}}}
+\newcommand{\deriv}[1]{d#1}
+
+\newcommand{\R}{{\mathbb{R}}}
+
+\newcommand{\md}{d}
+
+% --- Notation --- %
+\newcommand{\mProjec}[1]{\mbf{Proj}(#1)}
+\newcommand{\mP}[1]{\mbf{P_{#1}}}
+\newcommand{\mPaug}[1]{\mbf{P_{#1}^{A}}}
+\newcommand{\mProj}[2]{\mbf{P_{#1 \dots #2}}}
+
+\newcommand{\mC}[1]{\mbf{C_{#1}}}
+
+\newcommand{\mL}[1]{\mbf{L_{#1}}}
+\newcommand{\mpL}[1]{\mbf{L_{#1}^{+}}}
+\newcommand{\maL}[1]{\mbf{\widehat{L}_{#1}}}
+\newcommand{\mapL}[1]{\mbf{\widehat{L_{#1}^{+}} }}
+\newcommand{\mpaL}[1]{\mbf{\widehat{L}_{#1}^{+}}}
+\newcommand{\mLaug}[1]{\mbf{L_{#1}^{A}}}
+\newcommand{\mpLaug}[1]{\mbf{L_{#1}^{A+}}}
+\newcommand{\mtL}[1]{\mbf{\widetilde{L_{#1}}}}
+\newcommand{\mtpL}[1]{\mbf{\widetilde{L_{#1}}^{+}}}
+
+\newcommand{\mJ}[1]{\mbf{J_{#1}}}
+\newcommand{\mhJ}[1]{\mbf{\hat{J}_{#1}}}
+\newcommand{\mdJ}[1]{\mbf{\dot{J}_{#1}}}
+\newcommand{\mpJ}[1]{\mbf{J_{#1}^{+}}}
+\newcommand{\maJ}[1]{\mbf{\widehat{J}_{#1}}}
+\newcommand{\mapJ}[1]{\mbf{\widehat{J_{#1}^{+}} }}
+\newcommand{\mpaJ}[1]{\mbf{\widehat{J}_{#1}^{+}}}
+\newcommand{\mJaug}[1]{\mbf{J_{#1}^{A}}}
+\newcommand{\mpJaug}[1]{\mbf{J_{#1}^{A+}}}
+\newcommand{\mtJ}[1]{\mbf{\widetilde{J_{#1}}}}
+\newcommand{\mtpJ}[1]{\mbf{\widetilde{J_{#1}}^{+}}}
+
+\newcommand{\me}[1]{\mbf{e_{#1}}}
+\newcommand{\mec}[1]{\mbf{e_{#1}^{*}}}
+\newcommand{\medot}[1]{\mbf{\dot{e_{#1}}}}
+\newcommand{\meddot}[1]{\mbf{\ddot{e_{#1}}}}
+\newcommand{\mde}[1]{\mbf{\md e_{#1}}}
+
+\newcommand{\mte}[1]{\mbf{\widetilde{e}_{#1}}}
+\newcommand{\mtedot}[1]{\mbf{\widetilde{\dot{e}_{#1}}}}
+\newcommand{\mteddot}[1]{\mbf{\widetilde{\ddot{e}_{#1}}}}
+
+\newcommand{\medotc}[1]{\mbf{\dot{e_{#1}}^{*}}}
+\newcommand{\meddotc}[1]{\mbf{\ddot{e_{#1}}^{*}}}
+
+\newcommand{\ms}[1]{\mbf{s_{#1}}}
+\newcommand{\msdot}[1]{\mbf{\dot{s_{#1}}}}
+\newcommand{\msd}[1]{\mbf{s^{*}_{#1}}}
+
+\newcommand{\mq}{\mbf{q}}
+\newcommand{\mqdot}{\mbf{\dot{q}}}
+\newcommand{\mqddot}{\mbf{\ddot{q}}}
+%\newcommand{\mdq}[1]{\mbf{\md q_{#1}}}
+\newcommand{\mdq}{\dot{\bf q}}
+\newcommand{\mddq}{\ddot{\bf q}}
+
+\newcommand{\mqr}{\mbf{\rho}}
+\newcommand{\mqrlim}{\mbf{\rho}_{lim}}
+\newcommand{\mqrdot}{\mbf{\dot{\rho}}}
+\newcommand{\mQmax}[1]{\mbf{Q_{#1}}^{MAX}}
+\newcommand{\mQmin}[1]{\mbf{Q_{#1}}^{MIN}}
+
+\newcommand{\mr}{\mbf{r}}
+\newcommand{\mrdot}{\mbf{\dot{r}}}
+\newcommand{\mscrew}{\mbf{v}}
+
+\newcommand{\mres}{\mbf{\rho}}
+
+\newcommand{\mevit}{\mbf{g}^{JointLim}}
+
+\newcommand{\mpot}[1]{V_{#1}}
+\newcommand{\mFpot}[1]{\mbf{g}_{#1}}
+\newcommand{\mf}[1]{\mbf{f}_{#1}}
+\newcommand{\mg}{\mbf{g}}
+\newcommand{\mgrad}[1]{{\nabla}_{#1}}
+\newcommand{\mgradT}[1]{{\nabla}_{#1}^{\top}}
+
+\newcommand{\qlim}[1]{\bar{q}_{#1}}
+\newcommand{\qmin}[1]{\bar{q}^{\min}_{#1}}
+\newcommand{\qmax}[1]{\bar{q}^{\max}_{#1}}
+\newcommand{\qlmin}[1]{\bar{q}^{\min}_{\ell#1}}
+\newcommand{\qlmax}[1]{\bar{q}^{\max}_{\ell#1}}
+
+\newcommand{\mqlim}[1]{\qlim{#1}}
+\newcommand{\mqmin}[1]{\qmin{#1}}
+\newcommand{\mqmax}[1]{\qmax{#1}}
+\newcommand{\mqlmin}[1]{\qlmin{#1}}
+\newcommand{\mqlmax}[1]{\qlmax{#1}}
+
+
+\newcommand{\mvv}{\hbox{\boldmath $v$}}
+\newcommand{\mvomega}{\hbox{\boldmath $\omega$}}
+
+
+\newcommand{\mI}{\mbf{I}}
+
+\newcommand{\derive}[2]{\frac{\deriv{#1}}{\deriv{#2}}}
+\newcommand{\dpartial}[2]{\frac{\partial{#1}}{\partial{#2}}}
+
+\newcommand{\mdeuxD}{2-D }
+\newcommand{\mtroisD}{3-D }
+\newcommand{\mdeuxDd}{2-1/2-D }
+
+
+
+\newcommand{\att}[1]{\underline{#1}}
+
+% \newcommand{\argmax}[1]{\arg\!\max_{\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!#1}}
+%\newcommand{\argmax}[1]{\mathop{\arg\!\max}_{#1}}
+
+%\newcommand{\argmax}[1]{\mathop{\mbox{argmax}}_{#1}}
+\newcommand{\mdint}{\int\!\!\!\int}
+
+
+\newcommand{\mCam}{{\bf C}}
+\newcommand{\mCamR}{{\bf \psi_c}}
+
+\ifthenelse{\equal{\chwithnonumbers}{true}}{
+\newcommand{\newchapter}{\chapter*}
+\newcommand{\newsection}{\section*}
+\newcommand{\newsubsection}{\subsection*}
+}
+{
+\newcommand{\newchapter}{\chapter}
+\newcommand{\newsection}{\section}
+\newcommand{\newsubsection}{\subsection}
+}
+
+\newcommand{\pcrefc}{PC^{ref}_{c}}
+\newcommand{\cpcrefc}{CPC^{ref}_{c}}
+\newcommand*\rfrac[2]{{}^{#1}\!/_{#2}}
+
+\renewcommand{\refeq}[1]{(\ref{#1})}
+
+
+% Robot model
+\newcommand{\robm}{\it model}
+
+% Generalized inertia matrix
+\newcommand{\im}{\bf H}
+
+% Centrifugal and Coriolis matrix
+\newcommand{\gbf}{\bf C}
+
+% Generalized forces.
+\newcommand{\mtau}{\bm \tau}
+
+% Local variables
+\newcommand{\mvJi}{{\bf v}_{Ji}}
+\newcommand{\mcJi}{{\bf c}_{Ji}}
+
+\newcommand{\BIN}{\begin{bmatrix}}
+\newcommand{\BOUT}{\end{bmatrix}}
+\newcommand{\am}{\mathcal{L}}
+\newcommand{\lm}{\mathcal{K}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+
+
+
+
+
+
+\newcommand{\mc}[1]{\multicolumn{1}{c}{#1}}
+
+\newcommand{\N}{\mathbb{N}}
+
+\newcommand{\xF}{{\bf x}}
+\newcommand{\uF}{{\bf u}}
+
+\newcommand{\QFs}{{\bf Q}}
+\newcommand{\pFs}{{\bf p}}
+\newcommand{\fFs}{{\bf f}}
+\newcommand{\VFs}{{\bf V}}
+\newcommand{\MFs}{{\bf M_v}}
+
+\newcommand{\Qf}{{\bf Q}_{i}}
+\newcommand{\pf}{{\bf p}_{i}}
+\newcommand{\ff}{{\bf f}_{i}}
+\newcommand{\fF}{{\bf F}_{i}}
+\newcommand{\ffz}{f_{i,z}}
+\newcommand{\ffx}{f_{i,x}}
+\newcommand{\ffy}{f_{i,y}}
+\newcommand{\com}{{\bf c}}
+%\newcommand{\comr}{{\bf c}^*}
+\newcommand{\dcom}{\dot{\bf c}}
+\newcommand{\ddcom}{\ddot{\bf c}}
+\newcommand{\dddcom}{\dddot{\bf c}}
+
+\newcommand{\comr}{{\bf \theta}}
+\newcommand{\dcomr}{{\bf \omega}}
+\newcommand{\ddcomr}{\dot{\bf \omega}}
+
+\newcommand{\ffk}{{\bf f}^k_{i}}
+\newcommand{\ffkx}{{\bf f}^k_{i,x}}
+\newcommand{\ffky}{{\bf f}^k_{i,y}}
+\newcommand{\ffkz}{{\bf f}^k_{i,z}}
+
+\newcommand{\ffkl}{{\bf f}^{k+l}_{i}}
+\newcommand{\ffklz}{{\bf f}^{k+l}_{i,z}}
+
+\newcommand\myatop[2]{\genfrac{}{}{0pt}{}{#1}{#2}}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\xnv}{\textbf x}
+\newcommand{\vv}{ v}
+\newcommand{\xn}{x}
+\newcommand{\yn}{y}
+\newcommand{\sss}{s}
+\newcommand{\kap}{\kappa}
+\newcommand{\kaps}{\frac{d\kappa}{d\sss}}
+\newcommand{\kapn}{\frac{d^n\kappa}{d\sss^n}}
+\newcommand{\ctheta}{{\Theta}}
+\newcommand{\rhot}{{\tilde{\rho}}}
+\newcommand{\hh}{h}
+\newcommand{\HH}{h}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Optimization problem definition.
+\definecolor{shadecolor}{cmyk}{0,0,0.41,0}
+\definecolor{light-blue}{cmyk}{0.25,0,0,0}
+
+\definecolor{shadecolor}{cmyk}{0,0,0.41,0}
+\definecolor{light-blue}{cmyk}{0.25,0,0,0}
+\newsavebox{\optimpbboxM} % M for math
+\newsavebox{\optimpbboxT} % T for text
+
+\newcommand*\OptimPbBox[2][Example]{%
+  \sbox{\optimpbboxM}{#2}%
+  \sbox{\optimpbboxT}{\fcolorbox{black}{light-blue}{#1}}%
+  \sbox{\optimpbboxM}{%
+        \parbox[b][\ht\optimpbboxM+.5\ht\optimpbboxT+.5\dp\optimpbboxT][b]{\wd  \optimpbboxM}{#2}%
+  }%
+  \sbox{\optimpbboxM}{%
+    \fcolorbox{black}{shadecolor}{%
+      \makebox[\linewidth-10em]{\usebox{\optimpbboxM}}%
+    }%
+  }%
+  \usebox{\optimpbboxM}%
+      \makebox[0pt][r]{%
+        \makebox[\wd\optimpbboxM][c]{%
+          \raisebox{\ht\optimpbboxM-0.5\ht\optimpbboxT+0.5\dp\optimpbboxT-0.5\fboxrule  }{\usebox{\optimpbboxT}}%
+        }%
+      }%
+}
+
+\newcommand*\OptimPbBoxTwo[2][Example]{%
+  \sbox{\optimpbboxM}{#2}%
+  \sbox{\optimpbboxT}{\fcolorbox{black}{light-blue}{#1}}%
+  \sbox{\optimpbboxM}{%
+        \parbox[b][\ht\optimpbboxM+.5\ht\optimpbboxT+.5\dp\optimpbboxT][b]{\wd  \optimpbboxM}{#2}%
+  }%
+  \sbox{\optimpbboxM}{%
+    \fcolorbox{black}{shadecolor}{%
+      \makebox[\linewidth-5em]{\usebox{\optimpbboxM}}%
+    }%
+  }%
+  \usebox{\optimpbboxM}%
+      \makebox[0pt][r]{%
+        \makebox[\wd\optimpbboxM][c]{%
+          \raisebox{\ht\optimpbboxM-0.9\ht\optimpbboxT+0.9\dp\optimpbboxT-0.9\fboxrule  }{\usebox{\optimpbboxT}}%
+        }%
+      }%
+}

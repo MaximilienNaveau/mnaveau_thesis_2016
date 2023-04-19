@@ -1,0 +1,414 @@
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=latex 2015.11.16)  29 MAR 2016 19:33
+entering extended mode
+ %&-line parsing enabled.
+**silence-doc.dtx
+(./silence-doc.dtx
+LaTeX2e <2009/09/24>
+Babel <v3.8l> and hyphenation patterns for english, usenglishmax, dumylang, noh
+yphenation, farsi, arabic, croatian, bulgarian, ukrainian, russian, czech, slov
+ak, danish, dutch, finnish, french, basque, ngerman, german, german-x-2009-06-1
+9, ngerman-x-2009-06-19, ibycus, monogreek, greek, ancientgreek, hungarian, san
+skrit, italian, latin, latvian, lithuanian, mongolian2a, mongolian, bokmal, nyn
+orsk, romanian, irish, coptic, serbian, turkish, welsh, esperanto, uppersorbian
+, estonian, indonesian, interlingua, icelandic, kurmanji, slovenian, polish, po
+rtuguese, spanish, galician, catalan, swedish, ukenglish, pinyin, loaded.
+(/usr/share/texmf-texlive/tex/latex/base/ltxdoc.cls
+Document Class: ltxdoc 2007/11/11 v2.0u Standard LaTeX documentation class
+(/usr/share/texmf-texlive/tex/latex/base/article.cls
+Document Class: article 2007/10/19 v1.4h Standard LaTeX document class
+(/usr/share/texmf-texlive/tex/latex/base/size10.clo
+File: size10.clo 2007/10/19 v1.4h Standard LaTeX file (size option)
+)
+\c@part=\count79
+\c@section=\count80
+\c@subsection=\count81
+\c@subsubsection=\count82
+\c@paragraph=\count83
+\c@subparagraph=\count84
+\c@figure=\count85
+\c@table=\count86
+\abovecaptionskip=\skip41
+\belowcaptionskip=\skip42
+\bibindent=\dimen102
+)
+(/usr/share/texmf-texlive/tex/latex/base/doc.sty
+Package: doc 2006/02/02 v2.1d Standard LaTeX documentation package (FMi)
+\c@StandardModuleDepth=\count87
+\guard@level=\count88
+\MacrocodeTopsep=\skip43
+\MacroIndent=\dimen103
+\macro@cnt=\count89
+\MacroTopsep=\skip44
+\index@excludelist=\toks14
+
+(/usr/share/texmf-texlive/tex/latex/tools/multicol.sty
+Package: multicol 2008/12/05 v1.6h multicolumn formatting (FMi)
+\c@tracingmulticols=\count90
+\mult@box=\box26
+\multicol@leftmargin=\dimen104
+\c@unbalance=\count91
+\c@collectmore=\count92
+\doublecol@number=\count93
+\multicoltolerance=\count94
+\multicolpretolerance=\count95
+\full@width=\dimen105
+\page@free=\dimen106
+\premulticols=\dimen107
+\postmulticols=\dimen108
+\multicolsep=\skip45
+\multicolbaselineskip=\skip46
+\partial@page=\box27
+\last@line=\box28
+\mult@rightbox=\box29
+\mult@grightbox=\box30
+\mult@gfirstbox=\box31
+\mult@firstbox=\box32
+\@tempa=\box33
+\@tempa=\box34
+\@tempa=\box35
+\@tempa=\box36
+\@tempa=\box37
+\@tempa=\box38
+\@tempa=\box39
+\@tempa=\box40
+\@tempa=\box41
+\@tempa=\box42
+\@tempa=\box43
+\@tempa=\box44
+\@tempa=\box45
+\@tempa=\box46
+\@tempa=\box47
+\@tempa=\box48
+\@tempa=\box49
+\c@columnbadness=\count96
+\c@finalcolumnbadness=\count97
+\last@try=\dimen109
+\multicolovershoot=\dimen110
+\multicolundershoot=\dimen111
+\mult@nat@firstbox=\box50
+\colbreak@box=\box51
+)
+\IndexMin=\dimen112
+\c@IndexColumns=\count98
+\GlossaryMin=\dimen113
+\c@GlossaryColumns=\count99
+\check@sum=\count100
+\bslash@cnt=\count101
+\wrong@table=\toks15
+\c@CodelineNo=\count102
+))
+(/usr/share/texmf/tex/latex/lm/lmodern.sty
+Package: lmodern 2009/10/30 v1.6 Latin Modern Fonts
+LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
+(Font)                  OT1/cmr/m/n --> OT1/lmr/m/n on input line 22.
+LaTeX Font Info:    Overwriting symbol font `letters' in version `normal'
+(Font)                  OML/cmm/m/it --> OML/lmm/m/it on input line 23.
+LaTeX Font Info:    Overwriting symbol font `symbols' in version `normal'
+(Font)                  OMS/cmsy/m/n --> OMS/lmsy/m/n on input line 24.
+LaTeX Font Info:    Overwriting symbol font `largesymbols' in version `normal'
+(Font)                  OMX/cmex/m/n --> OMX/lmex/m/n on input line 25.
+LaTeX Font Info:    Overwriting symbol font `operators' in version `bold'
+(Font)                  OT1/cmr/bx/n --> OT1/lmr/bx/n on input line 26.
+LaTeX Font Info:    Overwriting symbol font `letters' in version `bold'
+(Font)                  OML/cmm/b/it --> OML/lmm/b/it on input line 27.
+LaTeX Font Info:    Overwriting symbol font `symbols' in version `bold'
+(Font)                  OMS/cmsy/b/n --> OMS/lmsy/b/n on input line 28.
+LaTeX Font Info:    Overwriting symbol font `largesymbols' in version `bold'
+(Font)                  OMX/cmex/m/n --> OMX/lmex/m/n on input line 29.
+LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `normal'
+(Font)                  OT1/cmr/bx/n --> OT1/lmr/bx/n on input line 31.
+LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `normal'
+(Font)                  OT1/cmss/m/n --> OT1/lmss/m/n on input line 32.
+LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `normal'
+(Font)                  OT1/cmr/m/it --> OT1/lmr/m/it on input line 33.
+LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `normal'
+(Font)                  OT1/cmtt/m/n --> OT1/lmtt/m/n on input line 34.
+LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `bold'
+(Font)                  OT1/cmr/bx/n --> OT1/lmr/bx/n on input line 35.
+LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `bold'
+(Font)                  OT1/cmss/bx/n --> OT1/lmss/bx/n on input line 36.
+LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
+(Font)                  OT1/cmr/bx/it --> OT1/lmr/bx/it on input line 37.
+LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
+(Font)                  OT1/cmtt/m/n --> OT1/lmtt/m/n on input line 38.
+)
+(/usr/share/texmf-texlive/tex/latex/base/fontenc.sty
+Package: fontenc 2005/09/27 v1.99g Standard LaTeX package
+
+(/usr/share/texmf-texlive/tex/latex/base/t1enc.def
+File: t1enc.def 2005/09/27 v1.99g Standard LaTeX file
+LaTeX Font Info:    Redeclaring font encoding T1 on input line 43.
+)) (./silence.sty
+Package: silence 2012/07/02 v1.5b Selective filtering of warnings and error mes
+sages
+\sl@Save=\count103
+\sl@StateNumber=\count104
+\sl@MessageCount=\count105
+\sl@Casualties=\count106
+\sl@Filter=\toks16
+\sl@Message=\toks17
+\sl@UnexpandedMessage=\toks18
+\sl@Mess@ge=\toks19
+\sl@WarningCount=\count107
+\sl@WarningNumber=\count108
+\sl@WarningCasualties=\count109
+\sl@TempBOW=\toks20
+\sl@BankOfWarnings=\toks21
+LaTeX Info: Redefining \GenericWarning on input line 433.
+\sl@ErrorCount=\count110
+\sl@ErrorNumber=\count111
+\sl@ErrorCasualties=\count112
+\sl@TempBOE=\toks22
+\sl@BankOfErrors=\toks23
+LaTeX Info: Redefining \GenericError on input line 601.
+)
+(/home/mnaveau/texmf/tex/latex/geometry/geometry.sty
+Package: geometry 2010/09/12 v5.6 Page Geometry
+
+(/usr/share/texmf-texlive/tex/latex/graphics/keyval.sty
+Package: keyval 1999/03/16 v1.13 key=value parser (DPC)
+\KV@toks@=\toks24
+)
+(/usr/share/texmf-texlive/tex/generic/oberdiek/ifpdf.sty
+Package: ifpdf 2009/04/10 v2.0 Provides the ifpdf switch (HO)
+Package ifpdf Info: pdfTeX in pdf mode not detected.
+)
+(/usr/share/texmf-texlive/tex/generic/oberdiek/ifvtex.sty
+Package: ifvtex 2008/11/04 v1.4 Switches for detecting VTeX and its modes (HO)
+Package ifvtex Info: VTeX not detected.
+)
+(/usr/share/texmf-texlive/tex/generic/ifxetex/ifxetex.sty
+Package: ifxetex 2009/01/23 v0.5 Provides ifxetex conditional
+)
+\Gm@cnth=\count113
+\Gm@cntv=\count114
+\c@Gm@tempcnt=\count115
+\Gm@bindingoffset=\dimen114
+\Gm@wd@mp=\dimen115
+\Gm@odd@mp=\dimen116
+\Gm@even@mp=\dimen117
+\Gm@layoutwidth=\dimen118
+\Gm@layoutheight=\dimen119
+\Gm@layouthoffset=\dimen120
+\Gm@layoutvoffset=\dimen121
+\Gm@dimlist=\toks25
+
+(/home/mnaveau/texmf/tex/latex/geometry/geometry.cfg))
+No file silence-doc.aux.
+\openout1 = `silence-doc.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 30.
+LaTeX Font Info:    ... okay on input line 30.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 30.
+LaTeX Font Info:    ... okay on input line 30.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 30.
+LaTeX Font Info:    ... okay on input line 30.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 30.
+LaTeX Font Info:    ... okay on input line 30.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 30.
+LaTeX Font Info:    ... okay on input line 30.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 30.
+LaTeX Font Info:    ... okay on input line 30.
+LaTeX Font Info:    Try loading font information for T1+lmr on input line 30.
+(/usr/share/texmf/tex/latex/lm/t1lmr.fd
+File: t1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
+)
+Package doc Info: Made | a short reference for \verb on input line 30.
+
+*geometry* driver: auto-detecting
+*geometry* detected driver: dvips
+*geometry* verbose mode - [ preamble ] result:
+* driver: dvips
+* paper: a4paper
+* layout: <same size as paper>
+* layoutoffset:(h,v)=(0.0pt,0.0pt)
+* modes: 
+* h-part:(L,W,R)=(142.26378pt, 398.33858pt, 56.90552pt)
+* v-part:(T,H,B)=(76.25339pt, 654.41338pt, 114.38008pt)
+* \paperwidth=597.50787pt
+* \paperheight=845.04684pt
+* \textwidth=398.33858pt
+* \textheight=654.41338pt
+* \oddsidemargin=69.99379pt
+* \evensidemargin=69.99379pt
+* \topmargin=-33.0166pt
+* \headheight=12.0pt
+* \headsep=25.0pt
+* \topskip=10.0pt
+* \footskip=30.0pt
+* \marginparwidth=126.0pt
+* \marginparsep=11.0pt
+* \columnsep=10.0pt
+* \skip\footins=9.0pt plus 4.0pt minus 2.0pt
+* \hoffset=0.0pt
+* \voffset=0.0pt
+* \mag=1000
+* \@twocolumnfalse
+* \@twosidefalse
+* \@mparswitchfalse
+* \@reversemargintrue
+* (1in=72.27pt=25.4mm, 1cm=28.453pt)
+
+(./silence-doc.dtx
+Package doc Info: Made  a short reference for \verb on input line 38.
+LaTeX Font Info:    Try loading font information for T1+lmtt on input line 45.
+ (/usr/share/texmf/tex/latex/lm/t1lmtt.fd
+File: t1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
+)
+LaTeX Font Info:    Try loading font information for OT1+lmr on input line 45.
+
+(/usr/share/texmf/tex/latex/lm/ot1lmr.fd
+File: ot1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
+)
+LaTeX Font Info:    Try loading font information for OML+lmm on input line 45.
+
+(/usr/share/texmf/tex/latex/lm/omllmm.fd
+File: omllmm.fd 2009/10/30 v1.6 Font defs for Latin Modern
+)
+LaTeX Font Info:    Try loading font information for OMS+lmsy on input line 45.
+
+
+(/usr/share/texmf/tex/latex/lm/omslmsy.fd
+File: omslmsy.fd 2009/10/30 v1.6 Font defs for Latin Modern
+)
+LaTeX Font Info:    Try loading font information for OMX+lmex on input line 45.
+
+
+(/usr/share/texmf/tex/latex/lm/omxlmex.fd
+File: omxlmex.fd 2009/10/30 v1.6 Font defs for Latin Modern
+)
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <12> on input line 45.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <8> on input line 45.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <6> on input line 45.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <9> on input line 52.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <5> on input line 52.
+
+No file silence-doc.toc.
+\tf@toc=\write3
+\openout3 = `silence-doc.toc'.
+
+[1
+
+]
+LaTeX Font Info:    Try loading font information for OMS+lmr on input line 72.
+ (/usr/share/texmf/tex/latex/lm/omslmr.fd
+File: omslmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
+)
+LaTeX Font Info:    Font shape `OMS/lmr/m/n' in size <10> not available
+(Font)              Font shape `OMS/lmsy/m/n' tried instead on input line 72.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <10> on input line 82.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <7> on input line 82.
+ [2
+
+] [3]
+Overfull \hbox (26.91019pt too wide) in paragraph at lines 298--300
+[]\T1/lmtt/m/n/10 \PackageError{superpack}{The command \string\foo\space should
+ not be used here}{} 
+ []
+
+[4]
+Overfull \hbox (0.66026pt too wide) in paragraph at lines 395--397
+[]\T1/lmtt/m/n/10 \WarningFilter*{latex}{Citation `\@citeb' on page \thepage \s
+pace undefined} 
+ []
+
+[5] [6] [7] [8] [9] [10]
+Overfull \hbox (13.95236pt too wide) in paragraph at lines 910--910
+ [][]    \T1/lmtt/m/n/9 \expandafter\xdef\csname #2@WarningFilter\endcsname{\th
+e\sl@WarningNumber:sl@#1}% 
+ []
+
+[11]
+Overfull \hbox (1.67856pt too wide) in paragraph at lines 912--916
+\T1/lmr/m/n/10 counter that fam-ily. So we store its name, which will be use-fu
+l for []\T1/lmtt/m/n/10 \ActivateWarningFilters
+ []
+
+[12] [13]
+Overfull \hbox (23.40234pt too wide) in paragraph at lines 1123--1123
+ [][]    \T1/lmtt/m/n/9 \ifx\csname #2:\ifcase\sl@StateNumber Warning\or Error\
+fi State\endcsname\sl@active 
+ []
+
+
+Overfull \hbox (23.57744pt too wide) in paragraph at lines 1128--1130
+[]\T1/lmtt/m/n/10 (:sl@1:)$\OMS/lmsy/m/n/10 h$[]\T1/lmr/m/it/10 first filter$\O
+MS/lmsy/m/n/10 i$[][]\T1/lmtt/m/n/10 (:sl@1:)(:sl@2:)$\OMS/lmsy/m/n/10 h$[]\T1/
+lmr/m/it/10 second filter$\OMS/lmsy/m/n/10 i$[][]\T1/lmtt/m/n/10 (:sl@2:)...(:s
+l@n:)$\OMS/lmsy/m/n/10 h$[]\T1/lmr/m/n/10 n\T1/lmr/m/it/10 th filter$\OMS/lmsy/
+m/n/10 i$[][]\T1/lmtt/m/n/10 (:sl@n:) 
+ []
+
+
+Overfull \hbox (42.3023pt too wide) in paragraph at lines 1144--1144
+ [][]  \T1/lmtt/m/n/9 \def\sl@@GetMessage##1(:sl@#1:)##2(:sl@#1:)##3(:sl@end:){
+\sl@Filter={##2\sl@Terminator}}% 
+ []
+
+[14]
+Overfull \hbox (32.85233pt too wide) in paragraph at lines 1187--1187
+ [][]    \T1/lmtt/m/n/9 \edef\sl@act{\noexpand\sl@Mess@ge{\the\sl@UnexpandedMes
+sage\noexpand\sl@Terminator}}% 
+ []
+
+
+Overfull \hbox (13.95236pt too wide) in paragraph at lines 1187--1187
+ [][]    \T1/lmtt/m/n/9 \ifx\csname #1:\ifcase\sl@StateNumber Warning\or Error\
+fi Mode\endcsname\sl@safe% 
+ []
+
+
+Overfull \hbox (42.3023pt too wide) in paragraph at lines 1187--1187
+ [][]      \T1/lmtt/m/n/9 \edef\sl@act{\noexpand\sl@Mess@ge{\the\sl@UnexpandedM
+essage\noexpand\sl@Terminator}}% 
+ []
+
+
+Overfull \hbox (23.40234pt too wide) in paragraph at lines 1206--1206
+ [][]  \T1/lmtt/m/n/9 \noexpand\sl@Slice\the\sl@Filter(:sl@mid:)\noexpand\sl@Fi
+lter\noexpand\sl@FilterToken 
+ []
+
+
+Overfull \hbox (47.0273pt too wide) in paragraph at lines 1206--1206
+ [][]  \T1/lmtt/m/n/9 \noexpand\sl@Slice\the\sl@Mess@ge(:sl@mid:)\noexpand\sl@M
+ess@ge\noexpand\sl@MessageToken}% 
+ []
+
+[15]
+Overfull \hbox (47.91013pt too wide) in paragraph at lines 1293--1295
+[]\T1/lmtt/m/n/10 \noexpand\sl@Slice\the\sl@Filter(:sl@mid:)\noexpand\sl@Filter
+\noexpand\sl@FilterToken 
+ []
+
+[16] [17]
+Overfull \hbox (25.86803pt too wide) in paragraph at lines 1431--1440
+[]\T1/lmtt/m/n/10 \GenericWarning$\OMS/lmsy/m/n/10 h$[]\T1/lmr/m/it/10 space$\O
+MS/lmsy/m/n/10 i$[]\T1/lmr/m/n/10 , whose def-i-ni-tion is the ad-di-tional cod
+e fol-lowed by []\T1/lmtt/m/n/10 \sl@GenericWarning
+ []
+
+[18] [19] [20] [21]
+Overfull \hbox (42.3023pt too wide) in paragraph at lines 1741--1741
+ [][]    \T1/lmtt/m/n/9 {\expandafter\gdef\csname\the\sl@ErrorNumber:ErrorMode\
+endcsname{safe}\sl@ErrorFilter}% 
+ []
+
+[22] [23]) [24] (./silence-doc.aux) ) 
+Here is how much of TeX's memory you used:
+ 1647 strings out of 493849
+ 21918 string characters out of 1152845
+ 84186 words of memory out of 3000000
+ 4904 multiletter control sequences out of 15000+50000
+ 76538 words of font info for 58 fonts, out of 3000000 for 9000
+ 714 hyphenation exceptions out of 8191
+ 30i,8n,22p,234b,299s stack positions out of 5000i,500n,10000p,200000b,50000s
+
+Output written on silence-doc.dvi (24 pages, 84552 bytes).

@@ -1,0 +1,47 @@
+\usepackage{graphics} % for pdf, bitmapped graphics files
+%\usepackage{epsfig} % for postscript graphics files
+%\usepackage{mathptmx} % assumes new font selection scheme installed
+%\usepackage[T1]{fontenc}
+\usepackage{times} % assumes new font selection scheme installed
+%\usepackage{amsmath} % assumes amsmath package installed
+%\usepackage{amssymb}  % assumes amsmath package installed
+
+
+\usepackage{tikz}
+\usepackage{amssymb}  % assumes amsmath package installed
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{bm}
+\usepackage{color}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\include{fd_symbols}
+\usepackage{multirow}
+%\usepackage[outdir=./figures/]{epstopdf}
+\usepackage{graphicx}
+\usepackage[font={small,it}]{caption}
+\usepackage{subcaption}
+\usepackage{array}
+\usepackage{xspace}
+\usepackage{hyperref}
+\usepackage{ifthen}
+%\usepackage{lstlisting}
+%\usepackage{calligra}
+\usepackage{etoolbox}
+\usepackage{empheq}
+
+
+
+% Mathematical notation
+\include{mathsnotation}
+
+\include{tikz_commands}
+
+% mark text and comments with red color
+\newcommand{\todo}[1]{\textcolor{red}{#1}}
+\newcommand{\setfont}[2]{{\fontfamily{#1}\selectfont #2}}
+
+% Specify figures in the path of graphics
+\renewcommand{\baselinestretch}{0.980}
+\graphicspath{ {../figures/} }

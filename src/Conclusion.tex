@@ -1,0 +1,47 @@
+\ifdefined\included
+\else
+\documentclass[a4paper,11pt,twoside]{StyleThese}
+\include{formatAndDefs}
+\sloppy
+\begin{document}
+\fi
+
+
+\chapter*{Conclusion and Perspectives}
+\addstarredchapter{Conclusion and Perspectives} %Sinon cela n'apparait pas dans la table des mati?res
+\setcounter{secnumdepth}{-1}
+\chaptermark{Conclusion and Perspectives}
+
+\cleardoublepage
+
+In the frame of the \koroibot\ project, researchers integrated and developed new controllers to improve humanoid robot locomotion.
+Collaborations with the \koroibot\ partner universities and the Airbus industry were fruitful.
+In this context, the contributions of this thesis can be classified in two parts.
+On one hand, there are theoretical contributions concerning the locomotion of humanoid robot.
+On the other hand, technical contributions were done in industrial and academic context.
+In the next section we will summarize the work that has been explained in this thesis.
+And in a second part we will present the further improvements that can be made to increase the performance of the existing algorithms.
+
+\input{conclusion_contribution.tex}
+\input{conclusion_perspective.tex}
+
+This thesis shows that humanoid robot flat ground walking is a topic nearly solved.
+Application using high level controller can already be demonstrated.
+The extension of this work, the multicontact locomotion, is a very important topic nowadays.
+It captures the idea of a generic algorithm that can be used for flat ground locomotion or parkour motion execution.
+There are plenty of room for improvement in this thesis work and interesting perspectives concerning the robot locomotion performance and versatility.
+Other European project like the \koroibot\ project should arise to see these improvements becoming a reality.
+
+\setcounter{secnumdepth}{+3}
+
+\ifdefined\included
+\else
+{
+\bibliographystyle{StyleThese}
+\newgeometry{left=1in,right=1in,top=1in,bottom=1in,
+  includefoot,includehead,headheight=13.6pt}
+\bibliography{16-thesis-mnaveau-short}
+\restoregeometry
+}
+\end{document}
+\fi

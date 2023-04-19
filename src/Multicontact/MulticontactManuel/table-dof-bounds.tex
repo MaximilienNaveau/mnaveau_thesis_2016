@@ -1,0 +1,60 @@
+%!TEX root = root.tex
+% ------------------------------------------------------------------------------
+% TABLE OF DEGREE OF FREEDOM BOTS
+% ------------------------------------------------------------------------------
+\begin{table*}[ht!]
+%  \sisetup{
+%    detect-all,
+%    table-number-alignment = center,
+%    add-integer-zero = false,
+%    table-figures-integer = 1,
+%    table-figures-decimal = 3,
+%    table-sign-mantissa,
+%    table-space-text-post = *
+%  }
+  \caption{%
+    Configuration and bounds on the degrees of freedom of the optimal control problem.
+    (fix if left free for optimization, type=1 if piecewise linear control, type=0 for piecewise constant control, min and max are lower and upper bounds on the control, and dot min and dot max are bounds on the slope of the control)
+  }%
+  \begin{center}
+    \label{tab:contact-setup}
+    \resizebox{\linewidth}{!}{
+    \begin{tabular}{ % begin define tabular
+        @{}l|%
+        S%[table-format = -1.3, detect-weight]%
+        S%[table-format = -1.3, detect-weight]%
+        S%[table-format = -1.3, detect-weight]%
+        S%[table-format = -1.3, detect-weight]%
+        S%[table-format = -1.3, detect-weight]%
+        S%[table-format = -1.3, detect-weight]%
+        S%[table-format = -1.3, detect-weight]%
+      } % end define tabular
+      \toprule
+      control & \mc{fix} & \mc{type} & \mc{min} & \mc{max} & \mc{dot min} & \mc{dot max} \\ \midrule
+      $p0_x$  &        1 &         0 &   -20.0  &     20.0 &        -40.0 &         40.0 \\
+      $p0_y$  &        1 &         0 &   -20.0  &     20.0 &        -40.0 &         40.0 \\
+      $p0_z$  &        1 &         0 &   -20.0  &     20.0 &        -40.0 &         40.0 \\
+      $f0_x$  &        0 &         1 &  -600.0  &    600.0 &       -500.0 &        500.0 \\
+      $f0_y$  &        0 &         1 &  -600.0  &    600.0 &       -500.0 &        500.0 \\
+      $f0_z$  &        0 &         1 &     0.0  &    600.0 &       -500.0 &        500.0 \\
+      $p1_x$  &        1 &         0 &   -20.0  &     20.0 &        -40.0 &         40.0 \\
+      $p1_y$  &        1 &         0 &   -20.0  &     20.0 &        -40.0 &         40.0 \\
+      $p1_z$  &        1 &         0 &   -20.0  &     20.0 &        -40.0 &         40.0 \\
+      $f1_x$  &        0 &         1 &  -600.0  &    600.0 &       -500.0 &        500.0 \\
+      $f1_y$  &        0 &         1 &  -600.0  &    600.0 &       -500.0 &        500.0 \\
+      $f1_z$  &        0 &         1 &     0.0  &    600.0 &       -500.0 &        500.0 \\
+      $p2_x$  &        1 &         0 &    20.0  &     20.0 &        -40.0 &         40.0 \\
+      $p2_y$  &        1 &         0 &    20.0  &     20.0 &        -40.0 &         40.0 \\
+      $p2_z$  &        1 &         0 &    20.0  &     20.0 &        -40.0 &         40.0 \\
+      $f2_x$  &        0 &         1 &  -150.0  &    150.0 &       -500.0 &        500.0 \\
+      $f2_y$  &        0 &         1 &  -150.0  &    150.0 &       -500.0 &        500.0 \\
+      $f2_z$  &        0 &         1 &  -150.0  &    150.0 &       -500.0 &        500.0 \\
+      $M_x$   &        0 &         1 &  -600.0  &    600.0 &       -300.0 &        300.0 \\
+      $M_y$   &        0 &         1 &  -600.0  &    600.0 &       -300.0 &        300.0 \\
+      $M_z$   &        0 &         1 &  -600.0  &    600.0 &       -300.0 &        300.0 \\
+      \bottomrule
+    \end{tabular}}
+  \end{center}
+\end{table*}
+  %\twocolumn
+% ------------------------------------------------------------------------------

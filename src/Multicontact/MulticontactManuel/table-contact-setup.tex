@@ -1,0 +1,120 @@
+%!TEX root = root.tex
+% ------------------------------------------------------------------------------
+% TABLE OF CONTACT CONFIGURATION
+% ------------------------------------------------------------------------------
+% CONTACTS LEFT FOOT
+\newcommand{\plfzx}{0.009}%49035}
+\newcommand{\plfzy}{0.095}
+\newcommand{\plfzz}{0.0}
+
+\newcommand{\plfox}{0.3}
+\newcommand{\plfoy}{0.095}
+\newcommand{\plfoz}{0.146}
+
+\newcommand{\plftx}{0.6}
+\newcommand{\plfty}{0.095}
+\newcommand{\plftz}{0.292}
+
+\newcommand{\plftox}{\plfox}
+\newcommand{\plftoy}{\plfoy}
+\newcommand{\plftoz}{\plfoz}
+
+\newcommand{\plfttx}{\plftx}
+\newcommand{\plftty}{\plfty}
+\newcommand{\plfttz}{\plftz}
+
+% CONTACTS RIGHT FOOT
+\newcommand{\prfzx}{0.009}%49035}
+\newcommand{\prfzy}{-0.095}
+\newcommand{\prfzz}{0.0}
+
+\newcommand{\prfox}{0.3}
+\newcommand{\prfoy}{-0.095}
+\newcommand{\prfoz}{0.146}
+
+\newcommand{\prftx}{0.6}
+\newcommand{\prfty}{-0.095}
+\newcommand{\prftz}{0.292}
+
+\newcommand{\prftox}{\prfox}
+\newcommand{\prftoy}{\prfoy}
+\newcommand{\prftoz}{\prfoz}
+
+\newcommand{\prfttx}{\prftx}
+\newcommand{\prftty}{\prfty}
+\newcommand{\prfttz}{\prftz}
+
+% CONTACTS RIGHT HAND
+\newcommand{\prhzx}{ 0.041}%8343}
+\newcommand{\prhzy}{-0.331}%008}
+\newcommand{\prhzz}{ 0.704}%285}
+
+\newcommand{\prhox}{ 0.3}
+\newcommand{\prhoy}{-0.35}
+\newcommand{\prhoz}{ 0.839}
+
+\newcommand{\prhtx}{ 0.6}
+\newcommand{\prhty}{-0.35}
+\newcommand{\prhtz}{ 0.985}
+
+\newcommand{\prhtox}{\prhox}
+\newcommand{\prhtoy}{\prhoy}
+\newcommand{\prhtoz}{\prhoz}
+
+\newcommand{\prhttx}{\prhtx}
+\newcommand{\prhtty}{\prhty}
+\newcommand{\prhttz}{\prhtz}
+
+\begin{table*}[ht!]
+%  \sisetup{
+%    detect-all,
+%    table-number-alignment = center,
+%    add-integer-zero = false,
+%    table-figures-integer = 1,
+%    table-figures-decimal = 3,
+%    table-sign-mantissa,
+%    table-space-text-post = *
+%  }
+  \caption{%
+    Initial contact configuration of the stair climbing motion with handrail support.
+    In triple support phase (TS) only the torso moves, while three contacts are established.
+    For a double support phase (DS) one contact is released and can move to its next position.
+  }%
+  \begin{center}
+    \label{tab:contact-setup}
+    \resizebox{\linewidth}{!}{
+    \begin{tabular}{ % begin define tabular
+        @{}l|%
+        S%[table-format = -1.3, detect-weight]%
+        S%[table-format = -1.3, detect-weight]%
+        S%[table-format = -1.3, detect-weight]%
+        S%[table-format = -1.3, detect-weight]%
+        S%[table-format = -1.3, detect-weight]%
+        S%[table-format = -1.3, detect-weight]%
+        S%[table-format = -1.3, detect-weight]%
+        S%[table-format = -1.3, detect-weight]%
+        S%[table-format = -1.3, detect-weight]%
+        S%[table-format = -1.3, detect-weight]%
+        S%[table-format = -1.3, detect-weight]%
+        S%[table-format = -1.3, detect-weight]%
+        S%[table-format = -1.3, detect-weight]%
+      } % end define tabular
+      \toprule
+      phase        &\mc{  TS0}&\mc{   DS0}&\mc{  TS1}&\mc{   DS1}&\mc{  TS2}&\mc{   DS2}&\mc{  TS3}&\mc{   DS3}&\mc{  TS4}&\mc{   DS4}&\mc{  TS5}&\mc{   DS5}&\mc{  TS6} \\
+      limb         &\mc{torso}&\mc{r. arm}&\mc{torso}&\mc{r. leg}&\mc{torso}&\mc{l. leg}&\mc{torso}&\mc{r. arm}&\mc{torso}&\mc{r. leg}&\mc{torso}&\mc{l. leg}&\mc{torso} \\ \midrule
+      duration [s] &      0.1 &       1.4 &      0.1 &       1.4 &      0.1 &       1.4 &      0.1 &       1.4 &      0.1 &       1.4 &      0.1 &       1.4 &       0.1 \\ \midrule
+                   &   \plfzx &    \plfzx &   \plfzx &    \plfzx &   \plfzx &   \plftox &   \plfox &    \plfox &   \plfox &    \plfox &   \plfox &   \plfttx &    \plftx \\
+      $p_{lf}$ [m] &   \plfzy &    \plfzy &   \plfzy &    \plfzy &   \plfzy &   \plftoy &   \plfoy &    \plfoy &   \plfoy &    \plfoy &   \plfoy &   \plftty &    \plfty \\
+                   &   \plfzz &    \plfzz &   \plfzz &    \plfzz &   \plfzz &   \plftoz &   \plfoz &    \plfoz &   \plfoz &    \plfoz &   \plfoz &   \plfttz &    \plftz \\ \midrule
+                   &   \prfzx &    \prfzx &   \prfzx &   \prftox &   \prfox &    \prfox &   \prfox &    \prfox &   \prfox &   \prfttx &   \prftx &    \prftx &    \prftx \\
+      $p_{rf}$ [m] &   \prfzy &    \prfzy &   \prfzy &   \prftoy &   \prfoy &    \prfoy &   \prfoy &    \prfoy &   \prfoy &   \prftty &   \prfty &    \prfty &    \prfty \\
+                   &   \prfzz &    \prfzz &   \prfzz &   \prftoz &   \prfoz &    \prfoz &   \prfoz &    \prfoz &   \prfoz &   \prfttz &   \prftz &    \prftz &    \prftz \\ \midrule
+                   &   \prhzx &   \prhtox &   \prhox &    \prhox &   \prhox &    \prhox &   \prhox &   \prhttx &   \prhtx &    \prhtx &   \prhtx &    \prhtx &    \prhtx \\
+      $p_{rh}$ [m] &   \prhzy &   \prhtoy &   \prhoy &    \prhoy &   \prhoy &    \prhoy &   \prhoy &   \prhtty &   \prhty &    \prhty &   \prhty &    \prhty &    \prhty \\
+                   &   \prhzz &   \prhtoz &   \prhoz &    \prhoz &   \prhoz &    \prhoz &   \prhoz &   \prhttz &   \prhtz &    \prhtz &   \prhtz &    \prhtz &    \prhtz \\
+      \bottomrule
+    \end{tabular}}
+  \end{center}
+\end{table*}
+  %\twocolumn
+% ------------------------------------------------------------------------------

@@ -1,0 +1,39 @@
+%!TEX root = root.tex
+\label{sec:optimal_control}
+
+We formulate an optimal control problem to search for the best CoM trajectory respecting the dynamics~\eqref{eq:equilibrium_constraints_linear} and subject to the constraints from Section~\ref{sec:dynmodel} in terms of a combination of different optimization criteria from Section~\ref{sec:cost}.
+
+\subsubsection*{Formulation}
+%The previously defined constraints from Eq.~\eqref{eq:force_friction_cone}, \eqref{eq:kinematic_constraints} and \eqref{eq:equilibrium_constraints} allows us to formulate the whole-body motion generation problem for the humanoid given a predefined contact set as an optimal control problem~(OCP).
+The variables of interest are the states and the controls over the time horizon. The state is composed of the CoM position and velocity and the angular velocity of the robot:  ${\bf x}:=\left( \com, \dcom, \comr, \dcomr \right)$. The control is composed of the contact forces for the active contact at time $t$ and the internal angular momentum variation: ${\bf u}:= \left( \fFs_1, \dots, \fFs_M, {\bf \sigma} \right)$.
+
+The OCP minimizes an objective function of Lagrange type on a finite time horizon $t \in [0, T]$ given by
+\begin{subequations}
+  \label{eq:optimal_control_problem}
+  \begin{alignat}{3}
+    \quad\min_{x(\cdot), u(\cdot)}\ \quad & \makebox[0cm][l]{$ \int_0^T{ l({\bf x}(t), {\bf u}(t)) dt} $}   \label{eq:optimal_control_objective}\\[-4pt]
+    \quad{s.t.}\ \quad   && {\bf \dot{x}}(t) & =     g({\bf x}(t), {\bf u}(t)), \quad   t  \in  [ 0, T ],           \label{eq:optimal_control_dynamics} \\
+                        &&        {\bf x}(0) & =     {\bf x}_0,                                               \label{eq:optimal_control_initial_value} \\
+                        &&           0 & \leq  h({\bf x}(t), {\bf u}(t)), \quad  t  \in  [0, T].              \label{eq:optimal_control_path_constraints}
+  \end{alignat}%
+\end{subequations}%
+where $l({\bf x},{\bf u}) = \sum_j w_j l_j({\bf x},{\bf u})$ is the running cost, with a positive weight $w_j\in\R$ from Table~\ref{tab:objective_weights} adjusting the relative importance and scaling for each term $\ell_j$; $g: \R^{n_{x}} \times \R^{n_{u}}\to \R^{n_{x}}$ is representing the dynamics of the system defined in \eqref{eq:equilibrium_constraints_linear}; ${\bf x}_0$ is the initial (measured) state of the system; and $h({\bf x},{\bf u}): \R^{n_{x}} \times \R^{n_{u}}  \to \R^{n_{c}}$ are the mixed state-control path constraints defined by concatenating the friction cone~\eqref{eq:force_friction_cone}, the kinematic constraints~\eqref{eq:kinematic_constraints} as well as the complementarity constraints~\eqref{eq:contact_complementarity}, where the latter is defined via the contact sequence and are not explicitly treated in the OCP. Note that ${\bf\dot p}_i$ are not part of the decision variables of the OCP.
+
+\subsubsection*{Discretization}
+Following a direct approach to optimal control, the control $u(\cdot)$ is discretized on a time grid $0=t_{0}<t_{1}<\ldots<t_{K}=T$ by means of base functions parametrized by the parameters $\alpha$. We use a piecewise linear discretization which yields smoother CoM trajectories, i.e. for $k=0,\ldots,K-1$:
+$$
+%\begin{align*}
+%  u(t)\Bigl{|}_{[\tau_{k},\tau_{k+1}]}&:=q_{k}\in\R^{n_{\textup{u}}},\qquad\textup{or}\\
+  u(t)\Bigl{|}_{[\tau_{k},\tau_{k+1}]} :=\left(\alpha_{k,1}(\tau_{k+1}-t)+\alpha_{k,2}(t-\tau_{k})\right)/(\tau_{k+1}-\tau_{k})
+%\end{align*}
+$$
+
+\subsubsection*{Multiple shooting resolution}
+Applying the direct multiple shooting approach for optimal control, we further parametrize the state trajectory ${\bf x}(\cdot)$ by solving initial value problems for the differential equation (ODE)~\eqref{eq:optimal_control_dynamics} separately on the same grid used for the control discretization.
+The model dynamics~\eqref{eq:optimal_control_dynamics} are adaptively discretized by making use of state-of-the-art ODE solvers.
+Continuity of the trajectory in the solution of the OCP is enforced by constraints.
+
+From this discretization, a large but structured nonlinear programming problem is obtained.
+This problem can be solved efficiently with a tailored structure-exploiting sequential quadratic programming (SQP) method~\cite{leineweber2003efficient}.
+First- and second-order derivatives, required by the SQP method to solve the discretized OCP, involve the computation of sensitivities of the ODE solution according to the principle of internal numerical differentiation (see~\cite{bock1981numerical} for details).
+

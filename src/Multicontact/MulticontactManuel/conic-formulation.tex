@@ -1,0 +1,113 @@
+\section*{APPENDIX}
+\begin{appendix}
+\section{Conic Constraint QP Formulation}
+\label{sec:preview_window}
+The classic approach on the ZMP based pattern generator is to derive the dynamic projected to the CoM and apply an integration scheme on it.
+An optimization problem is found from this formulation.
+This problem is usually convex, linearized and fast to solve.
+It is usually a quadratic program with linear constraints.
+Based on this consideration, we will quickly present this formulation int this section.
+
+\subsection*{Functional space of CoM trajectories}
+In the following, we will assume that the center of mass and its frame evolve with constant jerks over each interval $k$ of time period $T$.
+The current state of the robot is given by $[\com^k \; \dot{\com}^k \; \ddcom^k ]^{\top}$.
+Assuming that along the $x$-axis the state of the system is given by the
+following system:
+\begin{equation}
+  \left[
+  \begin{matrix}
+    c^{k+1}_x \\
+    \dot{c}^{k+1}_x \\
+    \ddot{c}^{k+1}_x
+  \end{matrix}
+  \right]
+  =
+  \left[
+  \begin{matrix}
+    1 & T & \frac{T^2}{2} \\
+    0 & 1 & T \\
+    0 & 0 & 1
+  \end{matrix}
+  \right]
+  \left[
+  \begin{matrix}
+    c^{k}_x \\
+    \dot{c}^{k}_x \\
+    \ddot{c}^{k}_x
+  \end{matrix}
+    \right]
+  +
+  \left[
+  \begin{matrix}
+    \rfrac{T^3}{6} \\
+    \rfrac{T^2}{2} \\
+    T
+  \end{matrix}
+  \right]
+  \dddot{c}^k_x
+  \label{eq:discretization}
+\end{equation}
+%
+So every quantities depend on the past.
+From equation \eqref{eq:equilibrium_constraints_linear} and \eqref{eq:discretization} we can express the linear part of the dynamic as a linear constraint.
+
+\begin{equation}
+{\bf M}^k_{e} {\bf X}^k+{\bf h}_e = {\bf 0}_{3N}
+\end{equation}
+%
+With $ {\bf M}^k_{e} $ a gain matrix depending on the time period and the orientation of the contact surface. $ {\bf h}_e $ is a constant vector depending on the state at instant $k$ and the time period.
+${\bf X}^k = [ \dddot{\bf C}^k \; {\bf F}^k \; \ddot{\Omega}^k ]^{\top}$, where
+$ \dddot{\bf C}^k = [\dddot{\bf C}^k_x \; \ddddot{\bf C}^k_y \; \ddddot{\bf C}^k_z ]^{\top}$ is the jerk of the center of mass over
+the horizon,
+${\bf F}^k= [ {\bf f}^k_0 \dots {\bf f}^k_i \dots {\bf f}^k_M \dots \dots {\bf f}^{k+N}_0 \dots {\bf f}^{k+N}_M ]^{\top}$ are the contact forces, and $\ddot{\Omega}^k=[\ddot{\Omega}_x^k \; \ddot{\Omega}_y^k \; \ddot{\Omega}_z^k] $ is the jerk of the rotational velocity over the preview window.
+
+The real difficulty lies in the second line of equation \eqref{eq:equilibrium_constraints_linear}. Lets have a closer look at the term $ \com \times \ddcom $.
+At the $l^{th}$ line of the preview window at the instant $k$ this term value is :
+\begin{equation}
+ {\bf c}^{k+l} \times \ddot{\bf c}^{k+l}=
+\left[
+  \begin{matrix}
+    -c^{k+l}_z \ddot{c}^{k+l}_y + c^{k+l}_y \ddot{c}^{k+l}_z \\
+    \;\;\;\;\;c^{k+l}_z \ddot{c}^{k+l}_x - c^{k+l}_x \ddot{c}^{k+l}_z \\
+    -c^{k+l}_y \ddot{c}^{k+l}_x + c^{k+l}_x \ddot{c}^{k+l}_y \\
+  \end{matrix}
+\right]
+\label{eq:cross_c_k_l_x_ddc_k_l}
+\end{equation}
+Using the equation \eqref{eq:discretization} we can express the first line of \eqref{eq:cross_c_k_l_x_ddc_k_l} in function on $ {\bf X}^k $ presented above.
+
+\begin{align}
+({\bf X}^k)^{\top} \hat{\bf D}_x^l {\bf X}^k +
+%
+\hat{\bf E}_x^{k+l} {\bf X}^k +
+%
+h_x^{k,l} =  0
+\label{eq:quadratic_equality_constraint}
+\end{align}
+with
+$ \hat{\bf D}_x^l $ being a gain matrix depending only on the time period and the integration scheme,
+$ \hat{\bf E}_x^{k+l} $ being a gain matrix depending on the CoM state at instant $k$ and the integration scheme, and
+$ h_x^{k,l} $ being a scalar depending on the CoM state at instant $k$ of the CoM.
+
+One can note that this constraint is quadratic. Furthermore the composition of $ \hat{\bf D}_x^l $ make it not positive semi-definite. And according to Boyd in \cite{boyd:tro:07} the problem is NP-Hard.
+However with the recent technology in optimization a non convex nor concave solver we could solve this problem.
+
+The global shape of the model predictive control problem is :
+\begin{subnumcases}{OP^k_{MPC}  =}
+    \min & $ || \ff ||^2 + || \dddcom ||^2 + || \ddot{\bf \omega} ||^2 $ \\
+    \text{s. t. } & $ \ffkl \in K^{k+l}_i, \forall i, \forall l $ \label{eq:mpc:cst_Ki}\\
+    & $ \ffkz > 0, \; \forall i, \forall l $ \label{eq:mpc:positive_normal_forces}\\
+    & $ {\bf M}^k_{e} {\bf X}^k+{\bf h}_e = {\bf 0}_{3N} $ \\
+    & $({\bf X}^k)^{\top} \hat{\bf D}_l{\bf X}^k + \hat{\bf E}_{k+l} {\bf X}^k $ \nonumber \\
+    & $ \;\;\;\;\;\;\;\;\;\; \dots + {\bf h}^k =  {\bf 0}_3 \text{,} \forall l $ \label{eq:op:quadric_constraints}
+\end{subnumcases}
+%
+with
+\begin{align}
+  K^{k+l}_i = \{ {\bf f}^{k+l}_i \in \mathbb{R}^3 | (f^{k+l}_{i,x})^2 + (f^{k+l}_{i,y})^2 \leq (\mu_i f^{k+l}_{i,z})^2 \},\\
+i= 1,\cdots, M, l=1, \cdots, N
+  \label{eq:cone_on_norm_force_k_}
+\end{align}
+
+In order to solve this non linear problem we need a non linear and non convex solver.
+\end{appendix}

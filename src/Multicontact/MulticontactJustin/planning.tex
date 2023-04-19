@@ -1,0 +1,54 @@
+\renewcommand{\widthValue}{0.13\linewidth}
+
+\section{The acyclic contacts planning problem}
+\label{sec:planer}
+
+In this section, we quickly recall the basis of the contact planner presented in \cite{tonneau_isrr15} and present the modifications that were added to the planner to integrate it with the proposed pattern generator.
+
+\subsection{General principle}
+A contact planner is an algorithm that connects two given initial and final postures by computing a sequence of contacts, that is to say a finite list of postures, each of them in a static equilibrium in contact with the environment, where each posture differs from the previous one by only one contact (i.e. one contact is removed or one new contact is created with a limb of the robot that was previously collision free). Existing contact planners can be separated in two classes: motion-before-contact planners and contact-before-motion planner. We proposed in \cite{tonneau_isrr15} a very efficient motion-before-contact planner, i.e. it first computes a valid motion before computing explicitly the contacts that make this motion valid.
+
+The main principle of our contact planner is depicted on Fig.~\ref{fig:rbprm}. We recall it here to be self-contained. The interested reader is referred to the original paper for more details and a discussion about the interest of this approach versus the state of the art.
+
+\subsection{Reachability-based planner}
+
+In a first stage, a general path is planned such that it is very likely to find a valid sequence of contacts. We introduced an abstract shape that represents the robot with few DOF. This shape is composed of a inner part, that is typically a hull of the torso and must avoid collision; and of an outer part that corresponds to the reachable region of the end-effectors of limbs and must stay in collision. The reachable regions are computed off line to be the convex hull of a regular sampling. The idea is that if the inner part is collision free and the outer part collides with the environment, it is very likely to find a whole-body posture of the robot with only contacts at the robot end effectors. Depending of the size of the inner hull, this abstract condition might be a necessary condition or a sufficient condition for finding a posture in contact. The size of the shape is then adjusted off-line on a training environment to maximize the number of true positives while minimizing the number of false positives.
+
+In our previous work, our reachability based planner was implemented as a probabilistic roadmap (PRM -- \cite{kavraki_tra96}), so as to allow multiple queries on the same scene. This implies a long off-line initialization phase.
+In this new implementation, our planner is implemented as a variation of the bidirectional rapidly-exploring random tree (bi-RRT) algorithm~\cite{lavalle_ijrr01}, allowing efficient real time online requests, that are more in line with the MPC capabilities of our pattern generator. 
+
+\subsection{Computing the contacts}
+When a general movement is obtained that connects the initial posture to the final one, the contacts to actuate this motion are computed. The contact sequence is built incrementally from the initial posture, by advancing the root of the robot along the planned path until the current contact set cannot results in a collision-free posture in static equilibrium. A contact is then heuristically broken then created again, by optimizing a comfort measure named EFORT \cite{tonneau_cg14}, based on manipulability ellipsoids. Each computed posture ensures static equilibrium, by using the validation algorithm proposed in \cite{qiu_dhm11}.
+
+In the original implementation, the postures of the sequence were simply randomly shot (using a precomputed pseudorandom generator) while no robustness was taken into account in checking equilibrium. This might result in some undesired configurations that would be very unlikely to be executed on a real robot. While the proper solution to this problem is to implement a robust validation of the equilibrium, we rather rely here on some simple heuristics to account for the limitations of the real HRP-2 torque capabilities:
+\begin{itemize}
+\item The orientation of the feet is constrained to be projected in the direction of the motion;
+\item The contact generation is also biased towards limb configurations with high manipulability, 
+as opposed to configurations maximizing EFORT.
+\end{itemize}
+
+\subsection{Computation of the trajectory of the limbs}
+
+In \cite{tonneau_isrr15}, we stopped after computing a valid contact sequence. We additionally propose here a methods, the limb-RRT planner, that computes collision-free limb path. More precisely, the limb-RRT computes a collision-free path connecting two given initial and final configurations (taken from two successive postures of the sequence), for a 6-DOF limb attached to a moving root. The motion of the root is an invariant of this problem.
+
+The limb-RRT considers the following inputs:
+\begin{itemize}
+\item A kinematic chain $l$ comprising $n=6$ joints. The origin of $l$ is the geometrical root of the robot.
+\item $\bm{q}^l_{0}$ Initial configuration of limb $l$
+\item $\bm{q}^l_{1}$ Goal configuration of limb $l$
+\item $\bm{q}^r(t) : [0,1] \longrightarrow SE(3)$ a normalized interpolation path for the root of the robot.
+\end{itemize}
+
+It outputs $\bm{\underline{q}}^l = [\bm{q}^l_{0}, \bm{q}^l_{i}..., \bm{q}^l_{1}]$, a collision free sequence of configurations for the limb, such
+that $i \in [0,1]$ corresponds to a configuration for root position $\bm{q}^r(i)$.
+
+The difficulty here is to take into account the moving root inside an efficient bi-RRT algorithms. The proposed method is generic and would work for any $n$. It is is implemented by planning explicitly with the time, i.e. the sampling is performed in dimension $n + 1$ with the compound variable $(\bm q,t)$. The extra parameter $t \in [0,1]$ is used to randomly sample root positions in $\bm{q}^0(t)$.
+The graph is ordered according to $t$ to ensure continuity of the root positions (i.e. an edge from $a$ to $b$ does not exists if $t_a \ge t_b$).  
+For the bi-RRT, this means that new configuration $\bm{q}^l_{i}$ is connected to a node from the end set $\bm{q}^l_{j}$  if and only if $i < j$.
+Conversely  $\bm{q}^l_{i}$ is connected to a node from the start set $\bm{q}^l_{j}$  if and only if $i > j$. This prevents the insertion of a blocking node that would make impossible the connection of the two trees of the bi-RRT (resulting in a dead-lock).
+
+To guide the search, we used the following heuristic: the distance between two configurations is computed only based on the $n$ joint values, weighted by the length of the subkinematic chain they support. For instance for the robot arm, the three joints of the shoulder have a weight of 1, the two joints of the elbow a weight of $\frac{l_{\text{arm}} - (l_{\text{forearm}} + l_{\text{hand}}) } {l_{\text{arm}}}$ and so on.
+
+The limb-RRT can directly consider bounds on joint velocities. It returns the total time necessary to perform the motion. Optionally, it can also be bounded to find a solution respecting a time window, and fails if it does not succeed in doing so.
+
+\renewcommand{\widthValue}{\linewidth}

@@ -1,0 +1,291 @@
+%!TEX root = root.tex
+\label{sec:pb_statement}
+
+\subsection{Dynamic model and constraints}
+\label{sec:dynmodel}
+
+\subsubsection*{Inertia ellipsoid model}
+The template model is composed by the number of considered contact points $M\in\N$ located at positions $\pf \in \mathbb{R}^3$, for $i=1\dots M$.
+The force applied at $\pf$, denoted by $\ff = [ \; \ffx \; \ffy \; \ffz \; ]^{\top}$, is given in a local coordinate system, with the $z$-axis normal to the contact surface at $\pf$.
+The component $\ffz$ is the normal force applied at contact point $\pf$ and $(\ffx, \ffy)$ is the tangential force applied at $\pf$.
+In the context of the stair climbing motion, $M=3$, and the involved robot limbs are the right hand $p_{rh}$, the left foot~$p_{lf}$ and right foot~$p_{rf}$.
+
+Following the ideas from \cite{Orin:autorob:2013,Nishiwaki:IJRR:2012}, we only consider the effect of the whole-body dynamics of a humanoid robot on the CoM. The centroidal dynamics is described as
+\begin{equation}
+  \label{eq:equilibrium_constraints}
+  m
+  \begin{bmatrix}
+  \ddcom - {\bf g} \\
+  \com \times (\ddcom - {\bf g})
+  \end{bmatrix}
+  +
+  \begin{bmatrix}
+  {\bf 0} \\
+  \dot{\mathcal{L}}
+  \end{bmatrix}
+  =
+  \begin{bmatrix}
+  \sum_{i=1}^{M}
+  \Qf \ff \\
+  \sum_{i=1}^{M}
+  \pf \times \Qf  \ff
+\end{bmatrix}
+\end{equation}
+where $\com = [ c_x \; c_y \; c_z ]^{\top}\in \R^3$ is the CoM and $m\in\R$ is the mass of the humanoid multi-body system, $\ddcom = [ \ddot{c}_x \; \ddot{c}_y \; \ddot{c}_z ]^{\top}\in\R^3$ is the CoM acceleration, $\dot{\mathcal{L}}$ is the derivative of the robot angular momentum due to the angular speed of the robot body parts, and $\Qf \in SO(3)$ is the $3\times3$ rotation matrix that transforms forces ${\bf f}_i$ in the local contact coordinate system at $\pf$ into the global world coordinate system.
+
+%\todo{This can be put into the introduction, but does not provide much here.}
+%\emph{Hirukawa~et~al.}~\cite{Hirukawa:icra:2007} consider a set of contact points, the velocity of the feet, the hands, the free-flyer, an initial guess on the CoM, and a heuristic to distribute the amount of forces on the %contact points.%
+%Knowing this, they proposed a pattern generator that satisfy the friction cones using so called resolved momentum control. This algorithm tracks an initial guess \todo{of what?} while creating a dynamically feasible motion for %the CoM.
+
+In the following, the contribution to the variation of the angular momentum $\mathcal{L}$ is separated between the part caused by the general angular acceleration of the robot and the internal robot body movements $\dot{\bf\mathcal{L}} = {\bf I}_c \; \dot{\bf \omega} - {\bf\sigma}, $
+where $ {\bf I}_c $ is the inertia matrix of the whole body considered as a single rigid body computed for the configuration at time $ t_0 $, $ \dot{\bf \omega} $ is the angular acceleration (3D) of the root frame attached to the waist body of the robot, and ${\bf\sigma}$ is a function of the whole-body configuration, velocity and acceleration~\cite{Orin:autorob:2013} that does not depend on ${\bf\omega}$.
+%
+Eq.~\ref{eq:equilibrium_constraints} is then rewritten in form of
+\begin{equation}
+  \label{eq:equilibrium_constraints_Ic}
+   {\bf M}(\com)
+   \begin{bmatrix}
+     \ddcom \\ \dot{\bf \omega}
+   \end{bmatrix}
+   =   \sum_i {\bf J}_i^T \ff + {\bf S}^T {\bf\sigma} + {\bf b}(\com),
+\end{equation}
+% \begin{equation}
+%   \label{eq:equilibrium_constraints_Ic}
+%   \begin{bmatrix}
+%     m (\ddcom - {\bf g}) \\
+%     m (\com \times (\ddcom - {\bf g})) + {\bf I}_c \; \dot{\bf \omega}
+%   \end{bmatrix}
+%   =
+%   \begin{bmatrix}
+%     \sum_{i=1}^{M} {\bf Q}_i \ff \\
+%     \sum_{i=1}^{M} \pf \times {\bf Q}_i  \ff
+%   \end{bmatrix}
+% \end{equation}
+with
+\begin{align}
+  \label{eq:matrix_linear}
+  {\bf M}(\com) &=
+  \begin{bmatrix}
+    m \mathbf{1}_{3} & {\bf 0}_{3 \times 3} \\
+    m \com \times & {\bf I}_c
+  \end{bmatrix}
+  ,\
+  &{\bf J}_i^T &=
+  \begin{bmatrix}
+    {\bf Q}_i \\
+    {\bf p}_i\times {\bf Q}_i
+  \end{bmatrix},
+  %
+  \\
+  %
+  {\bf S}^T &=
+  \begin{bmatrix}
+    {\bf 0}_{3} \\
+    \mathbf{1}_{3}
+  \end{bmatrix}
+  ,\
+  &{\bf b}(\com) &=
+  \begin{bmatrix}
+    m\ {\bf g} \\
+    m \com \times {\bf g}
+  \end{bmatrix},
+\end{align}
+where $\com\times\in\R^{3 \times 3}$ (resp. ${\bf p}_i \times$) is the skew matrix associated with vector $\com$ (resp. ${\bf p}_i$).
+
+%\subsection*{Equilibrium constraints and robot dynamics}
+The equilibrium constraints \eqref{eq:equilibrium_constraints_Ic} are rewritten according to \cite{boyd:tro:07} as non-linear first-order differential equation in form of
+\begin{equation}
+\label{eq:equilibrium_constraints_linear}
+  \frac{d}{dt}
+  \begin{bmatrix}
+    \com \\
+    \comr \\
+    \dcom \\
+    {\bf \omega}
+  \end{bmatrix}
+  =
+  \begin{bmatrix}
+    \dcom \\
+    \dcomr \\
+    ({\bf M}(\com))^{-1}\left(\sum_i {\bf J}_i^T \ff + {\bf S}^T \sigma + {\bf b}(\com) \right)
+  \end{bmatrix}.
+\end{equation}
+
+\subsubsection*{Linear constraints}
+The applied contact model treats the feet contacts as unilateral and the hand contact on the rail as bilateral.
+This is achieved by defining proper bounds onto the applied contact forces given by
+$$
+\resizebox{\linewidth}{!}{% Resize table to fit within \linewidth horizontally
+\parbox{\linewidth}{
+\begin{align*}
+    \begin{bmatrix}
+        \begin{smallmatrix}
+            -600\,N\\
+            -600\,N\\
+               0\,N
+        \end{smallmatrix}
+    \end{bmatrix}
+    \leq
+    \begin{matrix}
+        {\bf f_{lf/rf}}
+    \end{matrix}
+    \leq
+    \begin{bmatrix}
+        \begin{smallmatrix}
+        600\,N\\
+        600\,N\\
+        600\,N
+        \end{smallmatrix}
+    \end{bmatrix}%
+    ,\;\;\;\;\;\;
+    \begin{bmatrix}
+        \begin{smallmatrix}
+        -150\,N\\
+        -150\,N\\
+        -150\,N%
+        \end{smallmatrix}
+    \end{bmatrix}%
+    \leq
+    \begin{matrix}
+        {\bf f_{rh}}
+    \end{matrix}
+    \leq
+    \begin{bmatrix}
+        \begin{smallmatrix}
+        150\,N\\
+        150\,N\\
+        150\,N
+        \end{smallmatrix}
+    \end{bmatrix}%
+    ,\;\;\;\;\;\;
+    \begin{bmatrix}
+        \begin{smallmatrix}
+        -600\,Nm
+        \end{smallmatrix}
+    \end{bmatrix}
+    \leq
+    \begin{matrix}
+        {\bf\sigma}
+    \end{matrix}
+    \leq
+    \begin{bmatrix}
+        \begin{smallmatrix}
+        600\,Nm
+        \end{smallmatrix}
+    \end{bmatrix}
+\end{align*}
+}}
+$$
+%
+% \begin{center}
+% \begin{tabular}{r c l c l}
+%   -600.0 & $\leq$ & $f_{lf/rf,x}$ \ $ [N]$ & $\leq$ & 600.0 \\%& -500.0 & \leq \fFs_{0,x} [\rfrac{N}{s}] \leq 500.0 \\
+%   -600.0 & $\leq$ & $f_{lf/rf,y}$ \ $ [N]$ & $\leq$ & 600.0 \\%& -500.0 & \leq \fFs_{0,y} [\rfrac{N}{s}] \leq 500.0 \\
+%      0.0 & $\leq$ & $f_{lf/rf,z}$ \ $ [N]$ & $\leq$ & 600.0 \\%& -500.0 & \leq \fFs_{0,z} [\rfrac{N}{s}] \leq 500.0 \\
+%   -150.0 & $\leq$ & $f_{rh,x}$ \ $ [N]$ & $\leq$ & 150.0 \\%& -500.0 & \leq \fFs_{0,x} [\rfrac{N}{s}] \leq 500.0 \\
+%   -150.0 & $\leq$ & $f_{rh,y}$ \ $ [N]$ & $\leq$ & 150.0 \\%& -500.0 & \leq \fFs_{0,y} [\rfrac{N}{s}] \leq 500.0 \\
+%   -150.0 & $\leq$ & $f_{rh,z}$ \ $ [N]$ & $\leq$ & 150.0 \\%& -500.0 & \leq \fFs_{0,z} [\rfrac{N}{s}] \leq 500.0 \\
+%   -600.0 & $\leq$ & $\sigma_{x}$ \ $[Nm]$ & $\leq$ & 600.0 \\
+%   -600.0 & $\leq$ & $\sigma_{y}$ \ $[Nm]$ & $\leq$ & 600.0 \\
+%   -600.0 & $\leq$ & $\sigma_{z}$ \ $[Nm]$ & $\leq$ & 600.0 \\
+% \end{tabular}
+% \end{center}
+The bounds are defined from empirical study.
+Contact forces can only be applied when a contact is established.
+When the contact is released (or moving), we define the lower and upper bounds for the contact force to be zero.
+The description of a moving contact is denoted by $\lVert \dot{\pFs}_i \rVert_2 > 0$.
+We refer to the contact complementarity to indicate if the end effector is in contact or not given by
+\begin{equation}
+  \label{eq:contact_complementarity}
+  \lVert \dot{\pf} \rVert_2 \cdot \lVert \ff \rVert_2 = 0
+\end{equation}
+However, note that the complementarity is not explicitly treated yet, but is predefined in the contact configuration.
+
+\subsubsection*{Friction cone constraints}
+The applied friction model requires the contact forces to satisfy the so called \textit{friction cone constraints}, which are given for $M$ contact points by
+\begin{equation}
+  \label{eq:force_friction_cone}
+  \|(\ffx, \ffy)\|_2 =\sqrt{(\ffx)^2+ (\ffy)^2} \leq \mu_i \ffz, \; i=1\dots M,
+\end{equation}
+where $\mu_i>0 $ is the friction coefficient of the contact point $\pf$.
+%The friction cone constraints are \textit{second order cone constraints}.
+The friction cones $K_1, ..., K_M \subseteq \mathbb{R}^3$ can be defined as
+\begin{equation*}
+  K_i = \{ {\bf x} \in \mathbb{R}^3 | x^2_1 + x^2_2 \leq (\mu_i x_3)^2, x_3\geq0 \}, \; i= 1\dots M,
+  \label{eq:cone_on_norm}
+\end{equation*}
+and by following this notation, the friction cone constraints of~\eqref{eq:force_friction_cone} can be formulated as
+$ \ff \in K_i, \; i=1\dots M $.
+
+\subsubsection*{Kinematic constraints}
+For the kinematic feasibility, simplified constraints on the limb lengths relative to the CoM position in global coordinates, denoted by $\com\in\R^3$, are defined by
+%\begin{equation}
+%  \label{eq:kinematic_constraints}
+%  0.64 \leq \lVert \com - \pFs_{lf} \rVert_2 \leq 0.8, \\
+%  0.64 \leq \lVert \com - \pFs_{rf} \rVert_2 \leq 0.8
+%\end{equation}
+\begin{equation}
+  \label{eq:kinematic_constraints}
+   \underline{\bf L_i} \leq \lVert \com - \pf \rVert_2 \leq \overline{\bf L_i}, \ i = 1,\dots, M.
+\end{equation}
+We define the leg lengths for $\pFs_{lf}, \pFs_{rf}$ using $\underline{L}_{lf/rf} = 0.64\,m$ and $\overline{L}_{lf/rf} = 0.8\,m$ for the stair climbing motion.
+
+
+% --- COST ---------------------------------------------------------------------
+
+\subsection{Objective function}\label{sec:cost}
+\newcommand{\NOBJ}{4}
+
+Before giving the complete formulation of the optimal-control problem, we first define the cost terms used for the trajectory optimization over a given time interval.
+The first term $\ell_0$ keeps the CoM close to the support foot contacts,
+$$    \ell_0 = \lVert f_{lf} \rVert_2^2 \cdot \lVert c^{x,y} - p_{lf}^{x,y}  \rVert_2^2
+             + \lVert f_{rf} \rVert_2^2 \cdot \lVert c^{x,y} - p_{rf}^{x,y}  \rVert_2^2
+             .
+    \label{eq:optimal_control_objective_0}
+$$
+The second term $\ell_1$ uses the complementarity~\eqref{eq:contact_complementarity} to track a reference height depending on the current foot contact height,
+$$
+    \ell_1 = \lVert (\fFs_{lf,z} + \fFs_{rf,z})(\com_z - \com_z^{ref}) - \fFs_{lf,z} \pFs_{lf,z} - \fFs_{rf,z} \pFs_{rf,z} \rVert_2^2
+    .
+    \label{eq:optimal_control_objective_1}
+$$
+The four next terms $\ell_2, \ell_3, \ell_4$ are used to penalize a swaying motion of $\com$ in $z$ direction and stabilize the rotational DoFs.
+$$    \ell_2 = \lVert \dcom_z \rVert_2^2
+    \label{eq:optimal_control_objective_2}
+,\    \ell_3 = \lVert \dcomr_x \rVert_2^2
+    \label{eq:optimal_control_objective_3}
+,\    \ell_4 = \lVert \dcomr_y \rVert_2^2
+    \label{eq:optimal_control_objective_4}
+,
+  \ell_5 = \lVert \dcomr_z \rVert_2^2
+.
+    \label{eq:optimal_control_objective_5}
+$$
+The last term $\ell_6$
+%, $\ell_7$
+acts as a regularization term,
+$$    \ell_6 = \lVert \ddcom \rVert_2^2 + \lVert \ddcomr \rVert_2^2
+%, \quad  \ell_7 = \lVert \bf\sigma \rVert_2^2
+.
+    \label{eq:optimal_control_objective_6}
+$$
+%
+%where objective \eqref{eq:optimal_control_objective_0}
+%The objectives \eqref{eq:optimal_control_objective_2}, \eqref{eq:optimal_control_objective_3}, \eqref{eq:optimal_control_objective_4} and \eqref{eq:optimal_control_objective_5} are used to penalize a swaying motion of $\com$ in $z$ direction and stabilize the rotational DoFs.
+%This will be utilized together with the free limbs to enable a so called resolved momentum control to stabilize the robot during its motion.
+%Objective~\eqref{eq:optimal_control_objective_6}
+
+
+\begin{table}[ht]
+  \vspace*{0.3cm}
+  \caption{Objective weights}
+  \centering
+  \begin{tabular}{|ccccccc|}
+    \hline
+    $\omega_0$ & $\omega_1$ & $\omega_2$ &
+    $\omega_3$ & $\omega_4$ & $\omega_5$ & $\omega_6$ \\
+    \hline
+    0.05 & 0.0005 & 1.0 & 1.0 & 1.0 & 0.1 & 1.0 \\ \hline
+  \end{tabular}
+  \label{tab:objective_weights}
+\end{table}

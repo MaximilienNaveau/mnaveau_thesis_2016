@@ -1,0 +1,175 @@
+\ifdefined\included
+\else
+\documentclass[a4paper,11pt,twoside]{StyleThese}
+\include{formatAndDefs}
+\sloppy
+\begin{document}
+\setcounter{chapter}{2} %% Numéro du chapitre précédent ;)
+\dominitoc
+\dominilof
+\faketableofcontents
+\fakelistoffigures
+\fi
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Pulling a hose}
+\label{chap:hose}
+
+\ifdefined\included
+\else
+\minitoc
+\minilof
+\fi
+
+\cleardoublepage
+
+From this chapter on we will present technical applications implemented on the real HRP-2.
+This chapter discusses a strategy for a humanoid robot to pull a fire hose while walking towards a desired position and orientation. % of the robot. % on an unperfectly flat floor.
+%
+This work has been submitted to \emph{Humanoids} 2016.
+%
+In this chapter the motion planning for picking the fire hose from the floor is firstly presented.
+%
+Then a hybrid controller on the robot's wrist holding the fire hose is implemented for pulling it.
+%
+The proposed controller can automatically determine the pulling force according to the robot's walking velocity.
+%
+Through simulation analysis it is shown that when the robot walks while pulling the fire hose a drift in the walking direction is generated.
+%
+To cope with this drift and to direct the robot to a desired position and orientation, a walking task is introduced.
+%
+Using a motion capture system, the robot's chest position and orientation is monitored and feed to the robot's walking pattern generator to correct the orientation drift and to determine where to walk and when to stop walking.
+%
+Through experimental results the validity of the proposed strategy was confirmed.
+%
+It is shown that the proposed hybrid controller contributes to the improvement of the robot's balance when walking.
+%
+The video of the application can be found at \url{https://youtu.be/K33d2VTHTTA}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Motivation}    \label{sec_pick}
+    \input{HoseApplication/introduction-hose.tex}
+
+\section{Picking motion}    \label{sec_pick}
+    \input{HoseApplication/S1_pick.tex}
+
+\section{The walking pattern generator} \label{sec_wpg}
+    \input{HoseApplication/S1_1.tex}
+
+\section{Pulling strategy}		\label{sec_pull}
+		\input{HoseApplication/S2_a.tex}
+
+\section{Walking task}          \label{sec_wtask}
+		\input{HoseApplication/S2_b.tex}
+         
+\section{Experimental results}		\label{sec_exp}
+		\input{HoseApplication/S3.tex}
+
+\section{Conclusion and future work}	\label{sec_con}
+		\input{HoseApplication/Conc.tex}
+		\input{HoseApplication/futurWork.tex}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Robust human-inspired power law trajectories for
+humanoid HRP-2 robot}
+\label{chap:powerlaw}
+
+\ifdefined\included
+\else
+\minitoc
+\minilof
+\fi
+
+\cleardoublepage
+
+This chapter presents the collaboration, done in the frame of the \koroibot\ project, with our colleague experts in human motion from the Weizmann Institute of Science.
+This work has been published in \cite{matan:biorob:2016}.
+We studied the interest of using the one-third power law for humanoid robot walking control.
+The one-third power law dictates how human speed of motion depends on its curvature.
+We observe that humanoid robots, following a reference trajectory, benefit from this law by reducing closed-loop drift and generating more human-like motion.
+To robustly execute reference trajectories, we use contracting morphed Andronov-Hopf oscillators, regularized to follow a power law while converging to a planned cyclic trajectory.
+We used the walking pattern generator described in Chap.~\ref{chap:nmpc} to make HRP-2 follow these guiding dynamics to walk along elliptic trajectories.
+In dynamic simulation, we observe minimal geometric drift with the one-third power law, outperforming constant speed and other power laws.
+Close-loop experiments on HRP-2 resulted in a small drift of all power law motions from the reference trajectory, showing the efficiency of the control architecture.
+We observed that the one-third power law controller demanded less compensatory action, and therefore lowered the burden on the hardware.
+Slowing in curved movement regions also allowed for faster overall movement. 
+In this chapter we will briefly introduce how the walking pattern generator were used in this context. Then we will present the regularization of contracting oscillators. And finally experimental results on HRP-2 will be analyze.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\input{introduction-matan}
+\input{twothirdpowerlaw}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Learning Movement Primitives for the Humanoid Robot HRP2}
+\label{chap:primitives}
+
+\ifdefined\included
+\else
+\minitoc
+\minilof
+\fi
+
+\cleardoublepage
+
+Skilled human behavior is highly predictive and relies on predictive planning.
+It adapts its behaviors according to task constraints with relevance for
+motor behaviors in the future.
+Recent work in predictive control has shown great promises for generating complex behaviors \cite{Koenemann:iros:2015}.
+They are however important combinatorial challenges.
+In this chapter we propose a control framework combining biologically-inspired online planning for the robot upper body and model predictive control for the robot lower body.
+The two controllers are linked together using a model predictive control method.
+The computational foot print can be compared to the model predictive control presented in \cite{herdt:iros:2010}.
+The human-like upper body motion is generated via a network of coupled dynamical movement primitives.
+This network is embedded within a nonlinear dynamical system that generates coordinated behavior.
+The lower body is controlled by the walking pattern generator presented in Chap.~\ref{chap:nmpc}.
+This combination ensures the flexibility of the system as well as the safety of the robot.
+
+This chapter is structured as follows: we will present the motivation behind this work in Sec.~\ref{intro}. A quick overview of related works in areas of computer graphics and humanoid robotics is given in Sec.~\ref{relatedworks}.
+Then, in Sec.~\ref{sc:SystemArchitecture}
+we will explain successively the top down approach, the bottom up approach and the overall architecture of the controller.
+Finally, in Sec.~\ref{sc:Results} some preliminary results are presented, which demonstrate the feasibility of the approach in simulation and on the real HRP-2 robot.
+This work is done in the frame of a collaboration with our colleague, experts in human motion analysis, in the \koroibot\ project.
+This chapter is based on the submitted paper \cite{mukovskiy:jras:2016}.
+The video of the application can be found at \url{https://youtu.be/3LT_QEiZzSo}.
+
+
+\input{AlbertChristian/IROS15WS_textOnly}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\chapter{HRP-2 as Universal Worker Proof of Concept}
+\label{chap:univworker}
+
+\ifdefined\included
+\else
+\minitoc
+\minilof
+\fi
+
+\cleardoublepage
+
+This chapter presents a technical integration in a test scenario from Airbus/Future of Aircraft Factory.
+It is a collaboration between the LAAS-CNRS laboratory and the Airbus french industry (see \cite{ostasse:ichr:2014}).
+In this chapter, we present a preliminary proof of concept (PoC) aiming at introducing
+humanoid robots in an aircraft factory.
+The PoC was aiming at demonstrating the capacity of HRP-2
+to deal with three aspects needed in a factory: reactivity to change in the environment,
+visual feedback and on-line motion generation. The limits reached in this PoC are here highlighted
+to draw some research direction focused on the needs of Aircraft manufacturers.
+The video of the application can be found at \url{https://youtu.be/iFV-13XlJvI}.
+
+\input{AirbusApplication/fastreplanning}
+\input{AirbusApplication/reactivewpg}
+\input{AirbusApplication/wholebodymotionforscrewing}
+\input{AirbusApplication/bspline}
+\input{AirbusApplication/conclusion}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\ifdefined\included
+\else
+\bibliographystyle{StyleThese}
+\bibliography{16-thesis-mnaveau-short}
+\end{document}
+\fi

@@ -1,0 +1,107 @@
+\section*{Contributions}
+
+In this section we will recall the different approaches we used to improve the locomotion of humanoid robot throughout this thesis.
+The improvements will be made in comparisons with the existing state of the art and in function of the Key Performance Indicators (KPI) chosen in the \koroibot\ project.
+
+\subsection*{Theoretical contributions}
+
+In collaboration with our mathematician colleagues from the University of Heidelberg we designed two novel controllers improving the locomotion of humanoid robots.
+First we will summarize the properties of the walking pattern generator from Chap.~\ref{chap:nmpc}.
+And more specifically the improvement made in comparison with similar algorithm ran on the same HRP-2 robot.
+Secondly we will remind the contribution made in Chap.~\ref{chap:multicontact} and the improvements in terms of KPI.
+
+\subsubsection*{Flat ground locomotion}
+
+Chap.~\ref{chap:nmpc} presents a new real time walking pattern generator.
+Indeed the KPI evaluated at the beginning pointed out that the velocity and versatility of the existing walking pattern generators \cite{herdt:iros:2010} should be improved.
+To answer the first problem we evaluated the maximum velocity that the robot could reach without falling in the LAAS-CNRS experimental room using the state-of-the-art controller \cite{herdt:iros:2010}: $V_{max} = 0.125\,m/s$.
+This limitation was overcome using the dynamic filter used by Nishiwaki in \cite{Nishiwaki:IJRR:09}.
+This filter takes into account the whole body trajectory on a control preview horizon.
+It modifies the trajectory of the CoM so that the CoP computed via the whole body model fit at best the CoP computed via the linear inverted pendulum model.
+The maximum achievable velocity using this filter was: $V_{max} = 0.4\,m/s$.
+The question of versatility was addressed by formulating \cite{herdt:iros:2010} as a nonlinear model predictive control.
+This allows two interesting development, first the simultaneous optimization of the foot step orientation and position.
+And second the implementation of nonlinear constraints like obstacle avoidance constraints.
+
+\subsubsection*{Multi-contact locomotion}
+
+The second problem that arose from the KPI was the energy consumption during the stairs climbing.
+In fact the total mechanical energy consumed without using the handrail where:
+$ \tilde{E}_{meca} = \left(\int_{t_{begin}}^{t_{end}} \tau \omega dt \right) / D = 255270\,
+J/m$.
+With $ \tilde{E}_{meca}$, $\tau$, $\omega$, and $D$ being respectively the mechanical energy normalized over the walked distance, the joint torques, the joint velocity, and the walked distance.
+For comparison the mechanical energy for normal walking is around $47070\,J/m$ on HRP-2.
+We assumed that distributing the weight over more than two limbs would decrease the energy consumption.
+This hypothesis were confirmed from the results.
+The energy consumed by HRP-2 while climbing stairs with the handrail support was $191450
+\,J/m$.
+We have $25\%$ less energy consumed.
+So the contribution of this chapter is the development of a new optimal control problem for the generation of multicontact locomotion using the centroidal momentum.
+The solver use a multiple shooting approach and linearize the constraints at each iteration.
+Therefore the only hypothesis made is that the global angular momentum is approximated using the global orientation of the robot.
+The implementation of this first approach was a bit naive and the computation time was about $30\,min$ but the real robot HRP-2 was able to perform the motion.
+Another collaboration with a colleague from LAAS-CNRS resulted in a reformulation of the problem using the same solver.
+This new formulation is solvable in $100\,ms$ which is close to be real time.
+As future work researchers in LAAS-CNRS will integrate this work in the HRP-2 embedded computer to perform online multicontact locomotion generation.
+
+\subsection*{Technical contributions}
+
+In the previous chapters we were focusing on controlling the humanoid robot and its balance for locomotion.
+In the context of \koroibot\ we explored three scientific problems in a novel way using the high level walking controller presented in Chap.~\ref{chap:nmpc}.
+We conclude by potential industrial applications.
+
+\subsubsection*{Reactive control for pulling a stiff fire hose with HRP-2}
+
+In the context of perturbation rejection and potential application for humanoid robots in dangerous environments we made HRP-2 pulling a stiff fire hose without water.
+This work has been done in collaboration with the Japanese national institute of Advanced Industrial Science and Technology (AIST) and is described in Chap.~\ref{chap:hose}.
+This application is inspired from the DARPA robotic challenge.
+The idea of this work is to see if a humanoid robot with average power and size like HRP-2 is able, using a state of the art controller, to pick up and pull a stiff fire hose.
+We used whole body kinematic planning to make HRP-2 pick up the fire hose.
+During the walk we identify a major drift in orientation due to forces applied by the hose on the robot.
+To correct this drift we used a PI controller where the robot position is measured via a motion capture system.
+We also identify impacts when the robot feet touch the ground while walking so we implemented an impedance controller to make the hand loose in single support and pull the hose in double support.
+Results show that a average size and power humanoid robot like HRP-2 using state of the art controller is able to pick-up and pull a fire hose toward a desired position and orientation.
+
+\subsubsection*{Does the two third power law help humanoid robots to walk?}
+
+In Chap.~\ref{chap:powerlaw} we saw that in the frame of the \koroibot\ project, researchers studied the human motion to extract quantitative data.
+Those experts noticed that humans adapt their velocities in function of the curvature of their trajectories.
+The question is, does this law extracted from human motion help the robot to walk?
+A fruitful collaboration with these experts allowed us to answer this question.
+This resulted in the design of an innovating controller for tracking cyclic trajectories of the center of mass.
+This controller is based on Andronov-Hopf oscillator.
+Limit cycle contracting systems can be implemented that create a velocity vector filed exponentially converging toward a cyclic trajectory.
+The amplitude of the vector field can be mapped to fit the two third power law or any function that keeps the contracting property of the vector field.
+The law used is: $V = \gamma k^\beta$.
+With $V$ the velocity on the ground plane ($x$, $y$, yaw), $\gamma$ a scaling factor, $k$ the curvature, and $\beta$ an integer.
+The controller we designed use the velocity extracted from the vector field and send it to the walking pattern generator of Chap.~\ref{chap:nmpc}.
+The idea was to compare the quality of the trajectory tracking using several value of $\beta$, knowing that $\beta=1/3$ is the value extracted from human motion.
+By comparing different power laws for $\beta \in \{-1/3,\, 0 ,\, 1/3,\, 2/3\}$, we show that the quality of the trajectory tracking is better using the $\beta=1/3$, the value extracted from human motion.
+The accumulated distance error to the reference trajectory in ${L}_2$ norm and the accumulated orientation error in degrees are minimal using the power law with $\beta=1/3$.
+To conclude, the two third power law help humanoid robots to walk in a more efficient manner.
+
+\subsubsection*{Fusion of human motion primitives and model based control}
+
+Chap.~\ref{chap:primitives} depicts another collaboration with human motion experts.
+In this chapter we propose a whole body controller using upper body movement primitives extracted from human behavior and lower body movement computed by a walking pattern generator.
+The motivation of this hybrid approach is that generating leg trajectories for walking maintaining balance is different for humanoid robots and humans.
+Indeed, kinematic and dynamic constraints are different from humanoid robots to humans.
+The difference in number of degrees of freedom and the weight of each limbs illustrate this. 
+Therefore we used the algorithm depicted in Chap.~\ref{chap:nmpc} that produce secure walking motion generation for the legs and human motion primitives for the upper body trajectory.
+The example of motion used in this context was a reaching and grasping motion.
+Human motion primitives were learned using an architecture composed of Andronov-Hopf oscillators which could be seen as central pattern generators plugged in parallel.
+After the learning, the upper body trajectories are simply linear combinations of these oscillators.
+This allow real time motion generation of those trajectories.
+The proposed application is therefore a real time controller allowing whole body motion.
+
+\subsubsection*{HRP-2 as the universal worker}
+
+A collaboration with the Airbus Industry leaded us toward designing real time reactive controllers for possible applications of humanoid robots in an industry.
+Hence, we designed applications that make the robot facing real life perturbations.
+The first example is a robot walking in a hangar.
+In this context the robot must be able to move without colliding with potential obstacles.
+In collaboration with former colleagues in LAAS-CNRS we used online planner for obstacle avoidance to direct the robot through the $5\,m$ length experimental room.
+The second task was to place the robot in a position relative to a specific part.
+Visual servoing coupled with a walking pattern generator was used to answer this problematic.
+Finally the robot was asked to drill or screw a part.
+A study of kinematic feasibility was performed using the Stack of Tasks, which is the whole body controller containing a generalized inverse kinematics used and implemented in LAAS-CNRS.

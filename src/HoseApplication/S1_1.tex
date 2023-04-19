@@ -1,0 +1,12 @@
+In order to control the displacement of the humanoid robot HRP-$2$ we used the walking pattern generator presented in Chap.~\ref{chap:nmpc} and published in \cite{naveau:ral:2016}.
+As a reminder, this walking pattern generator allows the user to control a humanoid robot almost like a mobile platform.
+The input of the walking pattern generator is a velocity $ [\dot{x},\dot{y},\dot{\theta}] $ relative to the ground plane, and is tracked by the center of mass.
+The walking pattern generator computes automatically the foot transitions and the center of mass trajectory, so that the robot is balanced when walking.
+
+In this walking pattern generator, the input velocity is tracked by the center of mass if all the constraints are respected.
+As a consequence the walking pattern generator will create a swinging motion of the center of mass from one foot to the other even if the input velocity is zero on the robot coronal plane.
+The robot will move its center of mass to maintain balance while walking in any circumstances.
+%This particular behavior causes perturbations in control laws during the localization of the robot.
+%In practice the goal position is set as zone where the CoM has to fitin and 
+This swinging motion has to be taken into account when designing the hand tasks to avoid auto-collision and the walking task to make the robot converge toward a specific goal.
+

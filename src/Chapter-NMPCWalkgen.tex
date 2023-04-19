@@ -1,0 +1,68 @@
+\ifdefined\included
+\else
+\documentclass[a4paper,11pt,twoside]{StyleThese}
+\include{formatAndDefs}
+\newcommand{\widthValue}{0.13\linewidth}
+\sloppy
+\begin{document}
+\setcounter{chapter}{0} %% Numéro du chapitre précédent ;)
+\dominitoc
+\dominilof
+\faketableofcontents
+\fakelistoffigures
+\fi
+
+\chapter{NMPC walking pattern generator}
+\label{chap:nmpc}
+
+\ifdefined\included
+\else
+\minitoc
+\minilof
+\fi
+
+\cleardoublepage
+
+\input{NMPCWalkgen/introduction-nmpc}
+
+% outline
+
+%%\section{Linearization with two QPs}
+%% \subsection{QP controller}
+%%   \subsubsection{Orientation QP}
+%%   \subsubsection{Position QP}
+%% \subsection{The constraints}
+
+\input{NMPCWalkgen/nmpc}
+
+%\input{classic}
+
+%\section{SQP formulation}
+%
+%\subsection{SQP controller}
+%\subsection{Derivation of the Controller}
+%\subsection{Additional non linear constraints}
+%\input{combined}
+
+\input{NMPCWalkgen/results}
+
+
+%\addtolength{\textheight}{-5cm}   % This command serves to balance the column lengths
+                                  % on the last page of the document manually. It shortens
+                                  % the textheight of the last page by a suitable amount.
+                                  % This command does not take effect until the next page
+                                  % so it should come on the page before the last. Make
+                                  % sure that you do not shorten the textheight too much.
+
+
+\ifdefined\included
+\else
+{
+\bibliographystyle{StyleThese}
+\newgeometry{left=1in,right=1in,top=1in,bottom=1in,
+  includefoot,includehead,headheight=13.6pt}
+\bibliography{16-thesis-mnaveau}
+\restoregeometry
+}
+\end{document}
+\fi

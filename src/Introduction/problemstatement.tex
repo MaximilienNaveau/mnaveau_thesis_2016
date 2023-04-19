@@ -1,0 +1,151 @@
+\section*{Problem statement and state of the art}
+
+\section*{Problem Statement}
+\label{sec:locomotion}
+
+Robot behavior realization can be formalized using mathematical optimization.
+Considering a robot with $N$ degrees of freedom, $\bm q$ a vector of information on its internal parameters and the environment ${\bm v} \in \mathcal{R}^m$.
+For a given behavior let us assume that it exists a function
+$f({\bm q},{\bm v},t):\mathcal{R}^{n \times m+1} \rightarrow [0,1]$
+such as it is equal to $0$ when the behavior is realized.
+The problem amount to find a trajectory ${\bm q}(t)$ such that
+\begin{align}
+\label{eq:optimization:generic}
+\text{minimize}   &\quad f({\bm q},{\bm v},t) \\
+\text{subject to} &\quad
+g({\bm q},{\bm v},t) < 0 \nonumber \\
+&\quad h({\bm q},{\bm v},t) = 0 \nonumber
+\end{align}
+with $g$ being unilateral constraint an h bilateral constraints.
+
+A common approach in robotics is to build an approximation $\hat{f}$ of $f$.
+It depends on the estimated current state of the environment $\hat{v}(t)$, and an estimation of the current state of the robot in this environment $\hat{q}(t)$.
+The formulations of $\hat{v}(t)$ and $\hat{q}(t)$ are injected in \eqref{eq:optimization:generic} to solve the optimization problem.
+In this document we will not address the problem of building $\hat{v}$ but assume that an appropriate software module is providing the necessary information. Therefore we will assume that a geometric description of the environment is available, and that a system is able to give a sufficiently accurate position of the robot in this environment. Practically this is done through a motion capture system.
+In the following we will present the formulation of \eqref{eq:optimization:generic} for the locomotion problem.
+
+\subsection*{The locomotion generic optimal control problem}
+
+The state of the problem $\bm x$ is usually composed of the robot whole body configuration coupled with the whole body velocity.
+Let us now denote by $\mq$ the whole body configuration and by $\mdq$ the whole body velocity.
+The future contact point can be precomputed by a planner or included in the state of the problem.
+The control of this system $\bm u$, can be the next derivative of the state, i.e $\mddq$, or the contact wrench $\bm\phi = \begin{bmatrix}
+{\bf f}_k &
+\bm{\tau}_k
+\end{bmatrix}^T$ with $k \in \{0,\hdots,K\}$, $K$ being the number of contact.
+Or the motor torques $\mbf{T}$.
+We denote by $\underline{\bm x}$ and $\underline{\bm u}$ the state and control trajectories.
+
+The main idea here is to be able to compute joint trajectories satisfying the general equation of the dynamics, the initial and terminal constraints, and keeping balance.
+The following optimal control problem (OCP) represents a generic form of the locomotion problem:
+\begin{subequations} \label{eq:ocpgen}
+\begin{eqnarray}
+\hspace{-3em}	\underset{\substack{\hspace{0.2em} \underline{\bm x}, \; \underline{\bm u}} }{\min } \ \ \  
+	& & \hspace{-3em} {\sum_{s=1}^S} \int_{t_{s}}^{t_{s}+\Delta t_s\hspace{-4em}} \ell_{s} (\bm x, \bm u) \, dt \label{eq:cost} \\
+	s.t. & \forall t & \dot{\bm{x}} = dyn(\bm x, \bm u) \label{eq:dyn_constraint} \\
+	&  \forall t& \bm\phi \in \mathcal{K} 	\label{eq:conic_constraint} \\
+  &  \forall t& {\bm x} \in \mathcal{B}_x \label{eq:x_constraint} \\ 
+  &  \forall t& {\bm u} \in \mathcal{B}_u \label{eq:u_constraint} \\ 
+	& & \bm x(0) = \bm x_{0}  \label{eq:init_constraint} \\
+	& & \bm x(T) \in \mathcal{X}_* \label{eq:term_constraint}
+\end{eqnarray}
+\end{subequations}
+where $t_{s+1} = t_s+\Delta t_s$ is the start time of the phase $s$ (with $t_{0} = 0$ and $t_{S} = T$). 
+Constraint \eqref{eq:dyn_constraint} makes sure that the motion is dynamically consistent.
+Constraint \eqref{eq:conic_constraint} enforces balance with respect to the contact model.
+Constraints \eqref{eq:x_constraint} and \eqref{eq:u_constraint} imposes some bounds on the state and the control.
+Constraint \eqref{eq:init_constraint} imposes the trajectory to start from a given state (typically estimated by the sensor of the real robot).
+Constraint \eqref{eq:term_constraint} typically imposes the terminal state to be viable \cite{wieber_humanoid08}.
+The cost \eqref{eq:cost} is typically decoupled $\ell_s(\bm x,\bm u) = \ell_x(\bm x) + \ell_u(\bm u)$ whose parameters may vary depending on the phase. $\ell_x$ is generally used to regularize and to smooth the state trajectory while $\ell_u$ tends to minimize the forces, then producing a more dynamic movement. The resulting control is stable as soon as $\ell_x$ comprehends the L-2 norm of one time derivative \mbox{of the robot center of mass (CoM) denoted by $\bm c$, \cite{wieber_handbook15}}.
+Problem \eqref{eq:ocpgen} is a difficult problem to solve in its generic form.
+And specifically \eqref{eq:dyn_constraint} is a challenging constraint.
+Most of the time the shape of the problem varies from one solver to another only on the formulation of this constraint.
+Hence, in the next section we will describe this equation in more details.
+
+\section*{Robot dynamics}
+\label{section:dynamics}
+
+In this section we will present the instantaneous dynamics of a poly-articulated rigid system based on \cite{Orin:autorob:2013} and \cite{Kajita2003b}.
+We will then present some humanoid robotics specific formulation.
+
+\subsection*{General formulation of a robot dynamic}
+
+In general the Lagrangian dynamics of a robot is expressed :
+\begin{equation}
+\mbf{M}(\mq) \ddot{\mq}  + \mbf{C}(\mq, \mqdot)\mqdot + \mbf{G}(\mq) = \mbf{S}^T \mbf{T} + \sum\limits_{k=1}^{K} \mbf{J}_k^T(\mq)
+\begin{bmatrix}
+{\bf f}_k \\
+\bm{\tau}_k
+\end{bmatrix}
+\label{eq:gendynrobotmultibody}
+\end{equation}
+%
+with $\mq = \begin{bmatrix}
+{\bm x} &
+{\bm \theta} &
+{\bf \hat{q}}
+\end{bmatrix} ^T
+$, $\mdq$, and $\mddq$ being the generalized state of the robot of size $\mathcal{R}^{dim(SE(3))+N}$ and its derivatives, and $N$ being the number of actuated joints of the system.
+Lets assume that $dim(SE(3))=6$ to consider 3 translation and 3 rotations.
+It is composed by the free flyer position ${\bm x}$ and orientation ${\bm \theta}$ which is the position of an arbitrary joint position and orientation in the ground frame, typically the center of the robot pelvis.
+${\bf \hat{q}}$ is the configuration vector of the joints.
+The matrix $\mbf{M} \in \mathcal{R}^{(6+N)\times(6+N)}$ is the generalized inertia matrix described in \cite{Wieber:FMBR:2005} and \cite {phdthesis:sherikov:2016}.
+$\mbf{C}$ models the centrifugal and Coriolis effects,
+$\mbf{G}$ is the action of the gravity field,
+$\mbf{S} = [{\bf 0}_{N \times 6} \;\;\;\; {\bf I}_{N \times N}]$ is a matrix selecting the joint torques $\mbf{T}$.
+$ \mbf{J}_k^T(\mq) $ is the contact Jacobian, ${\bf f}_k$ and $\bm{\tau}_k$ are the forces and torques applied at the contact $k$.
+The first 6 equations of Eq.~\ref{eq:gendynrobotmultibody} correspond to the Newton-Euler equations.
+
+\subsection*{Underactuated dynamics and centroidal momentum}
+
+In \cite{Orin:autorob:2013}, the above equations are reformulated to express the centroidal momentum dynamics :
+
+\begin{equation}
+\mbf{h}_G = \mbf{A}_G (\mq) \mdq
+\label{eq:momentum}
+\end{equation}
+
+with $\mbf{h}_G = [\bf \lm \;\;\; \am]^T \in \mathcal{R}^{6}$ being the spatial momentum composed by the linear momentum ${\bf \lm}$ and the angular one ${\bf \am}$.
+$\mbf{A}_G$ is the first six lines of the inertia matrix $\mbf{M}$.
+If we express the time derivative of the robot total momentum expressed at the center of mass \eqref{eq:momentum} we get the first six lines of \eqref{eq:gendynrobotmultibody}:
+
+\begin{align}
+\dot{\bf \lm} = m \ddot{\mbf{c}} = \sum\limits_{k=1}^{K} \; {^0}R_k \mbf{f}_k + m \mbf{g}
+\label{eq:linear:momentum}\\
+\dot{\bf \am} = \sum\limits_{k=1}^{K} (\mbf{p}_k -\mbf{c}) \times \; {^0}R_k \mbf{f}_k  + \bm{\tau}_k
+\label{eq:angular:momentum}
+\end{align}
+
+with again $\mbf{f}_k$ being the forces expressed at the contact point in the contact frame, ${^0}R_k$ the rotation matrix between the contact frame and the inertia frame, $\mbf{p}_k$ the contact point position, $\mbf{c}$ the robot center of mass position, and $m$ the robot mass.
+After a simple rewriting we obtain:
+
+\begin{align}
+m (\ddot{\mbf{c}}-\mbf{g}) = \sum\limits_{k=1}^{K} \; {^0}R_k \mbf{f}_k
+\label{eq:lineardyn}\\
+m \mbf{c} \times (\ddot{\mbf{c}}-\mbf{g}) + \dot{\bf \am} = \sum\limits_{k=1}^{K} \mbf{p}_k \times {^0}R_k \mbf{f}_k  + \bm{\tau}_k
+\label{eq:angulardyn}
+\end{align}
+
+This formulation shows that the dynamics of a poly-articulated robot can be reduced into its center of mass.
+The influence of each body on the center of mass is express through the term $\dot{\bf \am}$.
+This term express the influence of the translation and rotation of each body on the center of mass dynamics.
+
+\subsection*{The control horizon}
+
+The equations expressed in Eq.~\ref{eq:gendynrobotmultibody} are expressed instantaneously.
+However controlling a robot dynamical movement needs anticipation due to the inertia.
+A control can be instantaneously satisfactory at time $t$, but not at time $t+\Delta t$ because of the presence of an obstacle for example.
+Imagine a car moving at constant speed ($70\,km\,h^{-1}$) with an instantaneous controller.
+This controller will not take into account that in few second the car needs to do a $90\deg$ turn.
+So when the turn comes the car has exactly $\Delta t$ seconds to react.
+Obviously the car will crash.
+On the contrary a human driver will anticipate the turn and slow down the vehicle before turning.
+That is the reason why anticipation and future prediction is needed.
+The inconvenient is that the complexity of the problem is equal to number of freedom  multiply by the horizon size.
+Typically, HRP-2 has $36$ degrees of freedom and we use a preview duration of $1.6\,s$ ($360$) which gives $12960$ free variables.
+This kind of problem cannot be solved yet in $5\,ms$ with limited computational resources
+(see Fig.~\ref{fig:classical_vs_ddp}).
+The vertical axis corresponds to the instantaneous problem and the horizontal one show the size of the predicted future.
+In the following section we will present the optimal control problem for the locomotion of humanoid robot that researchers need to solve.
+
+In the following we list some of the main algorithms solving \eqref{eq:ocpgen} and show how they correspond to some specific choices of the generic template.

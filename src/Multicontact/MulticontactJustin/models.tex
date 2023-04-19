@@ -1,0 +1,68 @@
+\section{The Anthropomorphic System Model}
+\label{sec:dynamics}
+
+In this section, we briefly describe the equations of the dynamics of a free-floating system with an anthropomorphic structure like a humanoid robot or the human body. The main idea is to make the link between the measured quantities (i.e. the estimates of the positions of the CoM and ZMP, and the forces) and the under-actuated dynamics, namely the dynamics reduced around the CoM.
+
+\subsection{The under-actuated dynamics}
+
+We first consider the Lagrangian dynamics of a $n$ degrees of freedom free-floating based system which makes $N$ contacts with the surrounding environment. We name $\bm q \in \mathcal{Q} \overset{\text{def}}{=}  SE(3) \times \mathbb{R}^{n}$ the configuration vector of the system and $\dot{\bm q}$, $\ddot{\bm q}$ its first and second time derivatives. The Lagrangian dynamics reads
+\begin{equation}
+M(\bm q)\ddot{\bm q}
++
+b(\bm q, \dot{\bm q})
+= G(\bm q) +
+S^{\top} \bm \tau + \sum_{i} J_{i}^{\top}(\bm q)\bm \phi_{i},
+\label{eq:lagragian_dyn}
+\end{equation}
+where $M$ stands for the mass matrix, $b$ for the centrifugal and Coriolis effects, $G$ for the action of the gravity field. $S$ is a selection matrix which distributes the torque vector $\bm \tau$ over the joints space, $J_{i}$ is the jacobian of the contact point $i$ and $\bm \phi_{i}$ is the vectorial representation of the unilateral contact wrenches \cite{brogliato2012nonsmooth} acting on the robot and it is composed of a linear $\bm f_{i}$ and angular $\bm \tau_{i}$ components.
+
+Throw the action of the selection matrix $S$, this dynamical equation (\ref{eq:lagragian_dyn}) can be split into two parts: the under-actuated dynamics, i.e the dynamics of the free-floating base (denoted by $b$) and the dynamics of the actuated segments (denoted by $a$):
+\begin{equation}
+\begin{bmatrix}
+M_{b}\\
+M_{a}
+\end{bmatrix}
+\ddot{\bm q}
++
+\begin{bmatrix}
+b_{b} \\
+b_{a}
+\end{bmatrix}
+=
+\begin{bmatrix}
+G_{b} \\
+G_{a}
+\end{bmatrix}
++
+\begin{bmatrix}
+\bm 0_{6} \\
+\bm \tau
+\end{bmatrix}
++
+\sum_{i}
+\begin{bmatrix}
+J_{i,b} ~ J_{i,a}
+\end{bmatrix}^{\top} \bm \phi_{i}
+\label{eq:split_dynamics}
+\end{equation}
+
+The first row of (\ref{eq:split_dynamics}) is the so-called Newton-Euler equation of a moving body, having a mass $m$, a position $\bm c$ relative to the inertial frame, a linear and angular momenta denoted by $\bm p$ and $\mathcal{L}$ respectively. The point $\bm c$ is nothing more than the CoM of the whole anthropomorphic system.
+
+In a more classical manier, this under-actuated dynamics can be rewritten as:
+\begin{eqnarray}
+  \dot{\bm p} &=& \sum_{i} \bm f_{i} - m \bm g \label{eq:linear_momentum}\\
+  \dot {\mathcal{L}} & = & \sum_{i} (\bm p_{i} - \bm c) \times \bm f_{i} + \bm \tau_{i} \label{eq:angular_momentum},
+\end{eqnarray}
+where $\times$ denotes the cross product operator, $\bm p_{i}$ is the position of the contact point $i$ relative to the inertial frame and $\bm g$ is the gravity field. In order to simplify the notations, we set down
+\begin{equation}
+  \bm \phi_{c} = \begin{bmatrix} \bm f_{c} \\ \bm \tau_{c} \end{bmatrix} \overset{\text{def}}{=} \\ \begin{bmatrix} \sum_{i} \bm f_{i} \\ \sum_{i} \bm p_{i} \times \bm f_{i} + \bm \tau_{i} \end{bmatrix},
+  \label{eq:contact_wrench}
+\end{equation}
+the resulting wrench of contact forces and moments expressed at the center of the inertial frame.
+Finally, knowing that $\bm p \overset{\text{def}}{=} m \dot{\bm c}$ and injecting (\ref{eq:linear_momentum}) into (\ref{eq:angular_momentum}) leads to:
+\begin{equation}
+  m \bm c \times (\ddot{\bm c} + \bm g) + \dot {\mathcal{L}} =  \mathcal{\bm \tau}_{c}
+  \label{eq:angular_momentum2}
+\end{equation}
+
+\subsection{The second-order generalized inverse kinematics}

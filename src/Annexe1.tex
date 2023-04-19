@@ -1,0 +1,46 @@
+\ifdefined\included
+\else
+\documentclass[a4paper,11pt,twoside]{StyleThese}
+\include{formatAndDefs}
+\sloppy
+\begin{document}
+\setcounter{chapter}{3} %% Numéro du chapitre précédent ;)
+\dominitoc
+\dominilof
+\faketableofcontents
+\fakelistoffigures
+\fi
+
+\chapter{Annexe}
+\label{an:dyn:filter}
+
+\cleardoublepage
+
+\section{The dynamic filter}
+
+In this annexe we will present in details the dynamic filter algorithm.
+This work has been published in \cite{naveau:ichr:2014}.
+First of all we will briefly present the algorithm in the context of humanoid walking.
+Then we will explicit technical details on the implementation.
+Finally we will show that the walk of humanoid robot on flat ground is improved.
+
+%
+%The interest of the algorithm is that it re-introduce neglected dynamics inside the system. 
+%, \softmetapod, a novel C++ library computing efficiently dynamic
+%algorithms is presented. It uses template-programming techniques together with code-generation.
+%The achieved performances shows a clear advantage over the state-of-the art dynamic library \softrbdl.
+%The advantage of this library is that it is open-source and does not rely on any external symbolic computational software.
+%Additionnaly we show how it can help in current control problems for humanoid robots,
+%and more specifically for dynamic filtering of walking gait trajectories.
+%
+
+\input{Annexe1/dynamicfilter}
+\input{Annexe1/conclusion}
+
+
+\ifdefined\included
+\else
+\bibliographystyle{StyleThese}
+\bibliography{16-thesis-mnaveau}
+\end{document}
+\fi
